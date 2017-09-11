@@ -1,2 +1,2 @@
 # hello-world
-Contoh repository update
+Contoh repository update terbaru
