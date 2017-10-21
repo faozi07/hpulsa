@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">HPulsa</string>
+    <string name="drawer_open">Opened</string>
+    <string name="drawer_closed">Closed</string>
+    <string-array name="jenis_bank" color="@color/colorPrimary">
+        <item>Bank BCA</item>
+        <item>Bank BNI</item>
+        <item>Bank BRI</item>
+        <item>Bank Mandiri</item>
+        <item>Kartu Kredit</item>
+    </string-array>
+    <string name="title_activity_sign">SignActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_coba_nav">CobaNavActivity</string>
+    <string name="title_activity_utama">UtamaActivity</string>
+    <string name="title_activity_main">MainActivity</string>
+
+
+    <string name="tab_login">MASUK</string>
+    <string name="tab_register">MENDAFTAR</string>
+    <string name="title_activity_navigation_drawer">NavigationDrawer</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+</resources>

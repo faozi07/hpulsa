@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_saldo" android:title="Saldo"/>
+    <item android:id="@+id/menu_topup" android:title="Topup Saldo"/>
+    <item android:id="@+id/menu_affiliate" android:title="Affiliate"/>
+    <item android:id="@+id/menu_beranda" android:title="Beranda"/>
+    <item android:id="@+id/menu_riwayat" android:title="Riwayat"/>
+    <item android:id="@+id/menu_print" android:title="Print Dompet Pulsa"/>
+    <item android:id="@+id/menu_harga" android:title="Harga"/>
+    <item android:id="@+id/menu_testimonial" android:title="Testimonial"/>
+</menu>

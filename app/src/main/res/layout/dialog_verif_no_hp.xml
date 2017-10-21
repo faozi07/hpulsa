@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dialog_root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/orangeDark"
+        android:gravity="center"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp"
+        android:text="Verifikasi No Handphone"
+        android:textColor="#fff"
+        android:textSize="17sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingStart="15dp"
+        android:paddingTop="25dp"
+        android:text="Belum punya kode verifikasi?" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tKirimKode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Klik di sini  "
+            android:textColor="@color/blue"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="nuntuk mengirim." />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/eKodeVerif"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="Kode Verifikasi"
+                android:inputType="number"
+                android:textSize="16sp" />
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="15dp">
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/btn_batal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="10dp"
+            app:fb_borderColor="@color/blueDark"
+            app:fb_borderWidth="1dp"
+            app:fb_defaultColor="@android:color/transparent"
+            app:fb_focusColor="@color/orangeDark"
+            app:fb_radius="0dp"
+            app:fb_text="BATAL"
+            app:fb_textColor="@color/blueDark" />
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/btn_kirim"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="10dp"
+            app:fb_borderColor="@color/blueDark"
+            app:fb_borderWidth="1dp"
+            app:fb_defaultColor="@color/blueDark"
+            app:fb_focusColor="@color/orangeDark"
+            app:fb_radius="0dp"
+            app:fb_text="KIRIM"
+            app:fb_textColor="#fff" />
+
+    </LinearLayout>
+
+</LinearLayout>
