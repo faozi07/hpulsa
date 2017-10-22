@@ -124,7 +124,7 @@ public class FrRegisterActivity extends Fragment {
 
     private void doRegist() {
         pLoading.show();
-        api.registerUser(StaticVars.token_aplikasi, uName, uNoHp, uEmail, uPass, uPassConf).enqueue(new Callback<JsonObject>() {
+        api.registerUser(sv.publickey,sv.privatekey, uName, uNoHp, uEmail, uPass, uPassConf).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 pLoading.dismiss();
@@ -175,7 +175,7 @@ public class FrRegisterActivity extends Fragment {
         email.setText("");
         pass.setText("");
         passKonf.setText("");
-        api.loginUser(uName, uPass).enqueue(new Callback<JsonObject>() {
+        api.loginUser(sv.publickey,sv.privatekey,uName, uPass).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 try {
@@ -189,7 +189,7 @@ public class FrRegisterActivity extends Fragment {
                         if (sv.loginStat.equals("false")) {
                             showDialog("Login Gagal", messages);
                         } else {
-                            api.userProfil(sv.token).enqueue(new Callback<JsonObject>() {
+                            api.userProfil(sv.publickey,sv.privatekey,sv.token).enqueue(new Callback<JsonObject>() {
                                 @Override
                                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                                     try {
@@ -223,9 +223,6 @@ public class FrRegisterActivity extends Fragment {
                                                 }
                                                 if (body.has("us_balance")) {
                                                     sv.balance = body.get("us_balance").getAsString();
-                                                }
-                                                if (body.has("us_verified")) {
-                                                    sv.verified = body.get("us_verified").getAsString();
                                                 }
                                                 if (body.has("us_rights")) {
                                                     sv.rights = body.get("us_rights").getAsString();
@@ -262,6 +259,12 @@ public class FrRegisterActivity extends Fragment {
                                                 }
                                                 if (body.has("us_regdate")) {
                                                     sv.reg_date = body.get("us_regdate").getAsString();
+                                                }
+                                                if (body.has("phone_verified")) {
+                                                    sv.verifPhone = body.get("phone_verified").getAsString();
+                                                }
+                                                if (body.has("email_verified")) {
+                                                    sv.verifEmail = body.get("email_verified").getAsString();
                                                 }
 
                                                 if (body.has("timestamp")) {

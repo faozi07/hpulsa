@@ -96,7 +96,7 @@ public class SplashScreen extends AppCompatActivity {
 
     private void cekToken() {
         pLoading.show();
-        api.cekToken(token).enqueue(new Callback<JsonObject>() {
+        api.cekToken(sv.publickey,sv.privatekey,token).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(retrofit2.Call<JsonObject> call, Response<JsonObject> response) {
                 pLoading.dismiss();
@@ -128,7 +128,7 @@ public class SplashScreen extends AppCompatActivity {
 
     private void getData() {
         pLoading.show();
-        api.userProfil(token).enqueue(new Callback<JsonObject>() {
+        api.userProfil(sv.publickey,sv.privatekey,token).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(retrofit2.Call<JsonObject> call, Response<JsonObject> response) {
                 pLoading.dismiss();
@@ -164,9 +164,6 @@ public class SplashScreen extends AppCompatActivity {
                         }
                         if (body.has("us_balance")) {
                             sv.balance = body.get("us_balance").getAsString();
-                        }
-                        if (body.has("us_verified")) {
-                            sv.verified = body.get("us_verified").getAsString();
                         }
                         if (body.has("us_rights")) {
                             sv.rights = body.get("us_rights").getAsString();
@@ -210,6 +207,12 @@ public class SplashScreen extends AppCompatActivity {
                         }
                         if (body.has("logo")) {
                             sv.logo = body.get("logo").getAsString();
+                        }
+                        if (body.has("phone_verified")) {
+                            sv.verifPhone = body.get("phone_verified").getAsString();
+                        }
+                        if (body.has("email_verified")) {
+                            sv.verifEmail = body.get("email_verified").getAsString();
                         }
 
                         startActivity(new Intent(SplashScreen.this, MenuUtama.class));

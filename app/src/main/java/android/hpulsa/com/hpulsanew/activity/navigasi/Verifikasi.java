@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +34,7 @@ public class Verifikasi extends AppCompatActivity {
     private TextView tNoHp,tEmail,tVerifEmail,tVerifNoHp,btnVerifEmail,btnVerifNoHp;
     private LinearLayout layUtama;
     private hPulsaAPI api;
+    private ImageView imgVerifEmail,imgVerifPhone;
     ProgressDialog pLoading;
     String kodeVerif = "";
     AlertDialog theDialog;
@@ -57,6 +59,9 @@ public class Verifikasi extends AppCompatActivity {
         tVerifNoHp = (TextView) findViewById(R.id.tVerifNoHp);
         btnVerifEmail = (Button) findViewById(R.id.btnVerifEmail);
         btnVerifNoHp = (Button) findViewById(R.id.btnVerifNoHp);
+        imgVerifEmail = (ImageView) findViewById(R.id.imgVerifEmail);
+        imgVerifPhone = (ImageView) findViewById(R.id.imgVerifPhone);
+
         api = hPulsaAPI.service.create(hPulsaAPI.class);
         pLoading = new ProgressDialog(this);
         pLoading.setMessage("Mengirim kode verifikasi . . .");
@@ -67,8 +72,30 @@ public class Verifikasi extends AppCompatActivity {
         StaticVars sv = new StaticVars();
         tEmail.setText(spProfil.getString(sv.email,""));
         tNoHp.setText(spProfil.getString(sv.phone,""));
-        if (spProfil.getString(sv.verified,"").equals("")) {tVerifEmail.setText("Belum Terverifikasi");}
-        if (spProfil.getString(sv.verified,"").equals("")) {tVerifNoHp.setText("Belum Terverifikasi");}
+        if (spProfil.getString(sv.verifEmail,"").equals("1")) {
+            tVerifEmail.setText("Terverifikasi");
+            tVerifEmail.setTextColor(getResources().getColor(R.color.blue));
+            btnVerifEmail.setEnabled(false);
+            btnVerifEmail.setVisibility(View.GONE);
+            imgVerifEmail.setVisibility(View.VISIBLE);
+        } else {
+            tVerifEmail.setText("Belum Terverifikasi");
+            btnVerifEmail.setEnabled(true);
+            btnVerifEmail.setVisibility(View.VISIBLE);
+            imgVerifEmail.setVisibility(View.GONE);
+        }
+        if (spProfil.getString(sv.verifPhone,"").equals("1")) {
+            tVerifNoHp.setText("Terverifikasi");
+            tVerifNoHp.setTextColor(getResources().getColor(R.color.blue));
+            btnVerifNoHp.setEnabled(false);
+            btnVerifNoHp.setVisibility(View.GONE);
+            imgVerifPhone.setVisibility(View.VISIBLE);
+        } else{
+            tVerifEmail.setText("Belum Terverifikasi");
+            btnVerifNoHp.setEnabled(true);
+            btnVerifNoHp.setVisibility(View.VISIBLE);
+            imgVerifPhone.setVisibility(View.GONE);
+        }
     }
 
     private void action() {
@@ -149,7 +176,7 @@ public class Verifikasi extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         if (!eKodeVerif.getText().toString().equals("")) {
-                            verifKodeNoHp();
+//                            verifKodeNoHp();
                         } else {
                             Snackbar.make(layUtama, "Kode Verifikasi Anda belum terisi", Snackbar.LENGTH_LONG).show();
                         }
@@ -165,7 +192,7 @@ public class Verifikasi extends AppCompatActivity {
         pLoading.show();
         SharedPreferences spProfil = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         StaticVars sv = new StaticVars();
-        api.kirimKodeVerifSms(spProfil.getString(sv.token,""),spProfil.getString(sv.token_aplikasi,"")).enqueue(new Callback<JsonObject>() {
+        api.kirimKodeVerifSms(spProfil.getString(sv.token,""),"").enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(retrofit2.Call<JsonObject> call, Response<JsonObject> response) {
                 pLoading.dismiss();
@@ -220,7 +247,7 @@ public class Verifikasi extends AppCompatActivity {
         if (netInfo == null) {
             dialogReconnect("Koneksi Tidak Ada","Pastikan internet anda aktif","Terhubung kembali");
         } else {
-            kirimVerifNoHp();
+//            kirimVerifNoHp();
         }
     }
 
@@ -228,7 +255,7 @@ public class Verifikasi extends AppCompatActivity {
         pLoading.show();
         SharedPreferences spProfil = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         StaticVars sv = new StaticVars();
-        api.verifKode(spProfil.getString(sv.token,""),spProfil.getString(sv.token_aplikasi,""),kodeVerif)
+        api.verifKode(spProfil.getString(sv.token,""),"",kodeVerif)
                 .enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(retrofit2.Call<JsonObject> call, Response<JsonObject> response) {

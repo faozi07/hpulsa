@@ -24,19 +24,28 @@ public interface hPulsaAPI {
     @POST("auth/login")
     @FormUrlEncoded
     Call<JsonObject> loginUser(
+            @Header("publickey") String publickey,
+            @Header("privatekey") String privatekey,
             @Field("username") String username,
             @Field("password") String password
     );
 
-    @POST("auth/ceck_token")
-    Call<JsonObject> cekToken(@Header("token") String token);
+    @POST("auth/check_token")
+    Call<JsonObject> cekToken(
+            @Header("publickey") String publickey,
+            @Header("privatekey") String privatekey,
+            @Header("tokenuser") String token);
 
     @GET("users/detail")
-    Call<JsonObject> userProfil(@Header("token") String token);
+    Call<JsonObject> userProfil(
+            @Header("publickey") String publickey,
+            @Header("privatekey") String privatekey,
+            @Header("tokenuser") String token);
 
     @POST("users/register")
     @FormUrlEncoded
-    Call<JsonObject> registerUser(@Header("tokenaplikasi") String token,
+    Call<JsonObject> registerUser(@Header("publickey") String publickey,
+                                  @Header("privatekey") String privatekey,
                                   @Field("us_username") String username,
                                   @Field("us_phone") String phone,
                                   @Field("us_email") String email,

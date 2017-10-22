@@ -17,7 +17,9 @@ public class StaticVars {
     public static String location = "login_location";
     public static String phone = "login_phone";
     public static String balance = "login_balance";
-    public static String verified = "login_verified";
+    public static String verifEmail = "login_verif_email";
+    public static String verifPhone = "login_verif_phone";
+    public static String verifKtp = "login_verif_ktp";
     public static String rights = "login_rights";
     public static String block = "login_block";
     public static String data = "login_data";
@@ -32,8 +34,8 @@ public class StaticVars {
     public static String reg_date = "login_reg_date";
     public static String via = "login_via";
     public static String logo = "login_logo";
-    public static String token_aplikasi = "token_apps";
-
+    public static String publickey = "cbb28d1c782f43eba9049395da2eb38d";
+    public static String privatekey = "9ba923e5106c703f36b299530210fad7";
 
     /*"auth_identifier": {"us_id": "1","us_username": "admin2","us_name": "Administrator","us_email": "hendijadul@yahoo.com",
             "us_gender": "male","us_location": "Tangerang","us_phone": "085717758567","us_balance": "0","us_verified": "1",

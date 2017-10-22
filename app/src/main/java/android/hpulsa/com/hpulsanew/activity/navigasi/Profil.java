@@ -10,12 +10,21 @@ import android.hpulsa.com.hpulsanew.R;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class Profil extends AppCompatActivity {
 
     private TextView eNama, eUsername, eNoHp, eEmail, eSttsAkun, eTtlTrx, eJnsAkun, eTglMndftr, eSaldo;
     private Button btnTbhSaldo;
+    private ImageView imgVerified;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,20 +49,45 @@ public class Profil extends AppCompatActivity {
         eJnsAkun = (TextView) findViewById(R.id.eJnsAkun);
         eTglMndftr = (TextView) findViewById(R.id.eTglMendaftar);
         btnTbhSaldo = (Button) findViewById(R.id.btnTbhSaldo);
+        imgVerified = (ImageView) findViewById(R.id.imgVerif);
     }
 
     private void setComponent() {
         SharedPreferences spProfil = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         StaticVars sv = new StaticVars();
+        double saldo = Double.parseDouble(spProfil.getString(sv.balance, ""));
+        DecimalFormat kursIndonesia = (DecimalFormat) DecimalFormat.getCurrencyInstance();
+        DecimalFormatSymbols formatRp = new DecimalFormatSymbols();
+
+        formatRp.setCurrencySymbol("Rp. ");
+        formatRp.setMonetaryDecimalSeparator(',');
+        formatRp.setGroupingSeparator('.');
+
+        kursIndonesia.setDecimalFormatSymbols(formatRp);
         eUsername.setText(spProfil.getString(sv.username, ""));
         eNama.setText(spProfil.getString(sv.name, ""));
         eEmail.setText(spProfil.getString(sv.email, ""));
         eNoHp.setText(spProfil.getString(sv.phone, ""));
-        eSaldo.setText("Rp. "+spProfil.getString(sv.balance, ""));
-        eSttsAkun.setText(spProfil.getString(sv.verified, ""));
+        eSaldo.setText(kursIndonesia.format(saldo));
+        if (spProfil.getString(sv.verifPhone, "").equals("1") && spProfil.getString(sv.verifEmail, "").equals("1")) {
+            eSttsAkun.setText("Terverifikasi");
+            eSttsAkun.setTextColor(getResources().getColor(R.color.green));
+            imgVerified.setVisibility(View.VISIBLE);
+        } else {
+            eSttsAkun.setText("Belum Terverifikasi");
+            imgVerified.setVisibility(View.GONE);
+        }
         eTtlTrx.setText(spProfil.getString(sv.total_order, ""));
         eJnsAkun.setText(spProfil.getString(sv.reseller, ""));
-        eTglMndftr.setText(spProfil.getString(sv.reg_date, ""));
+
+        Integer tglReg = Integer.valueOf(spProfil.getString(sv.reg_date, ""));
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            Date tglRegis = sdf.parse(tglReg.toString());
+            eTglMndftr.setText(tglRegis.toString());
+        } catch (Exception e) {
+            eTglMndftr.setText("-");
+        }
     }
 
     private void action() {

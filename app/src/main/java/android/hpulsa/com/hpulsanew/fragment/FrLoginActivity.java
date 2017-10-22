@@ -101,7 +101,6 @@ public class FrLoginActivity extends Fragment {
                 } else {
                     cekKoneksi();
                 }
-//                    cekLogin();
             }
         });
 
@@ -119,9 +118,7 @@ public class FrLoginActivity extends Fragment {
         if (netInfo == null) {
             Snackbar.make(llayout, "Tidak ada koneksi internet", Snackbar.LENGTH_LONG).show();
         } else {
-//            cekLogin();
-            getActivity().finish();
-            startActivity(new Intent(getActivity(), MenuUtama.class));
+            cekLogin();
         }
     }
 
@@ -130,7 +127,7 @@ public class FrLoginActivity extends Fragment {
         eUsername.setText("");
         ePass.setText("");
         eCaptcha.setText("");
-        api.loginUser(username, password).enqueue(new Callback<JsonObject>() {
+        api.loginUser(sv.publickey,sv.privatekey,username, password).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(retrofit2.Call<JsonObject> call, Response<JsonObject> response) {
                 try {
@@ -140,11 +137,11 @@ public class FrLoginActivity extends Fragment {
                         sv.loginStat = body.get("login").getAsString();
 //                        sv.suksesLogin = body.get("succeess").getAsString();
                         message = body.get("message").getAsString();
-                        final String token = body.get("akses_token").getAsString();
+                        final String token = body.get("token_users").getAsString();
                         if (sv.loginStat.equals("false")) {
                             dialogGagalLogin("Login Gagal", message);
                         } else {
-                            api.userProfil(token).enqueue(new Callback<JsonObject>() {
+                            api.userProfil(sv.publickey,sv.privatekey,token).enqueue(new Callback<JsonObject>() {
                                 @Override
                                 public void onResponse(retrofit2.Call<JsonObject> call, Response<JsonObject> response) {
                                     try {
@@ -192,10 +189,6 @@ public class FrLoginActivity extends Fragment {
                                                 if (body.has("us_balance")) {
                                                     sv.balance = body.get("us_balance").getAsString();
                                                     editor.putString(sv.balance, body.get("us_balance").getAsString());
-                                                }
-                                                if (body.has("us_verified")) {
-                                                    sv.verified = body.get("us_verified").getAsString();
-                                                    editor.putString(sv.verified, body.get("us_verified").getAsString());
                                                 }
                                                 if (body.has("us_rights")) {
                                                     sv.rights = body.get("us_rights").getAsString();
@@ -254,8 +247,14 @@ public class FrLoginActivity extends Fragment {
                                                     sv.logo = body.get("logo").getAsString();
                                                     editor.putString(sv.logo, body.get("logo").getAsString());
                                                 }
-
-                                                editor.putString(sv.token_aplikasi,"andro_15081991_mobile_deploy");
+                                                if (body.has("phone_verified")) {
+                                                    sv.verifPhone = body.get("phone_verified").getAsString();
+                                                    editor.putString(sv.verifPhone, body.get("phone_verified").getAsString());
+                                                }
+                                                if (body.has("email_verified")) {
+                                                    sv.verifEmail = body.get("email_verified").getAsString();
+                                                    editor.putString(sv.verifEmail, body.get("email_verified").getAsString());
+                                                }
 
                                                 editor.apply();
 
@@ -264,7 +263,7 @@ public class FrLoginActivity extends Fragment {
                                                 startActivity(new Intent(getActivity(), MenuUtama.class));
                                             }
                                         } else if (response.code() == 400 || response.code() == 401) {
-                                            dialogGagalLogin("Gagal tampil data", "Periksa kembali token anda");
+                                            dialogGagalLogin("Gagal tampil data", "Terjadi kesalahan");
                                         }
                                     } catch (Exception e) {
                                         dialogGagalLogin("Gagal", "Terjadi kesalahan");

@@ -71,12 +71,13 @@
 
                     <TextView
                         android:id="@+id/tVerifEmail"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:text="Belum Terverifikasi"
                         android:textStyle="bold"
-                        android:textColor="#f03434"/>
+                        android:textColor="#f03434"
+                        android:textAlignment="center"/>
 
                     <Button
                         android:id="@+id/btnVerifEmail"
@@ -86,6 +87,13 @@
                         android:text="Klik Verifikasi"
                         android:textSize="10dp"
                         android:textColor="#fff"/>
+                    <ImageView
+                        android:id="@+id/imgVerifEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_cek_verified"
+                        android:visibility="gone"
+                        android:layout_gravity="center"/>
 
                 </LinearLayout>
             </LinearLayout>
@@ -127,12 +135,13 @@
 
                     <TextView
                         android:id="@+id/tVerifNoHp"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:text="Belum Terverifikasi"
                         android:textStyle="bold"
-                        android:textColor="#f03434"/>
+                        android:textColor="#f03434"
+                        android:textAlignment="center"/>
 
                     <Button
                         android:id="@+id/btnVerifNoHp"
@@ -142,6 +151,13 @@
                         android:text="Klik Verifikasi"
                         android:textSize="10dp"
                         android:textColor="#fff"/>
+                    <ImageView
+                        android:id="@+id/imgVerifPhone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_cek_verified"
+                        android:visibility="gone"
+                        android:layout_gravity="center"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
