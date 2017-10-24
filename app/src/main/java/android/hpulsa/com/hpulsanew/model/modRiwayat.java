@@ -1,99 +1,138 @@
 package android.hpulsa.com.hpulsanew.model;
 
+import java.util.ArrayList;
+
 /**
  * Created by ozi on 08/10/2017.
  */
 
 public class modRiwayat {
-    private String noTrx;
-    private String statusTrx;
-    private String noHp;
-    private String nominal;
-    private String harga;
-    private String tglTrx;
-    private String provider;
-    private String pembayaran;
-    private String statusPembayaran;
 
-    public modRiwayat(String noTrx, String statusTrx, String noHp, String nominal, String harga, String tglTrx) {
-        this.setNoTrx(noTrx);
-        this.setStatusTrx(statusTrx);
-        this.setNoHp(noHp);
-        this.setNominal(nominal);
-        this.setHarga(harga);
-        this.setTglTrx(tglTrx);
-    }
+    private String trxID;
+    private String usID;
+    private String svID;
+    private String opId;
+    private String opProduk;
+    private String opNama;
+    private String voID;
+    private String voKode;
+    private String voNominal;
+    private String trxIDPlnggn;
+    private String trxNoHP;
+    private String trxHarga;
+    private String trxHarga2;
+    private String trxIncome;
+    private String trxRate;
+    private String trxPembayaran;
+    private String trxSttsPembayaran;
+    private String trxIDPembayaran;
+    private String trxRetry;
+    private String trxCekMutasi;
+    private String trxStts;
+    private String trxOpsi;
+    private String trxTgl;
+    private String trxTrkrim;
+
+    ArrayList<modRiwayat> arrayRiwayat = new ArrayList<>();
 
 
-    public String getNoTrx() {
-        return noTrx;
-    }
+    public String getTrxID() {return trxID;}
 
-    public void setNoTrx(String noTrx) {
-        this.noTrx = noTrx;
-    }
+    public void setTrxID(String trxID) {this.trxID = trxID;}
 
-    public String getStatusTrx() {
-        return statusTrx;
-    }
+    public String getUsID() {return usID;}
 
-    public void setStatusTrx(String statusTrx) {
-        this.statusTrx = statusTrx;
-    }
+    public void setUsID(String usID) {this.usID = usID;}
 
-    public String getNoHp() {
-        return noHp;
-    }
+    public String getSvID() {return svID;}
 
-    public void setNoHp(String noHp) {
-        this.noHp = noHp;
-    }
+    public void setSvID(String svID) {this.svID = svID;}
 
-    public String getNominal() {
-        return nominal;
-    }
+    public String getOpId() {return opId;}
 
-    public void setNominal(String nominal) {
-        this.nominal = nominal;
-    }
+    public void setOpId(String opId) {this.opId = opId;}
 
-    public String getHarga() {
-        return harga;
-    }
+    public String getOpProduk() {return opProduk;}
 
-    public void setHarga(String harga) {
-        this.harga = harga;
-    }
+    public void setOpProduk(String opProduk) {this.opProduk = opProduk;}
 
-    public String getTglTrx() {
-        return tglTrx;
-    }
+    public String getOpNama() {return opNama;}
 
-    public void setTglTrx(String tglTrx) {
-        this.tglTrx = tglTrx;
-    }
+    public void setOpNama(String opNama) {this.opNama = opNama;}
 
-    public String getProvider() {
-        return provider;
-    }
+    public String getVoID() {return voID;}
 
-    public void setProvider(String provider) {
-        this.provider = provider;
-    }
+    public void setVoID(String voID) {this.voID = voID;}
 
-    public String getPembayaran() {
-        return pembayaran;
-    }
+    public String getVoKode() {return voKode;}
 
-    public void setPembayaran(String pembayaran) {
-        this.pembayaran = pembayaran;
-    }
+    public void setVoKode(String voKode) {this.voKode = voKode;}
 
-    public String getStatusPembayaran() {
-        return statusPembayaran;
-    }
+    public String getVoNominal() {return voNominal;}
 
-    public void setStatusPembayaran(String statusPembayaran) {
-        this.statusPembayaran = statusPembayaran;
+    public void setVoNominal(String voNominal) {this.voNominal = voNominal;}
+
+    public String getTrxIDPlnggn() {return trxIDPlnggn;}
+
+    public void setTrxIDPlnggn(String trxIDPlnggn) {this.trxIDPlnggn = trxIDPlnggn;}
+
+    public String getTrxNoHP() {return trxNoHP;}
+
+    public void setTrxNoHP(String trxNoHP) {this.trxNoHP = trxNoHP;}
+
+    public String getTrxHarga() {return trxHarga;}
+
+    public void setTrxHarga(String trxHarga) {this.trxHarga = trxHarga;}
+
+    public String getTrxHarga2() {return trxHarga2;}
+
+    public void setTrxHarga2(String trxHarga2) {this.trxHarga2 = trxHarga2;}
+
+    public String getTrxIncome() {return trxIncome;}
+
+    public void setTrxIncome(String trxIncome) {this.trxIncome = trxIncome;}
+
+    public String getTrxRate() {return trxRate;}
+
+    public void setTrxRate(String trxRate) {this.trxRate = trxRate;}
+
+    public String getTrxPembayaran() {return trxPembayaran;}
+
+    public void setTrxPembayaran(String trxPembayaran) {this.trxPembayaran = trxPembayaran;}
+
+    public String getTrxSttsPembayaran() {return trxSttsPembayaran;}
+
+    public void setTrxSttsPembayaran(String trxSttsPembayaran) {this.trxSttsPembayaran = trxSttsPembayaran;}
+
+    public String getTrxIDPembayaran() {return trxIDPembayaran;}
+
+    public void setTrxIDPembayaran(String trxIDPembayaran) {this.trxIDPembayaran = trxIDPembayaran;}
+
+    public String getTrxRetry() {return trxRetry;}
+
+    public void setTrxRetry(String trxRetry) {this.trxRetry = trxRetry;}
+
+    public String getTrxCekMutasi() {return trxCekMutasi;}
+
+    public void setTrxCekMutasi(String trxCekMutasi) {this.trxCekMutasi = trxCekMutasi;}
+
+    public String getTrxStts() {return trxStts;}
+
+    public void setTrxStts(String trxStts) {this.trxStts = trxStts;}
+
+    public String getTrxOpsi() {return trxOpsi;}
+
+    public void setTrxOpsi(String trxOpsi) {this.trxOpsi = trxOpsi;}
+
+    public String getTrxTgl() {return trxTgl;}
+
+    public void setTrxTgl(String trxTgl) {this.trxTgl = trxTgl;}
+
+    public String getTrxTrkrim() {return trxTrkrim;}
+
+    public void setTrxTrkrim(String trxTrkrim) {this.trxTrkrim = trxTrkrim;}
+
+    public void setArrayRiwayat(ArrayList<modRiwayat> arrayRiwayat) {
+        this.arrayRiwayat = arrayRiwayat;
     }
 }

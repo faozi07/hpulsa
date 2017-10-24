@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.hpulsa.com.hpulsanew.API.hPulsaAPI;
 import android.hpulsa.com.hpulsanew.R;
 import android.hpulsa.com.hpulsanew.activity.pilihanmenu.PaketBBM;
 import android.hpulsa.com.hpulsanew.activity.pilihanmenu.PaketInternet;
@@ -36,10 +37,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
+
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MenuUtama extends AppCompatActivity {
 
@@ -58,6 +65,8 @@ public class MenuUtama extends AppCompatActivity {
     public static CircleImageView fotoProfil;
     StaticVars sv = new StaticVars();
     private Toolbar toolbar;
+    private hPulsaAPI api;
+    private SharedPreferences spLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +84,7 @@ public class MenuUtama extends AppCompatActivity {
     }
 
     private void setComponent(){
+        api = hPulsaAPI.service.create(hPulsaAPI.class);
         listViewSliding = (ListView) findViewById(R.id.list_sliding_menu);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mainContent = (RelativeLayout) findViewById(R.id.main_content);
@@ -206,8 +216,52 @@ public class MenuUtama extends AppCompatActivity {
         return modEarningList;
     }
 
+    private void cekSaldo() {
+
+        spLogin = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        String token = spLogin.getString(sv.token,"");
+        api.userProfil(sv.publickey,sv.privatekey,token).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(retrofit2.Call<JsonObject> call, Response<JsonObject> response) {
+                try {
+                    if (response.code() == 200) {
+                        SharedPreferences.Editor editor = spLogin.edit();
+
+                        JsonObject body = response.body();
+                        if (body.has("message")) {
+                            Toast.makeText(MenuUtama.this, "Gagal update saldo, silahkan reload aplikasi", Toast.LENGTH_SHORT).show();
+                        } else {
+                            if (body.has("us_balance")) {
+                                sv.balance = body.get("us_balance").getAsString();
+                                editor.putString(sv.balance, body.get("us_balance").getAsString());
+                            }
+                            editor.apply();
+                        }
+                    } else if (response.code() == 400 || response.code() == 401) {
+                        Toast.makeText(MenuUtama.this, "Gagal update saldo, silahkan reload aplikasi", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<JsonObject> call, Throwable t) {
+            }
+        });
+    }
+
     private void addItemSliding() {
-        listMenu.add(new ItemSlideMenu(R.drawable.ic_saldo,R.drawable.ic_pembatas,"Saldo","Rp. 0"));
+        cekSaldo();
+        double saldo = Double.parseDouble(sv.balance);
+        DecimalFormat kursIndonesia = (DecimalFormat) DecimalFormat.getCurrencyInstance();
+        DecimalFormatSymbols formatRp = new DecimalFormatSymbols();
+
+        formatRp.setCurrencySymbol("Rp. ");
+        formatRp.setMonetaryDecimalSeparator(',');
+        formatRp.setGroupingSeparator('.');
+
+        kursIndonesia.setDecimalFormatSymbols(formatRp);
+        listMenu.add(new ItemSlideMenu(R.drawable.ic_saldo,R.drawable.ic_pembatas,"Saldo",kursIndonesia.format(saldo)));
         listMenu.add(new ItemSlideMenu(R.drawable.ic_topup,R.drawable.ic_pembatas,"Topup Saldo",""));
         listMenu.add(new ItemSlideMenu(R.drawable.ic_affiliate,R.drawable.ic_pembatas,"Affiliate",""));
         listMenu.add(new ItemSlideMenu(R.drawable.ic_home,R.drawable.ic_pembatas,"Beranda",""));

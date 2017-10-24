@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cardView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ececec"
+    android:layout_margin="5dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -10,8 +13,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_margin="10dp"
-        android:padding="10dp"
-        android:background="@null">
+        android:background="#fff">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -21,9 +23,9 @@
                 android:id="@+id/tNoTransaksi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Transaksi#1"
+                android:text="#1"
                 android:textColor="@color/colorPrimary"
-                android:textSize="17dp"
+                android:textSize="15dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -33,32 +35,11 @@
                 android:layout_alignParentRight="true"
                 android:background="@drawable/bg_wp"
                 android:text="WP"
+                android:textSize="12dp"
                 android:textAlignment="center"
                 android:textColor="#fff"
                 android:textStyle="bold" />
         </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tNoHp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="085797511XXX" />
-
-            <TextView
-                android:id="@+id/tNominal"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:text="TSEL 5.000" />
-        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -69,17 +50,59 @@
                 android:id="@+id/tTglTransaksi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="02/10/2017 - 03:09" />
+                android:text="02/10/2017 - 03:09"
+                android:textSize="12dp" />
 
+            <TextView
+                android:id="@+id/tJnsPmbayaran"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Saldo Akun"
+                android:textSize="12dp" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tNoHp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="085797511XXX"
+                android:textSize="12dp"/>
+
+            <TextView
+                android:id="@+id/tProvider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:gravity="right"
+                android:text="Provider"
+                android:textSize="12dp" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
             <TextView
                 android:id="@+id/tHarga"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:text="Rp. 5.650"
-                android:textColor="@color/colorPrimary"
-                android:textSize="15dp" />
+                android:textSize="12dp"
+                android:textColor="@color/colorPrimary" />
+            <TextView
+                android:id="@+id/tVoucher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="TSEL 5.000"
+                android:textSize="12dp" />
         </RelativeLayout>
     </LinearLayout>
 
-</LinearLayout>
+</android.support.v7.widget.CardView>

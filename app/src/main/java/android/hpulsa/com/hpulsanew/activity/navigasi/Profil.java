@@ -22,9 +22,10 @@ import java.util.Locale;
 
 public class Profil extends AppCompatActivity {
 
-    private TextView eNama, eUsername, eNoHp, eEmail, eSttsAkun, eTtlTrx, eJnsAkun, eTglMndftr, eSaldo;
-    private Button btnTbhSaldo;
+    private TextView eNama, eUsername, eNoHp, eEmail, eSttsAkun, eTtlTrx, eJnsAkun, eTglMndftr, eSaldo,eAlamat,ejenkel,btnTbhSaldo;
     private ImageView imgVerified;
+    StaticVars sv = new StaticVars();
+    private SharedPreferences spProfil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +49,14 @@ public class Profil extends AppCompatActivity {
         eTtlTrx = (TextView) findViewById(R.id.eTtlTrx);
         eJnsAkun = (TextView) findViewById(R.id.eJnsAkun);
         eTglMndftr = (TextView) findViewById(R.id.eTglMendaftar);
-        btnTbhSaldo = (Button) findViewById(R.id.btnTbhSaldo);
+        btnTbhSaldo = (TextView) findViewById(R.id.btnTbhSaldo);
         imgVerified = (ImageView) findViewById(R.id.imgVerif);
+        ejenkel = (TextView) findViewById(R.id.eJenkel);
+        eAlamat = (TextView) findViewById(R.id.eAlamat);
     }
 
     private void setComponent() {
-        SharedPreferences spProfil = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        spProfil = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         StaticVars sv = new StaticVars();
         double saldo = Double.parseDouble(spProfil.getString(sv.balance, ""));
         DecimalFormat kursIndonesia = (DecimalFormat) DecimalFormat.getCurrencyInstance();
@@ -77,7 +80,7 @@ public class Profil extends AppCompatActivity {
             eSttsAkun.setText("Belum Terverifikasi");
             imgVerified.setVisibility(View.GONE);
         }
-        eTtlTrx.setText(spProfil.getString(sv.total_order, ""));
+        eTtlTrx.setText(spProfil.getString(sv.total_order, "")+" Transaksi sukses");
         eJnsAkun.setText(spProfil.getString(sv.reseller, ""));
 
         Integer tglReg = Integer.valueOf(spProfil.getString(sv.reg_date, ""));
@@ -88,6 +91,12 @@ public class Profil extends AppCompatActivity {
         } catch (Exception e) {
             eTglMndftr.setText("-");
         }
+
+        if (spProfil.getString(sv.gender,"").equals("male")) {
+            ejenkel.setText("Laki-laki");
+        } else { ejenkel.setText("Perempuan");}
+
+        eAlamat.setText(spProfil.getString(sv.location,""));
     }
 
     private void action() {

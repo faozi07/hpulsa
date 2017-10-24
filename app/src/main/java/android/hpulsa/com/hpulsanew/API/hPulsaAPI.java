@@ -3,6 +3,8 @@ package android.hpulsa.com.hpulsanew.API;
 import android.hpulsa.com.hpulsanew.util.StaticVars;
 
 import com.google.gson.JsonObject;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -59,4 +61,10 @@ public interface hPulsaAPI {
     @POST("verifikasi/sms/input")
     Call<JsonObject> verifKode(@Header("token") String token,@Header("tokenaplikasi") String tokenaplikasi,
                                @Header("kode_verifikasi") String kode_verif);
+
+    @GET("akun/riwayat_transaksi")
+    Call<ResponseBody> riwayat(
+            @Header("publickey") String publickey,
+            @Header("privatekey") String privatekey,
+            @Header("tokenuser") String token);
 }
