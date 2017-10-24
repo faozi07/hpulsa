@@ -6,14 +6,15 @@
     android:layout_height="match_parent"
     android:background="#1Abbbbbb"
     android:orientation="vertical"
+    android:focusableInTouchMode="true"
     tools:context="android.hpulsa.com.hpulsanew.activity.navigasi.RiwayatTransaksi">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:background="@drawable/background_white"
-        android:orientation="vertical"
-        android:layout_margin="10dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,14 +35,15 @@
                     android:hint="Cari nomor handphone"
                     android:inputType="number" />
             </android.support.design.widget.TextInputLayout>
+
             <ImageView
                 android:id="@+id/imgSearh"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="bottom"
                 android:layout_marginBottom="10dp"
-                android:src="@drawable/ic_search"/>
+                android:layout_weight="1"
+                android:src="@drawable/ic_search" />
         </LinearLayout>
 
         <TextView
@@ -70,15 +72,22 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipRefresh"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/list_riwayat"
-            android:background="#fff"
-            android:divider="#bbbb"
-            android:dividerHeight="1dp"
-            android:clickable="true"/>
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/list_riwayat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:clickable="true"
+                android:divider="#bbbb"
+                android:dividerHeight="1dp" />
+        </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabKetStatus"
         android:layout_width="wrap_content"
@@ -86,5 +95,5 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="10dp"
         app:backgroundTint="@color/colorPrimary"
-        app:srcCompat="@drawable/ic_info"/>
+        app:srcCompat="@drawable/ic_info" />
 </android.support.design.widget.CoordinatorLayout>

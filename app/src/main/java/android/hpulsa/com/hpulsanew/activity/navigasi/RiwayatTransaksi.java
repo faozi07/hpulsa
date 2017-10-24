@@ -10,6 +10,7 @@ import android.hpulsa.com.hpulsanew.adapter.listRiwayatAdapter;
 import android.hpulsa.com.hpulsanew.model.modRiwayat;
 import android.hpulsa.com.hpulsanew.util.StaticVars;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.hpulsa.com.hpulsanew.R;
@@ -45,6 +46,7 @@ public class RiwayatTransaksi extends AppCompatActivity {
     private RecyclerView listRiwayat;
     private ImageView imgSearch;
     private FloatingActionButton fabKetSttus;
+    private SwipeRefreshLayout swipRefresh;
 
     private listRiwayatAdapter listRiwayatAdapter;
     private LinearLayoutManager llm;
@@ -72,6 +74,7 @@ public class RiwayatTransaksi extends AppCompatActivity {
     }
 
     private void setComponent() {
+        swipRefresh = (SwipeRefreshLayout) findViewById(R.id.swipRefresh);
         eNoHp = (EditText) findViewById(R.id.editNoHp);
         listRiwayat = (RecyclerView) findViewById(R.id.list_riwayat);
         imgSearch = (ImageView) findViewById(R.id.imgSearh);
@@ -82,13 +85,14 @@ public class RiwayatTransaksi extends AppCompatActivity {
         listRiwayat.setHasFixedSize(true);
 
 
-        /*listRiwayat.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        swipRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(new Intent(RiwayatTransaksi.this, DetilRiwayat.class));
+            public void onRefresh() {
+                swipRefresh.setRefreshing(false);
+                arrayRiwayat.clear();
+                riwayat();
             }
-        });*/
-
+        });
     }
 
     private void riwayat() {

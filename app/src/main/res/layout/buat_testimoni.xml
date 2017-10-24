@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutKirimTes"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="android.hpulsa.com.hpulsanew.activity.navigasi.BuatTestimoni">
@@ -28,6 +29,7 @@
                         android:id="@+id/eUsername"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:enabled="false"
                         android:hint="Username"
                         android:inputType="text"
                         android:maxLines="1" />
@@ -78,21 +80,59 @@
                         android:padding="5dp"
                         android:src="@drawable/ic_refresh_captcha" />
                 </RelativeLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <EditText
+                        android:id="@+id/teksCaptcha"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:hint="Kode Keamanan"
+                        android:inputType="number"
+                        android:lines="1"
+                        android:maxLines="1" />
+                </android.support.design.widget.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <mehdi.sakout.fancybuttons.FancyButton
+                        android:id="@+id/btn_batal"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_marginRight="3dp"
+                        app:fb_borderWidth="1dp"
+                        app:fb_defaultColor="@color/orangeDark"
+                        app:fb_focusColor="@color/blueDark"
+                        app:fb_radius="4dp"
+                        app:fb_text="BATAL"
+                        app:fb_textColor="#fff"
+                        app:fb_textSize="15dp" />
+
+                    <mehdi.sakout.fancybuttons.FancyButton
+                        android:id="@+id/btn_kirim"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_marginLeft="3dp"
+                        app:fb_borderWidth="1dp"
+                        app:fb_defaultColor="@color/colorPrimary"
+                        app:fb_focusColor="@color/blueDark"
+                        app:fb_radius="4dp"
+                        app:fb_text="KIRIM"
+                        app:fb_textColor="#fff"
+                        app:fb_textSize="15dp" />
+                </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>
-    <mehdi.sakout.fancybuttons.FancyButton
-        android:id="@+id/btnMasuk"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:padding="12dp"
-        app:fb_borderWidth="1dp"
-        app:fb_defaultColor="@color/blue"
-        app:fb_focusColor="@color/blueDark"
-        app:fb_radius="4dp"
-        app:fb_text="KIRIM"
-        app:fb_textColor="#fff"
-        app:fb_textSize="17dp" />
 </RelativeLayout>

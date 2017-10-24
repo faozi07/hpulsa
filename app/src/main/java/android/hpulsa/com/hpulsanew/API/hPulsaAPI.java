@@ -67,4 +67,17 @@ public interface hPulsaAPI {
             @Header("publickey") String publickey,
             @Header("privatekey") String privatekey,
             @Header("tokenuser") String token);
+
+    @GET("testimoni/get_all")
+    Call<ResponseBody> testimoniAll(
+            @Header("publickey") String publickey,
+            @Header("privatekey") String privatekey);
+
+    @POST("testimoni/input_testi")
+    @FormUrlEncoded
+    Call<ResponseBody> kirimTestimoni(
+            @Header("publickey") String publickey,
+            @Header("privatekey") String privatekey,
+            @Header("tokenuser") String token,
+            @Field("pesan") String pesan);
 }
