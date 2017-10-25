@@ -94,7 +94,15 @@ public class HargaProduct extends AppCompatActivity {
     }
 
      public void action() {
-
+        swipRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipRefresh.setRefreshing(false);
+                arrHrgProduk.clear();
+                HargaProdukAdapter.items.clear();
+                tampilHrgAll();
+            }
+        });
      }
 
     public void tampilList() {
