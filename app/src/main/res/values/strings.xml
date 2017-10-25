@@ -9,6 +9,63 @@
         <item>Bank Mandiri</item>
         <item>Kartu Kredit</item>
     </string-array>
+    <string-array name="menu_produk" color="@color/colorPrimary">
+        <item>Semua Produk</item>
+        <item>Pulsa</item>
+        <item>Paket Internet</item>
+        <item>Token PLN</item>
+        <item>Voucher Game</item>
+        <item>Paket Telp dan SMS</item>
+        <item>Paket Blackberry</item>
+        <item>Saldo Gojek</item>
+        <item>Tagihan</item>
+    </string-array>
+    <string-array name="sub_all" color="@color/colorPrimary">
+        <item>---</item>
+    </string-array>
+    <string-array name="sub_pulsa" color="@color/colorPrimary">
+        <item>Semua Pulsa</item>
+        <item>Axis</item>
+        <item>Telkomsel</item>
+        <item>XL</item>
+        <item>Indosat</item>
+        <item>Smartfren</item>
+        <item>Three</item>
+        <item>Bolt</item>
+    </string-array>
+    <string-array name="sub_internet" color="@color/colorPrimary">
+        <item>Axis Data</item>
+        <item>Telkomsel Data</item>
+        <item>XL Data</item>
+        <item>Indosat Data</item>
+        <item>Smartfren Data</item>
+        <item>Three Data</item>
+        <item>Bolt Data</item>
+    </string-array>
+    <string-array name="sub_token_pln" color="@color/colorPrimary">
+        <item>PLN Special</item>
+        <item>PLN</item>
+    </string-array>
+    <string-array name="sub_voucher_game" color="@color/colorPrimary">
+        <item>Garena Shells</item>
+        <item>Voucher Game Online</item>
+    </string-array>
+    <string-array name="sub_paket_telp_sms" color="@color/colorPrimary">
+        <item>Three Telpon SMS</item>
+        <item>XL Telpon SMS</item>
+        <item>Tsel Telpon SMS</item>
+        <item>Isat Telpon SMS Masa Aktif</item>
+    </string-array>
+    <string-array name="sub_paket_bb" color="@color/colorPrimary">
+        <item>Paket Blackberry</item>
+    </string-array>
+    <string-array name="sub_gojek" color="@color/colorPrimary">
+        <item>Saldo Gojek</item>
+    </string-array>
+    <string-array name="sub_tagihan" color="@color/colorPrimary">
+        <item>PLN Pascabayar</item>
+    </string-array>
+
     <string name="title_activity_sign">SignActivity</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>

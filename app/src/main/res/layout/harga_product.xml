@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="10dp"
+    tools:context="android.hpulsa.com.hpulsanew.activity.navigasi.HargaProduct">
+
+    <LinearLayout
+        android:id="@+id/laySemuaproduk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:padding="2dp"
+        android:layout_marginBottom="5dp">
+        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+            android:id="@+id/spinJnsProduk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:background="#fff"
+            android:entries="@array/menu_produk"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/laySubProduk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:padding="2dp"
+        android:layout_marginBottom="10dp">
+        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+            android:id="@+id/spinSubProduk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:entries="@array/sub_all"
+            android:background="#fff"/>
+    </LinearLayout>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_harga"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

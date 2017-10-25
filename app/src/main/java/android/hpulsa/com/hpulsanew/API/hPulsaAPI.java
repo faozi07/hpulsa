@@ -80,4 +80,20 @@ public interface hPulsaAPI {
             @Header("privatekey") String privatekey,
             @Header("tokenuser") String token,
             @Field("pesan") String pesan);
+
+    @POST("pulsa/daftar_product")
+    @FormUrlEncoded
+    Call<ResponseBody> daftarHrgAllPulsa(
+            @Header("publickey") String publickey,
+            @Header("privatekey") String privatekey,
+            @Field("opproduct") String opproduct);
+
+
+    @POST("pulsa/daftar_product")
+    @FormUrlEncoded
+    Call<ResponseBody> daftarHrgPulsaByOp(
+            @Header("publickey") String publickey,
+            @Header("privatekey") String privatekey,
+            @Field("opslug") String opslug,
+            @Field("opproduct") String opproduct);
 }

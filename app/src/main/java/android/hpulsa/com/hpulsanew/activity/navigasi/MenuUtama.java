@@ -303,6 +303,7 @@ public class MenuUtama extends AppCompatActivity {
                     case 8:
                         break;
                     case 9:
+                        startActivity(new Intent(MenuUtama.this, HargaProduct.class));
                         break;
                     case 10:
                         startActivity(new Intent(MenuUtama.this, Testimoni.class));

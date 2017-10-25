@@ -58,7 +58,8 @@
         <activity android:name=".activity.navigasi.Profil" />
         <activity android:name=".activity.navigasi.Verifikasi" />
         <activity android:name=".activity.TrialHabis" />
-        <activity android:name=".activity.navigasi.BuatTestimoni"></activity>
+        <activity android:name=".activity.navigasi.BuatTestimoni" />
+        <activity android:name=".activity.navigasi.HargaProduct"></activity>
     </application>
 
 </manifest>
