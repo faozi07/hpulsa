@@ -23,7 +23,7 @@ public interface hPulsaAPI {
             .baseUrl(StaticVars.HOST)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
-    @POST("auth/login")
+    @POST("auth/login") //============ LOGIN ==========
     @FormUrlEncoded
     Call<JsonObject> loginUser(
             @Header("publickey") String publickey,
@@ -32,19 +32,19 @@ public interface hPulsaAPI {
             @Field("password") String password
     );
 
-    @POST("auth/check_token")
+    @POST("auth/check_token") //==================== CEK TOKEN ====================
     Call<JsonObject> cekToken(
             @Header("publickey") String publickey,
             @Header("privatekey") String privatekey,
             @Header("tokenuser") String token);
 
-    @GET("users/detail")
+    @GET("users/detail") //======================= USER DETAIL =======================
     Call<JsonObject> userProfil(
             @Header("publickey") String publickey,
             @Header("privatekey") String privatekey,
             @Header("tokenuser") String token);
 
-    @POST("users/register")
+    @POST("users/register") // ========================== REGISTER ========================
     @FormUrlEncoded
     Call<JsonObject> registerUser(@Header("publickey") String publickey,
                                   @Header("privatekey") String privatekey,
@@ -54,26 +54,26 @@ public interface hPulsaAPI {
                                   @Field("us_password") String password,
                                   @Field("us_password_confirmasi") String passwordConf);
 
-    @GET("verifikasi/sms")
+    @GET("verifikasi/sms") //========================= KIRM KODE VERIFIKASI SMS ============================
     Call<JsonObject> kirimKodeVerifSms(@Header("token") String token,@Header("tokenaplikasi") String tokenaplikasi);
 
 
-    @POST("verifikasi/sms/input")
+    @POST("verifikasi/sms/input") //===================== VERIFIKASI KODE SMS ===================
     Call<JsonObject> verifKode(@Header("token") String token,@Header("tokenaplikasi") String tokenaplikasi,
                                @Header("kode_verifikasi") String kode_verif);
 
-    @GET("akun/riwayat_transaksi")
+    @GET("akun/riwayat_transaksi") //===================== RIWAYAT TRANSAKSI =============================
     Call<ResponseBody> riwayat(
             @Header("publickey") String publickey,
             @Header("privatekey") String privatekey,
             @Header("tokenuser") String token);
 
-    @GET("testimoni/get_all")
+    @GET("testimoni/get_all") //============================== TESTIMONI =================
     Call<ResponseBody> testimoniAll(
             @Header("publickey") String publickey,
             @Header("privatekey") String privatekey);
 
-    @POST("testimoni/input_testi")
+    @POST("testimoni/input_testi")//======================== INPUT TESTIMONI =====================
     @FormUrlEncoded
     Call<ResponseBody> kirimTestimoni(
             @Header("publickey") String publickey,
@@ -81,7 +81,7 @@ public interface hPulsaAPI {
             @Header("tokenuser") String token,
             @Field("pesan") String pesan);
 
-    @POST("pulsa/daftar_product")
+    @POST("pulsa/daftar_product") //========================= DAFTAR PRODUK ALL PULSA =====================
     @FormUrlEncoded
     Call<ResponseBody> daftarHrgAllPulsa(
             @Header("publickey") String publickey,
@@ -89,11 +89,11 @@ public interface hPulsaAPI {
             @Field("opproduct") String opproduct);
 
 
-    @POST("pulsa/daftar_product")
+    @POST("pulsa/daftar_product") //======================== DAFTAR PRODUK BY OP ======================
     @FormUrlEncoded
-    Call<ResponseBody> daftarHrgPulsaByOp(
+    Call<ResponseBody> daftarHrgByOp(
             @Header("publickey") String publickey,
             @Header("privatekey") String privatekey,
-            @Field("opslug") String opslug,
-            @Field("opproduct") String opproduct);
+            @Field("opproduct") String opproduct,
+            @Field("opslug") String opslug);
 }

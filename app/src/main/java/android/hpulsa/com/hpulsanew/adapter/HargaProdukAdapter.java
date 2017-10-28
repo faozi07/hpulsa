@@ -101,10 +101,15 @@ public class HargaProdukAdapter extends RecyclerView.Adapter {
             mrt = items.get(position);
 
             double harga = Double.parseDouble(mrt.getHrg());
+            double hargaJual = Double.parseDouble(mrt.getHrgJual());
             DecimalFormat kursInd = (DecimalFormat) DecimalFormat.getCurrencyInstance();
             DecimalFormatSymbols formatRp = new DecimalFormatSymbols();
-
             formatRp.setCurrencySymbol("Rp. ");
+            formatRp.setMonetaryDecimalSeparator(',');
+            formatRp.setGroupingSeparator('.');
+
+            DecimalFormatSymbols formatNonRp = new DecimalFormatSymbols();
+            formatRp.setCurrencySymbol("");
             formatRp.setMonetaryDecimalSeparator(',');
             formatRp.setGroupingSeparator('.');
 
@@ -113,7 +118,7 @@ public class HargaProdukAdapter extends RecyclerView.Adapter {
             ((BrandViewHolder) holder).kode.setText(mrt.getKode());
             ((BrandViewHolder) holder).nominal.setText(mrt.getNominal());
             ((BrandViewHolder) holder).hrg.setText(kursInd.format(harga));
-            ((BrandViewHolder) holder).hrgJual.setText(mrt.getHrgJual());
+            ((BrandViewHolder) holder).hrgJual.setText(kursInd.format(hargaJual));
             ((BrandViewHolder) holder).stok.setText(mrt.getStok());
 
             setAnimation(((BrandViewHolder) holder).cardView, position);

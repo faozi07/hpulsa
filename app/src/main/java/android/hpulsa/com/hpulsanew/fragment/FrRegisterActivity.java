@@ -88,17 +88,21 @@ public class FrRegisterActivity extends Fragment {
 
                 if (uName.equals("") || uNoHp.equals("") || uEmail.equals("") || uPass.equals("") || uPassConf.equals("")) {
                     showDialog("", "Isi data anda dengan lengkap");
+                } else if (uName.length()<4) {
+                    showDialog("", "Nama pengguna minimal 4 karakter");
                 } else if (noHp.length() < 10 || noHp.length() > 13) {
                     showDialog("", "No handphone min 10 angka dan max 13 angka");
                 } else if (!uPass.equals(uPassConf)) {
                     showDialog("", "Password tidak cocok, silahkan periksa kembali");
+                } else if (uPass.length() < 6 || uPass.length() > 12) {
+                    showDialog("", "Kata sandi min 6 karakter dan max 12 karakter");
                 } else {
-                    if (uNoHp.substring(0, 2).equals("62")) {
+                    if (uNoHp.substring(0,2).equals("62")) {
                         String nomor = uNoHp.substring(2, uNoHp.length());
                         uNoHp = "0" + nomor;
-                    } /*else if (!uNoHp.substring(0, 2).equals("08") || !uNoHp.substring(0, 3).equals("628")){
+                    } else if (!uNoHp.substring(0,2).equals("08")){
                         showDialog("","Periksa kembali no handphone Anda");
-                    } */ else {
+                    }  else {
                         if (cekSetuju.isChecked()) {
                             cekKoneksi();
                         } else {

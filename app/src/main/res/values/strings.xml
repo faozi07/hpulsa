@@ -21,10 +21,10 @@
         <item>Tagihan</item>
     </string-array>
     <string-array name="sub_all" color="@color/colorPrimary">
-        <item>---</item>
+        <item>-- Pilih Produk --</item>
     </string-array>
     <string-array name="sub_pulsa" color="@color/colorPrimary">
-        <item>Semua Pulsa</item>
+        <item>-- Pilih Provider --</item>
         <item>Axis</item>
         <item>Telkomsel</item>
         <item>XL</item>
@@ -34,6 +34,7 @@
         <item>Bolt</item>
     </string-array>
     <string-array name="sub_internet" color="@color/colorPrimary">
+        <item>-- Pilih Provider --</item>
         <item>Axis Data</item>
         <item>Telkomsel Data</item>
         <item>XL Data</item>
@@ -43,14 +44,17 @@
         <item>Bolt Data</item>
     </string-array>
     <string-array name="sub_token_pln" color="@color/colorPrimary">
+        <item>-- Pilih Token PLN --</item>
         <item>PLN Special</item>
         <item>PLN</item>
     </string-array>
     <string-array name="sub_voucher_game" color="@color/colorPrimary">
+        <item>-- Pilih Voucher Game --</item>
         <item>Garena Shells</item>
         <item>Voucher Game Online</item>
     </string-array>
     <string-array name="sub_paket_telp_sms" color="@color/colorPrimary">
+        <item>-- Pilih Paket --</item>
         <item>Three Telpon SMS</item>
         <item>XL Telpon SMS</item>
         <item>Tsel Telpon SMS</item>
