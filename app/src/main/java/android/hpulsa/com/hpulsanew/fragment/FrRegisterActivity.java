@@ -4,8 +4,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hpulsa.com.hpulsanew.R;
 import android.hpulsa.com.hpulsanew.activity.navigasi.MenuUtama;
+import android.hpulsa.com.hpulsanew.activity.navigasi.Verifikasi;
 import android.hpulsa.com.hpulsanew.util.StaticVars;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -44,6 +46,7 @@ public class FrRegisterActivity extends Fragment {
 
     hPulsaAPI api;
     StaticVars sv = new StaticVars();
+    String token;
 
     ProgressDialog pLoading;
     String uName, uNoHp, uEmail, uPass, uPassConf, messages;
@@ -100,9 +103,10 @@ public class FrRegisterActivity extends Fragment {
                     if (uNoHp.substring(0,2).equals("62")) {
                         String nomor = uNoHp.substring(2, uNoHp.length());
                         uNoHp = "0" + nomor;
-                    } else if (!uNoHp.substring(0,2).equals("08")){
+                    }
+                    if (!uNoHp.substring(0,2).equals("08")){
                         showDialog("","Periksa kembali no handphone Anda");
-                    }  else {
+                    } else {
                         if (cekSetuju.isChecked()) {
                             cekKoneksi();
                         } else {
@@ -139,9 +143,8 @@ public class FrRegisterActivity extends Fragment {
                         String register, message;
                         register = body.get("register").getAsString();
                         if (register.equals("true")) {
-                            message = body.get("message").getAsString();
                             cekLogin();
-                            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(),"Berhasil mendaftarkan" , Toast.LENGTH_LONG).show();
                         } else {
                             JsonObject messages = body.get("message").getAsJsonObject();
                             if (messages.has("us_username")) {
@@ -181,7 +184,7 @@ public class FrRegisterActivity extends Fragment {
         passKonf.setText("");
         api.loginUser(sv.publickey,sv.privatekey,uName, uPass).enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+            public void onResponse(retrofit2.Call<JsonObject> call, Response<JsonObject> response) {
                 try {
                     pLoading.dismiss();
                     if (response.code() == 200) {
@@ -189,97 +192,133 @@ public class FrRegisterActivity extends Fragment {
                         sv.loginStat = body.get("login").getAsString();
 //                        sv.suksesLogin = body.get("succeess").getAsString();
                         messages = body.get("message").getAsString();
-                        sv.token = body.get("akses_token").getAsString();
+                        token = body.get("token_users").getAsString();
                         if (sv.loginStat.equals("false")) {
                             showDialog("Login Gagal", messages);
                         } else {
-                            api.userProfil(sv.publickey,sv.privatekey,sv.token).enqueue(new Callback<JsonObject>() {
+                            api.userProfil(sv.publickey,sv.privatekey,token).enqueue(new Callback<JsonObject>() {
                                 @Override
-                                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                                public void onResponse(retrofit2.Call<JsonObject> call, Response<JsonObject> response) {
                                     try {
                                         if (response.code() == 200) {
+                                            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+                                            SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                                            String mess = "";
                                             JsonObject body = response.body();
+//                                            JsonObject body = body.get("bodyentifier").getAsJsonObject();
                                             if (body.has("message")) {
-                                                String mess;
                                                 mess = body.get("message").getAsString();
-                                                showDialog("Gagal tampil data", mess);
+                                                showDialog("Gagal Login", mess);
                                             } else {
+                                                editor.putString(sv.token, token);
+
                                                 if (body.has("us_id")) {
                                                     sv.uid = body.get("us_id").getAsString();
+                                                    editor.putString(sv.uid, body.get("us_id").getAsString());
                                                 }
                                                 if (body.has("us_username")) {
                                                     sv.username = body.get("us_username").getAsString();
+                                                    editor.putString(sv.username, body.get("us_username").getAsString());
                                                 }
                                                 if (body.has("us_name")) {
                                                     sv.name = body.get("us_name").getAsString();
+                                                    editor.putString(sv.name, body.get("us_name").getAsString());
                                                 }
                                                 if (body.has("us_email")) {
                                                     sv.email = body.get("us_email").getAsString();
+                                                    editor.putString(sv.email, body.get("us_email").getAsString());
                                                 }
                                                 if (body.has("us_gender")) {
                                                     sv.gender = body.get("us_gender").getAsString();
+                                                    editor.putString(sv.gender, body.get("us_gender").getAsString());
                                                 }
                                                 if (body.has("us_location")) {
                                                     sv.location = body.get("us_location").getAsString();
+                                                    editor.putString(sv.location, body.get("us_location").getAsString());
                                                 }
                                                 if (body.has("us_phone")) {
                                                     sv.phone = body.get("us_phone").getAsString();
+                                                    editor.putString(sv.phone, body.get("us_phone").getAsString());
                                                 }
                                                 if (body.has("us_balance")) {
                                                     sv.balance = body.get("us_balance").getAsString();
+                                                    editor.putString(sv.balance, body.get("us_balance").getAsString());
                                                 }
                                                 if (body.has("us_rights")) {
                                                     sv.rights = body.get("us_rights").getAsString();
+                                                    editor.putString(sv.rights, body.get("us_rights").getAsString());
                                                 }
                                                 if (body.has("us_block")) {
                                                     sv.block = body.get("us_block").getAsString();
+                                                    editor.putString(sv.block, body.get("us_block").getAsString());
                                                 }
                                                 if (body.has("us_data")) {
                                                     sv.data = body.get("us_data").getAsString();
+                                                    editor.putString(sv.data, body.get("us_data").getAsString());
                                                 }
                                                 if (body.has("us_reseller")) {
                                                     sv.reseller = body.get("us_reseller").getAsString();
+                                                    editor.putString(sv.reseller, body.get("us_reseller").getAsString());
                                                 }
                                                 if (body.has("us_reseller_api")) {
                                                     sv.reseller_api = body.get("us_reseller_api").getAsString();
+                                                    editor.putString(sv.reseller_api, body.get("us_reseller_api").getAsString());
                                                 }
                                                 if (body.has("us_telegram_id")) {
                                                     sv.telegram_id = body.get("us_telegram_id").getAsString();
+                                                    editor.putString(sv.telegram_id, body.get("us_telegram_id").getAsString());
                                                 }
                                                 if (body.has("us_telegram_username")) {
                                                     sv.telegram_username = body.get("us_telegram_username").getAsString();
+                                                    editor.putString(sv.telegram_username, body.get("us_telegram_username").getAsString());
                                                 }
                                                 if (body.has("us_telegram_state")) {
                                                     sv.telegram_state = body.get("us_telegram_state").getAsString();
+                                                    editor.putString(sv.telegram_state, body.get("us_telegram_state").getAsString());
                                                 }
                                                 if (body.has("us_smstrx")) {
                                                     sv.sms_trx = body.get("us_smstrx").getAsString();
+                                                    editor.putString(sv.sms_trx, body.get("us_smstrx").getAsString());
                                                 }
                                                 if (body.has("us_total_order")) {
                                                     sv.total_order = body.get("us_total_order").getAsString();
+                                                    editor.putString(sv.total_order, body.get("us_total_order").getAsString());
                                                 }
                                                 if (body.has("us_lastdate")) {
                                                     sv.last_date = body.get("us_lastdate").getAsString();
+                                                    editor.putString(sv.last_date, body.get("us_lastdate").getAsString());
                                                 }
                                                 if (body.has("us_regdate")) {
                                                     sv.reg_date = body.get("us_regdate").getAsString();
+                                                    editor.putString(sv.reg_date, body.get("us_regdate").getAsString());
+                                                }
+
+                                                if (body.has("via")) {
+                                                    sv.via = body.get("via").getAsString();
+                                                    editor.putString(sv.via, body.get("via").getAsString());
+                                                }
+                                                if (body.has("logo")) {
+                                                    sv.logo = body.get("logo").getAsString();
+                                                    editor.putString(sv.logo, body.get("logo").getAsString());
                                                 }
                                                 if (body.has("phone_verified")) {
                                                     sv.verifPhone = body.get("phone_verified").getAsString();
+                                                    editor.putString(sv.verifPhone, body.get("phone_verified").getAsString());
                                                 }
                                                 if (body.has("email_verified")) {
                                                     sv.verifEmail = body.get("email_verified").getAsString();
+                                                    editor.putString(sv.verifEmail, body.get("email_verified").getAsString());
                                                 }
 
-                                                if (body.has("timestamp")) {
-                                                    body.get("timestamp");
+                                                editor.apply();
+
+                                                if (sharedPreferences.getString(sv.verifPhone,"").equals("0")||
+                                                        sharedPreferences.getString(sv.verifEmail,"").equals("0")) {
+                                                    startActivity(new Intent(getActivity(), Verifikasi.class));
+                                                } else {
+                                                    startActivity(new Intent(getActivity(), MenuUtama.class));
                                                 }
-                                                if (body.has("exp")) {
-                                                    body.get("exp");
-                                                }
-                                                Toast.makeText(getActivity(), "Berhasil muat data", Toast.LENGTH_SHORT).show();
-                                                getActivity().finish();
-                                                startActivity(new Intent(getActivity(), MenuUtama.class));
                                             }
                                         } else if (response.code() == 400 || response.code() == 401) {
                                             showDialog("Gagal tampil data", "Terjadi kesalahan");
@@ -290,12 +329,12 @@ public class FrRegisterActivity extends Fragment {
                                 }
 
                                 @Override
-                                public void onFailure(Call<JsonObject> call, Throwable t) {
+                                public void onFailure(retrofit2.Call<JsonObject> call, Throwable t) {
                                     showDialog("Gagal", "Terjadi kesalahan");
                                 }
                             });
                         }
-                    /*saveLogin(id, namadepan, namabelakang, ttl);*/
+//                    saveLogin(id, namadepan, namabelakang, ttl);
                     } else if (response.code() == 400 || response.code() == 401) {
                         showDialog("Login gagal", "Periksa kembali username/password anda");
                     }
@@ -306,7 +345,7 @@ public class FrRegisterActivity extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
+            public void onFailure(retrofit2.Call<JsonObject> call, Throwable t) {
                 pLoading.dismiss();
                 showDialog("Gagal", "Terjadi kesalahan");
             }

@@ -2,9 +2,13 @@ package android.hpulsa.com.hpulsanew.API;
 
 import android.hpulsa.com.hpulsanew.util.StaticVars;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
+import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -19,8 +23,15 @@ import retrofit2.http.POST;
  */
 
 public interface hPulsaAPI {
+    Gson gson = new GsonBuilder()
+            .setLenient()
+            .create();
+    OkHttpClient client = new OkHttpClient();
+
     Retrofit service = new Retrofit.Builder()
-            .baseUrl(StaticVars.HOST)
+            .baseUrl(StaticVars.HOST)/*
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create(gson))*/
             .addConverterFactory(GsonConverterFactory.create())
             .build();
     @POST("auth/login") //============ LOGIN ==========
@@ -55,12 +66,22 @@ public interface hPulsaAPI {
                                   @Field("us_password_confirmasi") String passwordConf);
 
     @GET("verifikasi/sms") //========================= KIRM KODE VERIFIKASI SMS ============================
-    Call<JsonObject> kirimKodeVerifSms(@Header("token") String token,@Header("tokenaplikasi") String tokenaplikasi);
+    Call<JsonObject> kirimKodeVerifSms(@Header("publickey") String publickey,
+                                       @Header("privatekey") String privatekey,
+                                       @Header("tokenuser") String token);
 
 
     @POST("verifikasi/sms/input") //===================== VERIFIKASI KODE SMS ===================
-    Call<JsonObject> verifKode(@Header("token") String token,@Header("tokenaplikasi") String tokenaplikasi,
-                               @Header("kode_verifikasi") String kode_verif);
+    @FormUrlEncoded
+    Call<JsonObject> verifKode(@Header("publickey") String publickey,
+                               @Header("privatekey") String privatekey,
+                               @Header("tokenuser") String token,
+                               @Field("kodeverifikasi") String kode_verif);
+
+    @GET("verifikasi/email_get") //========================= KIRM KODE VERIFIKASI EMAIL ============================
+    Call<JsonObject> kirimKodeVerifEmail(@Header("publickey") String publickey,
+                                       @Header("privatekey") String privatekey,
+                                       @Header("tokenuser") String token);
 
     @GET("akun/riwayat_transaksi") //===================== RIWAYAT TRANSAKSI =============================
     Call<ResponseBody> riwayat(
@@ -96,4 +117,9 @@ public interface hPulsaAPI {
             @Header("privatekey") String privatekey,
             @Field("opproduct") String opproduct,
             @Field("opslug") String opslug);
+
+    @GET("payment/listing") //============================== LIST BANK =================
+    Call<ResponseBody> listBank(
+            @Header("publickey") String publickey,
+            @Header("privatekey") String privatekey);
 }

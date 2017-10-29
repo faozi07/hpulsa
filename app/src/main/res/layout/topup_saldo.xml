@@ -22,11 +22,13 @@
             android:layout_height="wrap_content">
 
             <EditText
+                android:id="@+id/eNominalDeposit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:hint="Nominal deposit"
+                android:maxLines="1"
                 android:inputType="number" />
         </android.support.design.widget.TextInputLayout>
 
@@ -48,15 +50,15 @@
     </LinearLayout>
 
     <mehdi.sakout.fancybuttons.FancyButton
-        android:id="@+id/btnDaftar"
+        android:id="@+id/btnDeposit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:padding="12dp"
         android:gravity="center"
         app:fb_borderWidth="1dp"
-        app:fb_defaultColor="@color/colorPrimaryDark"
-        app:fb_focusColor="@color/blueDark"
+        app:fb_defaultColor="@color/colorPrimary"
+        app:fb_focusColor="@color/orangeDark"
         app:fb_radius="0dp"
         app:fb_text="DEPOSIT"
         app:fb_textSize="17dp"

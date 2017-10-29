@@ -269,7 +269,6 @@ public class MenuUtama extends AppCompatActivity {
         listMenu.add(new ItemSlideMenu(R.drawable.ic_verified,R.drawable.ic_pembatas,"Verifikasi Akun",""));
         listMenu.add(new ItemSlideMenu(R.drawable.ic_riwayat,R.drawable.ic_pembatas,"Riwayat",""));
         listMenu.add(new ItemSlideMenu(R.drawable.ic_print,R.drawable.ic_pembatas,"Print Dompet Pulsa",""));
-        listMenu.add(new ItemSlideMenu(R.drawable.ic_harga,R.drawable.ic_pembatas,"Harga",""));
         listMenu.add(new ItemSlideMenu(R.drawable.ic_testimoni,R.drawable.ic_pembatas,"Testimonial",""));
 
         adapter = new SlideMenuAdapter(this,listMenu);
@@ -302,10 +301,10 @@ public class MenuUtama extends AppCompatActivity {
                         break;
                     case 8:
                         break;
-                    case 9:
+                    /*case 9:
                         startActivity(new Intent(MenuUtama.this, HargaProduct.class));
-                        break;
-                    case 10:
+                        break;*/
+                    case 9:
                         startActivity(new Intent(MenuUtama.this, Testimoni.class));
                         break;
                 }

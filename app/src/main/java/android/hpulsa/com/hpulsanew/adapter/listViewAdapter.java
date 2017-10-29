@@ -45,8 +45,6 @@ public class listViewAdapter extends ArrayAdapter<modNomPulsa> {
             v = inflater.inflate(R.layout.list_nominal, null);
         }
         modNomPulsa mE = getItem(position);
-        tNominal = (TextView) v.findViewById(R.id.nominal);
-        tHargaNom = (TextView) v.findViewById(R.id.harga);
         teks = (TextView) v.findViewById(R.id.teks);
         provider = PulsaHP.provider.getText().toString();
         kursIndonesia = (DecimalFormat) DecimalFormat.getCurrencyInstance();
@@ -73,7 +71,6 @@ public class listViewAdapter extends ArrayAdapter<modNomPulsa> {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                pa.stubList.setEnabled(false);
                 if (pa.nomor.length()<4) {
                     nom=0;
                     pa.provider.setText("");

@@ -26,6 +26,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 import retrofit2.Callback;
@@ -150,6 +152,12 @@ public class FrLoginActivity extends Fragment {
                                             SharedPreferences.Editor editor = sharedPreferences.edit();
 
                                             String mess = "";
+                                            /*final String bodys = response.body().toString(); // Or use response.raw(), if want raw response string
+                                            JsonParser jsonParser = new JsonParser();
+                                            JsonObject body = jsonParser.parse(bodys).getAsJsonObject();*/
+                                            /*JsonObject body = response.body();
+                                            JsonPrimitive prim=(JsonPrimitive)body.get("");
+                                            String className=prim.getAsString();*/
                                             JsonObject body = response.body();
 //                                            JsonObject body = body.get("bodyentifier").getAsJsonObject();
                                             if (body.has("message")) {

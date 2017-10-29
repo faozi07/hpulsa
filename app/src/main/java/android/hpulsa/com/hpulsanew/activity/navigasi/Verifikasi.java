@@ -99,6 +99,7 @@ public class Verifikasi extends AppCompatActivity {
     }
 
     private void action() {
+        // ============================= Verifikasi Email ========================================
         btnVerifEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,7 +114,7 @@ public class Verifikasi extends AppCompatActivity {
                 tKirimKode.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        cekKoneksiEmail();
                     }
                 });
                 final EditText eKodeVerif = (EditText) dialog_layout.findViewById(R.id.eKodeVerif);
@@ -143,7 +144,9 @@ public class Verifikasi extends AppCompatActivity {
                 theDialog.show();
             }
         });
+        // =============================================================================================
 
+        // ================================ Verifikasi No Handphone ====================================
         btnVerifNoHp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -176,23 +179,23 @@ public class Verifikasi extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         if (!eKodeVerif.getText().toString().equals("")) {
-//                            verifKodeNoHp();
+                            verifKodeNoHp();
                         } else {
                             Snackbar.make(layUtama, "Kode Verifikasi Anda belum terisi", Snackbar.LENGTH_LONG).show();
                         }
                     }
                 });
-
                 theDialog.show();
             }
         });
+        //=========================================================================================
     }
 
     private void kirimVerifNoHp() {
         pLoading.show();
         SharedPreferences spProfil = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         StaticVars sv = new StaticVars();
-        api.kirimKodeVerifSms(spProfil.getString(sv.token,""),"").enqueue(new Callback<JsonObject>() {
+        api.kirimKodeVerifSms(sv.publickey,sv.privatekey,spProfil.getString(sv.token,"")).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(retrofit2.Call<JsonObject> call, Response<JsonObject> response) {
                 pLoading.dismiss();
@@ -205,7 +208,6 @@ public class Verifikasi extends AppCompatActivity {
                             if (!sukses.equals(false) || !sukses.equals("false")) {
                                 mess = body.get("message").getAsString();
                                 Toast.makeText(Verifikasi.this,mess,Toast.LENGTH_LONG).show();
-                                theDialog.dismiss();
                             } else {
                                 dialogGagalKode("", mess,"OK");
                             }
@@ -228,7 +230,41 @@ public class Verifikasi extends AppCompatActivity {
     }
 
     private void kirimVerifEmail() {
+        pLoading.show();
+        SharedPreferences spProfil = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        StaticVars sv = new StaticVars();
+        api.kirimKodeVerifEmail(sv.publickey,sv.privatekey,spProfil.getString(sv.token,"")).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(retrofit2.Call<JsonObject> call, Response<JsonObject> response) {
+                pLoading.dismiss();
+                try {
+                    if (response.code() == 200) {
+                        String mess = "";
+                        JsonObject body = response.body();
+                        if (body.has("success")) {
+                            String sukses = body.get("success").getAsString();
+                            if (!sukses.equals(false) || !sukses.equals("false")) {
+                                mess = body.get("message").getAsString();
+                                Toast.makeText(Verifikasi.this,mess,Toast.LENGTH_LONG).show();
+                            } else {
+                                dialogGagalKode("", mess,"OK");
+                            }
+                        }
+//                            saveLogUser();
+                    } else {
+                        dialogGagalKode("", "Terjadi kesalahan","OK");
+                    }
+                } catch (Exception e) {
+                    dialogGagalKode("", "Terjadi kesalahan","OK");
+                }
+            }
 
+            @Override
+            public void onFailure(retrofit2.Call<JsonObject> call, Throwable t) {
+                dialogGagalKode("", "Terjadi kesalahan","OK");
+                pLoading.dismiss();
+            }
+        });
     }
 
     private void cekKoneksiEmail() {
@@ -247,7 +283,7 @@ public class Verifikasi extends AppCompatActivity {
         if (netInfo == null) {
             dialogReconnect("Koneksi Tidak Ada","Pastikan internet anda aktif","Terhubung kembali");
         } else {
-//            kirimVerifNoHp();
+            kirimVerifNoHp();
         }
     }
 
@@ -255,20 +291,30 @@ public class Verifikasi extends AppCompatActivity {
         pLoading.show();
         SharedPreferences spProfil = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         StaticVars sv = new StaticVars();
-        api.verifKode(spProfil.getString(sv.token,""),"",kodeVerif)
-                .enqueue(new Callback<JsonObject>() {
+        api.verifKode(sv.publickey,sv.privatekey,spProfil.getString(sv.token,""),kodeVerif).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(retrofit2.Call<JsonObject> call, Response<JsonObject> response) {
                 pLoading.dismiss();
                 try {
                     if (response.code() == 200) {
-                        String mess = "";
+
                         JsonObject body = response.body();
                         if (body.has("success")) {
                             String sukses = body.get("success").getAsString();
-                            mess = body.get("message").getAsString();
+                            String mess = body.get("message").getAsString();
                             if (!sukses.equals(false) || !sukses.equals("false")) {
                                 Toast.makeText(Verifikasi.this,mess,Toast.LENGTH_LONG).show();
+                                tVerifNoHp.setText("Terverifikasi");
+                                tVerifNoHp.setTextColor(getResources().getColor(R.color.blue));
+                                btnVerifNoHp.setEnabled(false);
+                                btnVerifNoHp.setVisibility(View.GONE);
+                                imgVerifPhone.setVisibility(View.VISIBLE);
+                                SharedPreferences spProfil = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = spProfil.edit();
+                                StaticVars sv = new StaticVars();
+                                editor.putString(sv.verifPhone,"1");
+                                editor.apply();
+                                theDialog.dismiss();
                             } else {
                                 dialogGagalKode("", mess,"OK");
                             }

@@ -55,10 +55,11 @@
                     <EditText
                         android:id="@+id/ePesan"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                        android:layout_height="wrap_content"
                         android:hint="Pesan"
-                        android:inputType="text"
-                        android:minLines="1" />
+                        android:inputType="textCapSentences|textMultiLine"
+                        android:maxLength="2000"
+                        android:maxLines="50"/>
                 </android.support.design.widget.TextInputLayout>
 
                 <RelativeLayout

@@ -29,12 +29,6 @@ public class PaketInternet extends AppCompatActivity {
     public static EditText nomor;
     public static TextView provider;
     public static String number = "";
-    ArrayAdapter adapter;
-    ListView listview;
-    String[] listArray = {"5.000", "10.000", "20.000", "25.000", "50.000", "100.000", "500.000", "1.000.000"};
-    public static ViewStub stubList;
-    private listViewAdapter listViewAdapter;
-    private List<modNomPulsa> modNomPulsas;
     public static LinearLayout layPilihNom,layPilihKontak;
 
     boolean isPilihNominal = false;
@@ -48,17 +42,6 @@ public class PaketInternet extends AppCompatActivity {
         layPilihNom = (LinearLayout) findViewById(R.id.layNominal);
         nomor = (EditText) findViewById(R.id.nomor);
         provider = (TextView) findViewById(R.id.provider);
-//        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listArray);
-//        listview.setAdapter(adapter);
-        stubList = (ViewStub) findViewById(R.id.stub_list);
-        stubList.setVisibility(View.GONE);
-        stubList.setEnabled(false);
-        stubList.inflate();
-        getModNomPulsa();
-//        listview.setOnItemClickListener(onItemClick);
-        listview = (ListView) findViewById(R.id.listNominal);
-        listViewAdapter = new listViewAdapter(PaketInternet.this, R.layout.list_nominal,modNomPulsas);
-        listview.setAdapter(listViewAdapter);
         getSupportActionBar().setTitle("Paket Internet");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -217,28 +200,6 @@ public class PaketInternet extends AppCompatActivity {
         });*/
     }
 
-    public List<modNomPulsa> getModNomPulsa() {
-        modNomPulsas = new ArrayList<>();
-        modNomPulsas.add(new modNomPulsa(""));
-        modNomPulsas.add(new modNomPulsa(""));
-        modNomPulsas.add(new modNomPulsa(""));
-        modNomPulsas.add(new modNomPulsa(""));
-        modNomPulsas.add(new modNomPulsa(""));
-        modNomPulsas.add(new modNomPulsa(""));
-        modNomPulsas.add(new modNomPulsa(""));
-        modNomPulsas.add(new modNomPulsa(""));
-        return modNomPulsas;
-    }
-
-    AdapterView.OnItemClickListener onItemClick = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-            /*if (position==0) {
-                startActivity(new Intent(PulsaActivity.this,PulsaActivity.class));
-            }*/
-//            Toast.makeText(HomeActivity.this, modNomPulsa.get(position).getKetMenu(),Toast.LENGTH_SHORT).show();
-        }
-    };
 
     @Override
     public boolean onSupportNavigateUp() {

@@ -47,7 +47,6 @@
             android:layout_height="wrap_content"
             android:text="Nomor Handphone \nTidak Ditemukan"
             android:textAlignment="center"
-            android:textSize="18dp"
             android:textStyle="bold"
             android:visibility="gone" />
 
@@ -88,14 +87,10 @@
                 android:text="Pilih Nominal Pulsa"
                 android:textSize="18dp"
                 android:textStyle="bold" />
-
-            <ViewStub
-                android:id="@+id/stub_list"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvNominal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout="@layout/list_nom_view"
-                android:visibility="gone" />
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

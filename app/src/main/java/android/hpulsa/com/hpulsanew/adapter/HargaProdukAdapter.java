@@ -102,23 +102,34 @@ public class HargaProdukAdapter extends RecyclerView.Adapter {
 
             double harga = Double.parseDouble(mrt.getHrg());
             double hargaJual = Double.parseDouble(mrt.getHrgJual());
+
             DecimalFormat kursInd = (DecimalFormat) DecimalFormat.getCurrencyInstance();
             DecimalFormatSymbols formatRp = new DecimalFormatSymbols();
             formatRp.setCurrencySymbol("Rp. ");
             formatRp.setMonetaryDecimalSeparator(',');
             formatRp.setGroupingSeparator('.');
+            kursInd.setDecimalFormatSymbols(formatRp);
 
+            DecimalFormat nonKurs = (DecimalFormat) DecimalFormat.getCurrencyInstance();
             DecimalFormatSymbols formatNonRp = new DecimalFormatSymbols();
-            formatRp.setCurrencySymbol("");
-            formatRp.setMonetaryDecimalSeparator(',');
-            formatRp.setGroupingSeparator('.');
+            formatNonRp.setCurrencySymbol("");
+            formatNonRp.setMonetaryDecimalSeparator(',');
+            formatNonRp.setGroupingSeparator('.');
+            nonKurs.setDecimalFormatSymbols(formatNonRp);
 
             ((BrandViewHolder) holder).jnsProduk.setText(mrt.getJnsProduk());
             ((BrandViewHolder) holder).provider.setText(mrt.getProvider());
             ((BrandViewHolder) holder).kode.setText(mrt.getKode());
             ((BrandViewHolder) holder).nominal.setText(mrt.getNominal());
-            ((BrandViewHolder) holder).hrg.setText(kursInd.format(harga));
+            ((BrandViewHolder) holder).hrg.setText(nonKurs.format(harga));
             ((BrandViewHolder) holder).hrgJual.setText(kursInd.format(hargaJual));
+            if (!mrt.getStok().equals("Tersedia")) {
+                ((BrandViewHolder) holder).nominal.setTextColor(activity.getResources().getColor(R.color.colorPrimary));
+                ((BrandViewHolder) holder).stok.setTextColor(activity.getResources().getColor(R.color.colorPrimary));
+            } else {
+                ((BrandViewHolder) holder).nominal.setTextColor(activity.getResources().getColor(R.color.blue));
+                ((BrandViewHolder) holder).stok.setTextColor(activity.getResources().getColor(R.color.blue));
+            }
             ((BrandViewHolder) holder).stok.setText(mrt.getStok());
 
             setAnimation(((BrandViewHolder) holder).cardView, position);

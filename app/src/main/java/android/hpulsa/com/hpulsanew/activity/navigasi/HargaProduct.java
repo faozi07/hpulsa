@@ -56,7 +56,7 @@ public class HargaProduct extends AppCompatActivity {
     private boolean isFirst = true;
 
     ArrayList<modHrgProduk> arrHrgProduk = new ArrayList<>();
-    ArrayAdapter<String> pulsaAdap, subAllAdapt, subPulsaAdapt, subInterAdapt, subTokenAdapt, subGameAdapt, subTelpAdapt, subBBAdapt, subGojekAdapt,
+    ArrayAdapter<String> subAllAdapt, subPulsaAdapt, subInterAdapt, subTokenAdapt, subGameAdapt, subTelpAdapt, subBBAdapt, subGojekAdapt,
             subTagihanAdapt;
 
     @Override
@@ -421,16 +421,18 @@ public class HargaProduct extends AppCompatActivity {
                         rvHarga.setAdapter(hargaProdukAdapter);
 
                     } else {
-
+                        dialogGagalLoad("Gagal memuat data","Terjadi kesalahan");
                     }
                 } catch (JSONException | IOException e) {
                     e.printStackTrace();
+                    dialogGagalLoad("Gagal memuat data","Terjadi kesalahan");
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 pLoading.dismiss();
+                dialogGagalLoad("Gagal memuat data","Terjadi kesalahan");
             }
         });
     }

@@ -12,6 +12,7 @@ public class modHrgProduk {
     private String hrg;
     private String hrgJual;
     private String stok;
+    private String status;
 
     public String getJnsProduk() {
         return jnsProduk;
@@ -67,5 +68,14 @@ public class modHrgProduk {
 
     public void setStok(String stok) {
         this.stok = stok;
+    }
+
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

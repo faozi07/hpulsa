@@ -8,4 +8,6 @@
     <color name="blueDark">#446CB3</color>
     <color name="green">#00B16A</color>
     <color name="orangeDark">#F89406</color>
+    <color name="abu">#bfbfbf</color>
+    <color name="putih">#ffffff</color>
 </resources>
