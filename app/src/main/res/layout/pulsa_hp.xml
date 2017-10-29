@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#1Abbbbbb"
     android:orientation="vertical"
-    android:padding="20dp"
+    android:padding="10dp"
     tools:context="android.hpulsa.com.hpulsanew.activity.pilihanmenu.PulsaHP">
 
     <LinearLayout
@@ -84,7 +84,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:text="Pilih Nominal Pulsa"
+                android:layout_marginLeft="5dp"
+                android:text="Pilih Nominal"
                 android:textSize="18dp"
                 android:textStyle="bold" />
             <android.support.v7.widget.RecyclerView

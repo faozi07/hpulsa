@@ -2,14 +2,10 @@ package android.hpulsa.com.hpulsanew.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.hpulsa.com.hpulsanew.R;
-import android.hpulsa.com.hpulsanew.activity.navigasi.Verifikasi;
 import android.hpulsa.com.hpulsanew.model.modNomPulsa;
 import android.hpulsa.com.hpulsanew.util.StaticVars;
-import android.media.Image;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -33,7 +28,7 @@ import mehdi.sakout.fancybuttons.FancyButton;
  * Created by ozi on 29/10/2017.
  */
 
-public class pulsaAdapter extends RecyclerView.Adapter {
+public class gabunganAdapter extends RecyclerView.Adapter {
 
     public static Activity activity;
     public static ArrayList<modNomPulsa> items;
@@ -46,12 +41,12 @@ public class pulsaAdapter extends RecyclerView.Adapter {
     private boolean loading,isTersedia = true;;
     StaticVars sv = new StaticVars();
 
-    private int lastPosition = -1;
+    private int lastPosition = -1,posisiKlik;
     double nominal, harga;
     DecimalFormat kursInd,nonKurs;
     DecimalFormatSymbols formatRp,formatNonRp;
 
-    public pulsaAdapter(Activity act, ArrayList<modNomPulsa> data){
+    public gabunganAdapter(Activity act, ArrayList<modNomPulsa> data){
         activity = act;
         this.items = data;
     }
@@ -64,15 +59,16 @@ public class pulsaAdapter extends RecyclerView.Adapter {
 
     public static class BrandViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tNominal,tHarga;
+        TextView tNominal,tHarga,tKet;
         CardView cardView;
         ImageView imgTersedia;
 
         public BrandViewHolder(View v) {
             super(v);
 
-            tNominal = (TextView) v.findViewById(R.id.tNominal);
+            tNominal = (TextView) v.findViewById(R.id.tKet);
             tHarga = (TextView) v.findViewById(R.id.tHarga);
+            tKet = (TextView) v.findViewById(R.id.tKet);
             imgTersedia = (ImageView) v.findViewById(R.id.imgTersedia);
             cardView = (CardView) v.findViewById(R.id.cardView);
         }
@@ -86,21 +82,20 @@ public class pulsaAdapter extends RecyclerView.Adapter {
             View v = LayoutInflater.from(parent.getContext()).inflate(
                     R.layout.list_nominal, parent, false);
 
-            vh = new pulsaAdapter.BrandViewHolder(v);
+            vh = new gabunganAdapter.BrandViewHolder(v);
         }
 
         return vh;
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof pulsaAdapter.BrandViewHolder) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+        if (holder instanceof gabunganAdapter.BrandViewHolder) {
 
             final SharedPreferences spLahan = activity.getSharedPreferences(sv.token, Context.MODE_PRIVATE);
 
             mrt = items.get(position);
 
-            nominal = Double.parseDouble(mrt.getHrg());
             harga = Double.parseDouble(mrt.getHrgJual());
             kursInd = (DecimalFormat) DecimalFormat.getCurrencyInstance();
             formatRp = new DecimalFormatSymbols();
@@ -109,29 +104,24 @@ public class pulsaAdapter extends RecyclerView.Adapter {
             formatRp.setGroupingSeparator('.');
             kursInd.setDecimalFormatSymbols(formatRp);
 
-            nonKurs = (DecimalFormat) DecimalFormat.getCurrencyInstance();
-            formatNonRp = new DecimalFormatSymbols();
-            formatNonRp.setCurrencySymbol("");
-            formatNonRp.setMonetaryDecimalSeparator(',');
-            formatNonRp.setGroupingSeparator('.');
-            nonKurs.setDecimalFormatSymbols(formatNonRp);
-
-            ((BrandViewHolder) holder).tNominal.setText(nonKurs.format(nominal));
-            ((BrandViewHolder) holder).tHarga.setText(kursInd.format(harga));
+            ((gabunganAdapter.BrandViewHolder) holder).tNominal.setText(mrt.getNominal());
+            ((gabunganAdapter.BrandViewHolder) holder).tHarga.setText(kursInd.format(harga));
 
             if (mrt.getStok().equals("0")) {
-                ((BrandViewHolder) holder).imgTersedia.setImageResource(R.drawable.ic_stop);
-                ((BrandViewHolder) holder).cardView.setBackgroundResource(R.color.abu);
+                ((gabunganAdapter.BrandViewHolder) holder).imgTersedia.setImageResource(R.drawable.ic_stop);
+                ((gabunganAdapter.BrandViewHolder) holder).cardView.setBackgroundResource(R.color.abu);
                 isTersedia = false;
             } else {
-                ((BrandViewHolder) holder).imgTersedia.setImageResource(R.drawable.ic_plus);
-                ((BrandViewHolder) holder).cardView.setBackgroundResource(R.color.putih);
+                ((gabunganAdapter.BrandViewHolder) holder).imgTersedia.setImageResource(R.drawable.ic_plus);
+                ((gabunganAdapter.BrandViewHolder) holder).cardView.setBackgroundResource(R.color.putih);
                 isTersedia = true;
             }
-   
-            setAnimation(((pulsaAdapter.BrandViewHolder) holder).cardView, position);
 
-            ((BrandViewHolder) holder).cardView.setOnClickListener(new View.OnClickListener() {
+            ((gabunganAdapter.BrandViewHolder) holder).tKet.setText(mrt.getNominal());
+
+            setAnimation(((gabunganAdapter.BrandViewHolder) holder).cardView, position);
+
+            ((gabunganAdapter.BrandViewHolder) holder).cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (isTersedia) {
@@ -143,7 +133,13 @@ public class pulsaAdapter extends RecyclerView.Adapter {
                         final AlertDialog theDialog = dialogBayar.create();
 
                         final TextView tJmlBayar = (TextView) v.findViewById(R.id.tJmlBayar);
-                        tJmlBayar.setText(kursInd.format(harga));
+                        for (int i=0;i<=items.size();i++) {
+                            if (i==position) {
+                                mrt = items.get(i);
+                                harga = Double.parseDouble(mrt.getHrgJual());
+                                tJmlBayar.setText(kursInd.format(harga));
+                            }
+                        }
 
                         FancyButton btnBayar = (FancyButton) v.findViewById(R.id.btnBayar);
                         btnBayar.setOnClickListener(new View.OnClickListener() {
@@ -159,7 +155,7 @@ public class pulsaAdapter extends RecyclerView.Adapter {
             });
 
         } else {
-            ((pulsaAdapter.ProgressViewHolder) holder).progressBar.setIndeterminate(true);
+            ((gabunganAdapter.ProgressViewHolder) holder).progressBar.setIndeterminate(true);
         }
     }
 

@@ -27,7 +27,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import android.hpulsa.com.hpulsanew.adapter.pulsaAdapter;
+import android.hpulsa.com.hpulsanew.adapter.gabunganAdapter;
 import android.hpulsa.com.hpulsanew.model.modNomPulsa;
 import android.hpulsa.com.hpulsanew.util.StaticVars;
 import android.widget.TextView;
@@ -55,7 +55,7 @@ public class PulsaHP extends AppCompatActivity {
     private hPulsaAPI api;
     private StaticVars sv = new StaticVars();
     SharedPreferences spLogin;
-    private pulsaAdapter pulsaAdapter;
+    private gabunganAdapter gabunganAdapter;
     ArrayList<modNomPulsa> arrNominal = new ArrayList<>();
     private LinearLayoutManager llm;
     private RecyclerView rvNominal;
@@ -127,6 +127,7 @@ public class PulsaHP extends AppCompatActivity {
                     provider.setVisibility(View.GONE);
                     layPilihNom.setVisibility(View.GONE);
                     layPilihKontak.setVisibility(View.VISIBLE);
+                    opSlug="";
                 } else {
                     provider.setVisibility(View.GONE);
                     layPilihNom.setVisibility(View.VISIBLE);
@@ -262,8 +263,8 @@ public class PulsaHP extends AppCompatActivity {
 
                             arrNominal.add(mr);
                         }
-                        pulsaAdapter = new pulsaAdapter(PulsaHP.this, arrNominal);
-                        rvNominal.setAdapter(pulsaAdapter);
+                        gabunganAdapter = new gabunganAdapter(PulsaHP.this, arrNominal);
+                        rvNominal.setAdapter(gabunganAdapter);
 
                     } else {
                         dialogGagalLoad("Gagal memuat data","Terjadi kesalahan");
