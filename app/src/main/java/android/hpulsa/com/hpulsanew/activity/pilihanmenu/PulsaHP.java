@@ -1,6 +1,7 @@
 package android.hpulsa.com.hpulsanew.activity.pilihanmenu;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,6 +10,8 @@ import android.database.Cursor;
 import android.hpulsa.com.hpulsanew.API.ClientAPI;
 import android.hpulsa.com.hpulsanew.API.hPulsaAPI;
 import android.hpulsa.com.hpulsanew.R;
+import android.hpulsa.com.hpulsanew.activity.navigasi.TopupSaldo;
+import android.hpulsa.com.hpulsanew.model.modListBank;
 import android.hpulsa.com.hpulsanew.util.Permissions;
 import android.net.Uri;
 import android.os.Build;
@@ -21,8 +24,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -63,6 +68,7 @@ public class PulsaHP extends AppCompatActivity {
     final int RQS_PICKCONTACT = 1;
     ImageView imgProvider,imgContact;
     private String opSlug = "";
+    boolean isload = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +134,7 @@ public class PulsaHP extends AppCompatActivity {
                     layPilihNom.setVisibility(View.GONE);
                     layPilihKontak.setVisibility(View.VISIBLE);
                     opSlug="";
+                    isload=true;
                 } else {
                     provider.setVisibility(View.GONE);
                     layPilihNom.setVisibility(View.VISIBLE);
@@ -174,8 +181,9 @@ public class PulsaHP extends AppCompatActivity {
                         nomor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_contact,0,0,0);
                     }
 
-                    if (!opSlug.equals("")) {
+                    if (!opSlug.equals("") && isload) {
                         getHarga(opSlug);
+                        isload=false;
                     }
 
                 }
@@ -307,6 +315,7 @@ public class PulsaHP extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
+        opSlug="";
         return;
     }
 }

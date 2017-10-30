@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.hpulsa.com.hpulsanew.API.ClientAPI;
 import android.hpulsa.com.hpulsanew.API.hPulsaAPI;
+import android.hpulsa.com.hpulsanew.R;
 import android.hpulsa.com.hpulsanew.adapter.gabunganAdapter;
 import android.hpulsa.com.hpulsanew.model.modNomPulsa;
 import android.hpulsa.com.hpulsanew.util.Permissions;
@@ -19,7 +20,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.hpulsa.com.hpulsanew.R;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -44,33 +44,43 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class PaketBBM extends AppCompatActivity {
-
-    public static EditText nomor;
+public class Tagihan extends AppCompatActivity {
+    public static EditText nomorHp,noPln;
     public static TextView provider;
     public static String number = "";
     public static LinearLayout layPilihNom,layPilihKontak;
     private hPulsaAPI api;
     private StaticVars sv = new StaticVars();
     SharedPreferences spLogin;
-    android.hpulsa.com.hpulsanew.adapter.gabunganAdapter gabunganAdapter;
+    private gabunganAdapter gabunganAdapter;
     ArrayList<modNomPulsa> arrNominal = new ArrayList<>();
     private LinearLayoutManager llm;
     private RecyclerView rvNominal;
 
     final int RQS_PICKCONTACT = 1;
-    ImageView imgProvider,imgContact;
+    ImageView imgContact;
     private String opProduk = "";
-    boolean isLoad=true;
-
+    boolean isload = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.pulsa_hp);
+        setContentView(R.layout.token_pln);
         declaration();
         action();
-        getSupportActionBar().setTitle("Paket BBM");
+        getSupportActionBar().setTitle("Token Pulsa PLN");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        return;
     }
 
     private void declaration() {
@@ -80,24 +90,23 @@ public class PaketBBM extends AppCompatActivity {
         rvNominal.setHasFixedSize(true);
         layPilihKontak = (LinearLayout) findViewById(R.id.layPilihNoHp);
         layPilihNom = (LinearLayout) findViewById(R.id.layNominal);
-        nomor = (EditText) findViewById(R.id.nomor);
+        nomorHp = (EditText) findViewById(R.id.tNoHp);
+        noPln = (EditText) findViewById(R.id.tNoMeterPln);
         provider = (TextView) findViewById(R.id.provider);
-        imgProvider = (ImageView) findViewById(R.id.imgProvider);
         imgContact = (ImageView) findViewById(R.id.imgPilihKontak);
     }
 
     private void action() {
-        imgProvider.setVisibility(View.GONE);
         imgContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (Build.VERSION.SDK_INT > 22) {
-                    if (Permissions.checkContactPermission(PaketBBM.this)) {
+                    if (Permissions.checkContactPermission(Tagihan.this)) {
                         final Uri uriContact = ContactsContract.Contacts.CONTENT_URI;
                         Intent intentPickContact = new Intent(Intent.ACTION_PICK, uriContact);
                         startActivityForResult(intentPickContact, RQS_PICKCONTACT);
                     } else {
-                        ActivityCompat.requestPermissions(PaketBBM.this, new String[]{Manifest.permission.READ_CONTACTS,
+                        ActivityCompat.requestPermissions(Tagihan.this, new String[]{Manifest.permission.READ_CONTACTS,
                                 Manifest.permission.WRITE_CONTACTS}, RQS_PICKCONTACT);
                     }
                 } else {
@@ -108,7 +117,7 @@ public class PaketBBM extends AppCompatActivity {
             }
         });
 
-        nomor.addTextChangedListener(new TextWatcher() {
+        nomorHp.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
@@ -117,58 +126,20 @@ public class PaketBBM extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable edit) {
-                if (edit.length()<4) {
-                    imgProvider.setVisibility(View.GONE);
-                    nomor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_contact,0,0,0);
-
+                if (edit.length()<4 || noPln.getText().length()<4) {
                     provider.setVisibility(View.GONE);
                     layPilihNom.setVisibility(View.GONE);
                     layPilihKontak.setVisibility(View.VISIBLE);
-                    opProduk="";
-                    isLoad=true;
+                    opProduk = "";
+                    isload = true;
                 } else {
                     provider.setVisibility(View.GONE);
                     layPilihNom.setVisibility(View.VISIBLE);
                     layPilihKontak.setVisibility(View.GONE);
-                    number = nomor.getText().toString().substring(0, 4);
-                    opProduk = "paket_blackberry";
-                    if (number.equals("0857") || number.equals("0856") || number.equals("0858") || number.equals("0815")
-                            || number.equals("0816")) {
-                        imgProvider.setVisibility(View.VISIBLE);
-                        imgProvider.setImageResource(R.drawable.logo_indosat);
-                    } else if (number.equals("0859") || number.equals("0878") || number.equals("0819") || number.equals("0877")) {
-                        imgProvider.setVisibility(View.VISIBLE);
-                        imgProvider.setImageResource(R.drawable.logo_xl);
-                    } else if (number.equals("0812") || number.equals("0852") || number.equals("0853") || number.equals("0821")
-                            || number.equals("0813") || number.equals("0822") || number.equals("0823")) {
-                        imgProvider.setVisibility(View.VISIBLE);
-                        imgProvider.setImageResource(R.drawable.logo_telkomsel);
-                    } else if (number.equals("0896") || number.equals("0895") || number.equals("0899") || number.equals("0897")) {
-                        imgProvider.setVisibility(View.VISIBLE);
-                        imgProvider.setImageResource(R.drawable.logo_three);
-                    } else if (number.equals("0838") || number.equals("0831") || number.equals("0832")) {
-                        imgProvider.setVisibility(View.VISIBLE);
-                        imgProvider.setImageResource(R.drawable.logo_axis);
-                    } else if (number.equals("0888") || number.equals("0889")) {
-                        imgProvider.setVisibility(View.VISIBLE);
-                        imgProvider.setImageResource(R.drawable.logo_smartfren);
-                    } else if (number.equals("9990") || number.equals("9991") || number.equals("9992") || number.equals("9993")
-                            || number.equals("9994") || number.equals("9995") || number.equals("9996") || number.equals("9997")
-                            || number.equals("9998") || number.equals("9999")) {
-                        imgProvider.setVisibility(View.VISIBLE);
-                        imgProvider.setImageResource(R.drawable.logo_bolt);
-                    } else {
-                        provider.setVisibility(View.VISIBLE);
-                        layPilihNom.setVisibility(View.GONE);
-                        layPilihKontak.setVisibility(View.GONE);
-                        imgProvider.setVisibility(View.GONE);
-                        opProduk = "";
-                        nomor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_contact,0,0,0);
-                    }
-
-                    if (!opProduk.equals("") && isLoad) {
+                    opProduk = "tagihan";
+                    if (!opProduk.equals("") && isload) {
                         getHarga(opProduk);
-                        isLoad=false;
+                        isload = false;
                     }
 
                 }
@@ -208,19 +179,19 @@ public class PaketBBM extends AppCompatActivity {
                             String noHp = stringNumber.substring(2,pjgNumber);
                             if (karDepan.equals("62")) {
                                 karDepan = "0";
-                                nomor.setText(karDepan+noHp);
+                                nomorHp.setText(karDepan+noHp);
                             } else {
-                                nomor.setText(stringNumber);
+                                nomorHp.setText(stringNumber);
                             }
                         }
 
                     }else{
-                        Toast.makeText(PaketBBM.this, "Nomor handphone tidak ditemukan", Toast.LENGTH_LONG).show();
+                        Toast.makeText(Tagihan.this, "Nomor handphone tidak ditemukan", Toast.LENGTH_LONG).show();
                     }
 
 
                 }else{
-                    Toast.makeText(PaketBBM.this, "Tidak ada data!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Tagihan.this, "Tidak ada data!", Toast.LENGTH_LONG).show();
                 }
             }
         }
@@ -256,7 +227,7 @@ public class PaketBBM extends AppCompatActivity {
 
                             arrNominal.add(mr);
                         }
-                        gabunganAdapter = new gabunganAdapter(PaketBBM.this, arrNominal);
+                        gabunganAdapter = new gabunganAdapter(Tagihan.this, arrNominal);
                         rvNominal.setAdapter(gabunganAdapter);
 
                     } else {
@@ -276,7 +247,7 @@ public class PaketBBM extends AppCompatActivity {
     }
 
     private void dialogGagalLoad(String title, String content) {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(PaketBBM.this);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Tagihan.this);
         alertDialogBuilder.setTitle(title);
         alertDialogBuilder
                 .setMessage(content)
@@ -289,18 +260,5 @@ public class PaketBBM extends AppCompatActivity {
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        finish();
-        opProduk="";
-        return;
     }
 }

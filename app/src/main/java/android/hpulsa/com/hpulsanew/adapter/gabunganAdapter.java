@@ -1,28 +1,46 @@
 package android.hpulsa.com.hpulsanew.adapter;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.hpulsa.com.hpulsanew.API.ClientAPI;
+import android.hpulsa.com.hpulsanew.API.hPulsaAPI;
 import android.hpulsa.com.hpulsanew.R;
+import android.hpulsa.com.hpulsanew.activity.pilihanmenu.PulsaHP;
+import android.hpulsa.com.hpulsanew.model.modListBank;
 import android.hpulsa.com.hpulsanew.model.modNomPulsa;
 import android.hpulsa.com.hpulsanew.util.StaticVars;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 
 import mehdi.sakout.fancybuttons.FancyButton;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * Created by ozi on 29/10/2017.
@@ -45,6 +63,14 @@ public class gabunganAdapter extends RecyclerView.Adapter {
     double nominal, harga;
     DecimalFormat kursInd,nonKurs;
     DecimalFormatSymbols formatRp,formatNonRp;
+
+    private ArrayAdapter<String> arrListBankAdapter;
+    private ArrayList<modListBank> arrayListBank = new ArrayList<modListBank>();
+    private ArrayList<String> arrayListNamaBank = new ArrayList<String>();
+    ProgressDialog pLoading;
+    SharedPreferences spLogin;
+    private hPulsaAPI api;
+    Spinner spinBank;
 
     public gabunganAdapter(Activity act, ArrayList<modNomPulsa> data){
         activity = act;
@@ -92,7 +118,7 @@ public class gabunganAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof gabunganAdapter.BrandViewHolder) {
 
-            final SharedPreferences spLahan = activity.getSharedPreferences(sv.token, Context.MODE_PRIVATE);
+            spLogin = activity.getSharedPreferences(sv.token, Context.MODE_PRIVATE);
 
             mrt = items.get(position);
 
@@ -125,31 +151,8 @@ public class gabunganAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View view) {
                     if (isTersedia) {
-                        LayoutInflater inflater = LayoutInflater.from(activity);
-                        View v = inflater.inflate(R.layout.popup_bayar, null);
-
-                        AlertDialog.Builder dialogBayar = new AlertDialog.Builder(activity);
-                        dialogBayar.setView(v);
-                        final AlertDialog theDialog = dialogBayar.create();
-
-                        final TextView tJmlBayar = (TextView) v.findViewById(R.id.tJmlBayar);
-                        for (int i=0;i<=items.size();i++) {
-                            if (i==position) {
-                                mrt = items.get(i);
-                                harga = Double.parseDouble(mrt.getHrgJual());
-                                tJmlBayar.setText(kursInd.format(harga));
-                            }
-                        }
-
-                        FancyButton btnBayar = (FancyButton) v.findViewById(R.id.btnBayar);
-                        btnBayar.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                theDialog.dismiss();
-                            }
-                        });
-
-                        theDialog.show();
+                        posisiKlik = holder.getPosition();
+                        getListBank();
                     }
                 }
             });
@@ -184,5 +187,90 @@ public class gabunganAdapter extends RecyclerView.Adapter {
             viewToAnimate.startAnimation(animation);
             lastPosition = position;
         }
+    }
+
+    private void getListBank() {
+        pLoading = new ProgressDialog(activity);
+        pLoading.setTitle("Memuat data Bank...");
+        pLoading.show();
+
+        spLogin = activity.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        Retrofit retrofit = ClientAPI.getMyRetrofit();
+        Call<ResponseBody> api_request;
+        api = retrofit.create(hPulsaAPI.class);
+        api_request = api.listBank(sv.publickey, sv.privatekey);
+        api_request.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                pLoading.dismiss();
+                try {
+                    if (response.code() == 200) {
+
+                        JSONArray responseArray = new JSONArray(response.body().string());
+                        Log.d("Object ", "");
+                        for (int i = 0; i < responseArray.length(); i++) {
+                            JSONObject data = responseArray.getJSONObject(i);
+
+                            modListBank mr = new modListBank();
+                            mr.setId(data.getInt("id"));
+                            mr.setNamaBank(data.getString("nama"));
+                            mr.setKeyBank(data.getString("key"));
+                            mr.setNamaRek(data.getString("acc_name"));
+                            mr.setNoRek(data.getString("acc_num"));
+
+                            arrayListBank.add(mr);
+                        }
+                        for (int i = 0; i < responseArray.length(); i++) {
+                            JSONObject data = responseArray.getJSONObject(i);
+                            String arrBank = data.getString("nama");
+
+                            arrayListNamaBank.add(arrBank);
+                        }
+
+                        popupBayar();
+                        arrListBankAdapter = new ArrayAdapter<String>(activity,
+                                android.R.layout.simple_list_item_1,arrayListNamaBank);
+                        spinBank.setAdapter(arrListBankAdapter);
+
+                    } else {
+
+                    }
+                } catch (JSONException | IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {pLoading.dismiss();}
+        });
+    }
+
+    private void popupBayar() {
+        LayoutInflater inflater = LayoutInflater.from(activity);
+        View v = inflater.inflate(R.layout.popup_bayar, null);
+
+        AlertDialog.Builder dialogBayar = new AlertDialog.Builder(activity);
+        dialogBayar.setView(v);
+        final AlertDialog theDialog = dialogBayar.create();
+
+        final TextView tJmlBayar = (TextView) v.findViewById(R.id.tJmlBayar);
+        spinBank = (Spinner) v.findViewById(R.id.spinBank);
+        for (int i=0;i<=items.size();i++) {
+            if (i==posisiKlik) {
+                mrt = items.get(i);
+                harga = Double.parseDouble(mrt.getHrgJual());
+                tJmlBayar.setText(kursInd.format(harga));
+            }
+        }
+
+        FancyButton btnBayar = (FancyButton) v.findViewById(R.id.btnBayar);
+        btnBayar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                theDialog.dismiss();
+            }
+        });
+
+        theDialog.show();
     }
 }

@@ -39,15 +39,13 @@ import android.hpulsa.com.hpulsanew.captcha.TextCaptcha;
 public class FrLoginActivity extends Fragment {
     FancyButton btnMasuk;
     TextView tLupaPass;
-    EditText eUsername, ePass, eCaptcha;
-    ImageView captcha,imgRefCaptcha;
-    TextCaptcha textCaptcha;
+    EditText eUsername, ePass;
     private LinearLayout llayout;
 
     StaticVars sv = new StaticVars();
     hPulsaAPI api;
 
-    String username, password, message, tCaptcha;
+    String username, password, message;
     ProgressDialog pLoading;
     int numberOfCaptchaFalse = 1;
 
@@ -69,10 +67,6 @@ public class FrLoginActivity extends Fragment {
         tLupaPass = (TextView) v.findViewById(R.id.teksLupaPass);
         eUsername = (EditText) v.findViewById(R.id.eUsername);
         ePass = (EditText) v.findViewById(R.id.ePassword);
-        captcha = (ImageView) v.findViewById(R.id.Captcha);
-        imgRefCaptcha = (ImageView) v.findViewById(R.id.imgRefrCaptcha);
-        eCaptcha = (EditText) v.findViewById(R.id.teksCaptcha);
-        textCaptcha = new TextCaptcha(600, 150, 5, TextCaptcha.TextOptions.NUMBERS_ONLY);
     }
 
     private void init() {
@@ -80,26 +74,13 @@ public class FrLoginActivity extends Fragment {
         pLoading = new ProgressDialog(getActivity());
         pLoading.setMessage("Memuat data . . .");
         pLoading.setCancelable(true);
-        captcha.setImageBitmap(textCaptcha.getImage());
-        imgRefCaptcha.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                numberOfCaptchaFalse++;
-                textCaptcha = new TextCaptcha(600, 150, 5, TextCaptcha.TextOptions.NUMBERS_ONLY);
-                captcha.setImageBitmap(textCaptcha.getImage());
-            }
-        });
         btnMasuk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 username = eUsername.getText().toString();
                 password = ePass.getText().toString();
-                tCaptcha = eCaptcha.getText().toString();
-                if (username.equals("") || password.equals("") || tCaptcha.equals("")) {
+                if (username.equals("") || password.equals("")) {
                     dialogGagalLogin("Isi dengan lengkap", "Inputan tidak boleh kosong");
-                } else if (!textCaptcha.checkAnswer(tCaptcha.trim())) {
-                    dialogGagalLogin("Captcha tidak cocok", "Periksa kembali inputan captcha anda");
-                    eCaptcha.setText("");
                 } else {
                     cekKoneksi();
                 }
@@ -128,7 +109,6 @@ public class FrLoginActivity extends Fragment {
         pLoading.show();
         eUsername.setText("");
         ePass.setText("");
-        eCaptcha.setText("");
         api.loginUser(sv.publickey,sv.privatekey,username, password).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(retrofit2.Call<JsonObject> call, Response<JsonObject> response) {

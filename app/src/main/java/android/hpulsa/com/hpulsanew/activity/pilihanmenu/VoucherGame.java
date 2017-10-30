@@ -61,6 +61,7 @@ public class VoucherGame extends AppCompatActivity {
     final int RQS_PICKCONTACT = 1;
     ImageView imgProvider,imgContact;
     private String opProduk = "";
+    boolean isLoad=true;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +125,7 @@ public class VoucherGame extends AppCompatActivity {
                     layPilihNom.setVisibility(View.GONE);
                     layPilihKontak.setVisibility(View.VISIBLE);
                     opProduk="";
+                    isLoad=true;
                 } else {
                     provider.setVisibility(View.GONE);
                     layPilihNom.setVisibility(View.VISIBLE);
@@ -164,8 +166,9 @@ public class VoucherGame extends AppCompatActivity {
                         nomor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_contact,0,0,0);
                     }
 
-                    if (!opProduk.equals("")) {
+                    if (!opProduk.equals("") && isLoad) {
                         getHarga(opProduk);
+                        isLoad=false;
                     }
 
                 }
@@ -297,6 +300,7 @@ public class VoucherGame extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
+        opProduk="";
         return;
     }
 }

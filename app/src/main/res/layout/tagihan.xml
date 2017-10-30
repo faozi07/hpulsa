@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     android:background="#1Abbbbbb"
     android:orientation="vertical"
-    android:padding="20dp"
-    tools:context="android.hpulsa.com.hpulsanew.activity.pilihanmenu.SaldoGojek">
+    android:padding="10dp"
+    tools:context="android.hpulsa.com.hpulsanew.activity.pilihanmenu.Tagihan">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,7 +20,20 @@
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/nomor"
+                android:id="@+id/noMeterPln"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_nomor_meter_pln"
+                android:drawablePadding="5dp"
+                android:hint="Nomor meter PLN"
+                android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/noHp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_contact"
@@ -38,29 +51,6 @@
             android:text="Nomor Handphone \nTidak Ditemukan"
             android:visibility="gone" />
         <LinearLayout
-            android:id="@+id/layPilihNoHp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="30dp"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/imgPilihKontak"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginBottom="20dp"
-                android:src="@drawable/ic_add_contact" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Pilih nomor handphone\n dari kontak anda"
-                android:textAlignment="center" />
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/layNominal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:text="Pilih Nominal Pulsa"
+                android:text="Pilih Nominal Token"
                 android:textSize="18dp"
                 android:textStyle="bold" />
 

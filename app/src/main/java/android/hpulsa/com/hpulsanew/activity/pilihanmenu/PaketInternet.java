@@ -63,6 +63,7 @@ public class PaketInternet extends AppCompatActivity {
     final int RQS_PICKCONTACT = 1;
     ImageView imgProvider,imgContact;
     private String opSlug = "";
+    boolean isload = true;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +128,7 @@ public class PaketInternet extends AppCompatActivity {
                     layPilihNom.setVisibility(View.GONE);
                     layPilihKontak.setVisibility(View.VISIBLE);
                     opSlug="";
+                    isload=true;
                 } else {
                     provider.setVisibility(View.GONE);
                     layPilihNom.setVisibility(View.VISIBLE);
@@ -173,8 +175,9 @@ public class PaketInternet extends AppCompatActivity {
                         nomor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_contact,0,0,0);
                     }
 
-                    if (!opSlug.equals("")) {
+                    if (!opSlug.equals("") && isload) {
                         getHarga(opSlug);
+                        isload=false;
                     }
 
                 }
@@ -306,6 +309,7 @@ public class PaketInternet extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
+        opSlug="";
         return;
     }
 }

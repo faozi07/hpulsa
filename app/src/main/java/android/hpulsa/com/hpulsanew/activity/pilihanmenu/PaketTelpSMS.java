@@ -61,6 +61,7 @@ public class PaketTelpSMS extends AppCompatActivity {
     final int RQS_PICKCONTACT = 1;
     ImageView imgProvider,imgContact;
     private String opSlug = "";
+    boolean isLoad = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +125,7 @@ public class PaketTelpSMS extends AppCompatActivity {
                     layPilihNom.setVisibility(View.GONE);
                     layPilihKontak.setVisibility(View.VISIBLE);
                     opSlug="";
+                    isLoad=true;
                 } else {
                     provider.setVisibility(View.GONE);
                     layPilihNom.setVisibility(View.VISIBLE);
@@ -170,8 +172,9 @@ public class PaketTelpSMS extends AppCompatActivity {
                         nomor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_contact,0,0,0);
                     }
 
-                    if (!opSlug.equals("")) {
+                    if (!opSlug.equals("") && isLoad) {
                         getHarga(opSlug);
+                        isLoad=false;
                     }
 
                 }
@@ -303,6 +306,7 @@ public class PaketTelpSMS extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
+        opSlug="";
         return;
     }
 }

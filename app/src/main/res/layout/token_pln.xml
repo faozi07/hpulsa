@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#1Abbbbbb"
     android:orientation="vertical"
-    android:padding="20dp"
+    android:padding="10dp"
     tools:context="android.hpulsa.com.hpulsanew.activity.pilihanmenu.TokenPln">
 
     <LinearLayout
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/noMeterPln"
+                android:id="@+id/tNoMeterPln"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_nomor_meter_pln"
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/noHp"
+                android:id="@+id/tNoHp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_contact"
@@ -41,6 +41,28 @@
                 android:hint="Nomor handphone"
                 android:inputType="number" />
         </android.support.design.widget.TextInputLayout>
+        <LinearLayout
+            android:id="@+id/layPilihNoHp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imgPilihKontak"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/ic_add_contact" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pilih nomor handphone\n dari kontak anda"
+                android:textAlignment="center" />
+        </LinearLayout>
         <TextView
             android:id="@+id/provider"
             android:layout_width="match_parent"
@@ -65,13 +87,10 @@
                 android:textSize="18dp"
                 android:textStyle="bold" />
 
-            <ViewStub
-                android:id="@+id/stub_list"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvNominal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout="@layout/list_nom_view"
-                android:visibility="gone" />
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>
