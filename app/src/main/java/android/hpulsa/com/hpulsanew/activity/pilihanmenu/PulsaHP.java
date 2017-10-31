@@ -137,8 +137,10 @@ public class PulsaHP extends AppCompatActivity {
                     layPilihKontak.setVisibility(View.VISIBLE);
                     opSlug="";
                     isload=true;
+                    sv.nomorHP="";
                 } else {
                     nomorHp = edit.toString();
+                    sv.nomorHP=edit.toString();
                     provider.setVisibility(View.GONE);
                     layPilihNom.setVisibility(View.VISIBLE);
                     layPilihKontak.setVisibility(View.GONE);
@@ -320,6 +322,7 @@ public class PulsaHP extends AppCompatActivity {
     public void onBackPressed() {
         finish();
         opSlug="";
+        sv.nomorHP="";
         return;
     }
 }

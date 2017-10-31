@@ -127,7 +127,9 @@ public class PaketTelpSMS extends AppCompatActivity {
                     layPilihKontak.setVisibility(View.VISIBLE);
                     opSlug="";
                     isLoad=true;
+                    sv.nomorHP="";
                 } else {
+                    sv.nomorHP=edit.toString();
                     provider.setVisibility(View.GONE);
                     layPilihNom.setVisibility(View.VISIBLE);
                     layPilihKontak.setVisibility(View.GONE);
@@ -309,6 +311,8 @@ public class PaketTelpSMS extends AppCompatActivity {
     public void onBackPressed() {
         finish();
         opSlug="";
+        sv.nomorHP="";
+        sv.nomorPLN="";
         return;
     }
 }

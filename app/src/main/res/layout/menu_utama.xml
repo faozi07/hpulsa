@@ -9,7 +9,10 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
     tools:context="android.hpulsa.com.hpulsanew.activity.navigasi.MenuUtama">
-
+    <include
+        layout="@layout/app_bar_navigation_drawer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

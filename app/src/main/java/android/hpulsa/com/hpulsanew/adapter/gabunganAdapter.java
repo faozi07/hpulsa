@@ -157,9 +157,20 @@ public class gabunganAdapter extends RecyclerView.Adapter {
             ((gabunganAdapter.BrandViewHolder) holder).cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (isTersedia) {
-                        posisiKlik = holder.getPosition();
-                        getListBank();
+                    if (isTersedia&&(!sv.produk.equals("token")||!sv.produk.equals("tagihan"))) {
+                        if (sv.nomorHP.length()>9 && sv.nomorHP.length()<14) {
+                            posisiKlik = holder.getPosition();
+                            getListBank();
+                        } else {
+                            dialogTransaksi("","Periksa kembali Nomor Handphone Anda");
+                        }
+                    } else if (isTersedia) {
+                        if (sv.nomorHP.length()>9 && sv.nomorHP.length()<14 && sv.nomorPLN.length()>5) {
+                            posisiKlik = holder.getPosition();
+                            getListBank();
+                        } else {
+                            dialogTransaksi("","Periksa kembali nomor handphone atau nomor PLN Anda");
+                        }
                     }
                 }
             });

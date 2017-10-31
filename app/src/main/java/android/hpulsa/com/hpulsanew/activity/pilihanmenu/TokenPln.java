@@ -82,6 +82,9 @@ public class TokenPln extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
+        opProduk="";
+        sv.nomorHP="";
+        sv.nomorPLN="";
         return;
     }
 
@@ -120,6 +123,37 @@ public class TokenPln extends AppCompatActivity {
             }
         });
 
+        noPln.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void afterTextChanged(Editable edit) {
+                if (edit.length()<4 || nomorHp.getText().length()<4) {
+                    provider.setVisibility(View.GONE);
+                    layPilihNom.setVisibility(View.GONE);
+                    layPilihKontak.setVisibility(View.VISIBLE);
+                    opProduk = "";
+                    isload = true;
+                    sv.nomorPLN="";
+                } else {
+                    sv.nomorPLN = edit.toString();
+                    provider.setVisibility(View.GONE);
+                    layPilihNom.setVisibility(View.VISIBLE);
+                    layPilihKontak.setVisibility(View.GONE);
+                    opProduk = "token_pln";
+                    if (!opProduk.equals("") && isload) {
+                        getHarga(opProduk);
+                        isload = false;
+                    }
+
+                }
+            }
+        });
+
         nomorHp.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
@@ -135,7 +169,9 @@ public class TokenPln extends AppCompatActivity {
                     layPilihKontak.setVisibility(View.VISIBLE);
                     opProduk = "";
                     isload = true;
+                    sv.nomorHP="";
                 } else {
+                    sv.nomorHP = edit.toString();
                     provider.setVisibility(View.GONE);
                     layPilihNom.setVisibility(View.VISIBLE);
                     layPilihKontak.setVisibility(View.GONE);

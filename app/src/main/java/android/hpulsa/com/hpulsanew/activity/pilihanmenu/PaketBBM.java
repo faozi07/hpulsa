@@ -127,7 +127,9 @@ public class PaketBBM extends AppCompatActivity {
                     layPilihKontak.setVisibility(View.VISIBLE);
                     opProduk="";
                     isLoad=true;
+                    sv.nomorHP="";
                 } else {
+                    sv.nomorHP=edit.toString();
                     provider.setVisibility(View.GONE);
                     layPilihNom.setVisibility(View.VISIBLE);
                     layPilihKontak.setVisibility(View.GONE);
@@ -303,6 +305,8 @@ public class PaketBBM extends AppCompatActivity {
     public void onBackPressed() {
         finish();
         opProduk="";
+        sv.nomorHP="";
+        sv.nomorPLN="";
         return;
     }
 }
