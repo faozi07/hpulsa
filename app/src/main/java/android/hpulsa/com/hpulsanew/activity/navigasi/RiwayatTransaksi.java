@@ -157,6 +157,8 @@ public class RiwayatTransaksi extends AppCompatActivity {
                                 mr.setTrxStts("OK");
                             } else if (data.getString("tr_status").equals("gagal")) {
                                 mr.setTrxStts("CL");
+                            } else {
+                                mr.setTrxStts("");
                             }
                             mr.setTrxOpsi(data.getString("tr_opsi"));
                             mr.setTrxTgl(data.getString("tr_tanggal"));

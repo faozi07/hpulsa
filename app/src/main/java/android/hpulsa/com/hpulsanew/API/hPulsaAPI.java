@@ -122,4 +122,24 @@ public interface hPulsaAPI {
     Call<ResponseBody> listBank(
             @Header("publickey") String publickey,
             @Header("privatekey") String privatekey);
+
+    @POST("pulsa/order_pulsa") //======================== TRANSAKSI PULSA ======================
+    @FormUrlEncoded
+    Call<ResponseBody> trxPulsa(
+            @Header("publickey") String publickey,
+            @Header("privatekey") String privatekey,
+            @Header("tokenuser") String token,
+            @Field("nomorhp") String nomorhp,
+            @Field("trpembayaran") String trpembayaran,
+            @Field("void") String vo_id);
+
+    @POST("paket_internet/order") //======================== TRANSAKSI INTERNET PAKET DATA ======================
+    @FormUrlEncoded
+    Call<ResponseBody> trxInternet(
+            @Header("publickey") String publickey,
+            @Header("privatekey") String privatekey,
+            @Header("tokenuser") String token,
+            @Field("nomorhp") String nomorhp,
+            @Field("trpembayaran") String trpembayaran,
+            @Field("void") String vo_id);
 }

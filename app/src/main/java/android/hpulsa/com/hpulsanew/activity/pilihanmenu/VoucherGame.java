@@ -74,6 +74,7 @@ public class VoucherGame extends AppCompatActivity {
     }
 
     private void declaration() {
+        sv.produk="game";
         llm = new LinearLayoutManager(this);
         rvNominal = (RecyclerView) findViewById(R.id.rvNominal);
         rvNominal.setLayoutManager(llm);
@@ -247,6 +248,7 @@ public class VoucherGame extends AppCompatActivity {
                             modNomPulsa mr = new modNomPulsa();
 
                             mr.setJnsProduk("Pulsa");
+                            mr.setId(data.getInt("vo_id"));
                             mr.setProvider(data.getString("op_nama"));
                             mr.setKode(data.getString("vo_kode"));
                             mr.setNominal(data.getString("vo_nominal"));

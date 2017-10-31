@@ -11,6 +11,7 @@ import android.hpulsa.com.hpulsanew.activity.pilihanmenu.PaketInternet;
 import android.hpulsa.com.hpulsanew.activity.pilihanmenu.PaketTelpSMS;
 import android.hpulsa.com.hpulsanew.activity.pilihanmenu.PulsaHP;
 import android.hpulsa.com.hpulsanew.activity.pilihanmenu.SaldoGojek;
+import android.hpulsa.com.hpulsanew.activity.pilihanmenu.Tagihan;
 import android.hpulsa.com.hpulsanew.activity.pilihanmenu.TokenPln;
 import android.hpulsa.com.hpulsanew.activity.pilihanmenu.VoucherGame;
 import android.hpulsa.com.hpulsanew.adapter.SlideMenuAdapter;
@@ -144,6 +145,7 @@ public class MenuUtama extends AppCompatActivity {
                     startActivity(new Intent(MenuUtama.this, SaldoGojek.class));
                     break;
                 case 7:
+                    startActivity(new Intent(MenuUtama.this, Tagihan.class));
                     break;
             }
         }

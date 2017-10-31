@@ -102,7 +102,7 @@ public class listRiwayatAdapter extends RecyclerView.Adapter {
             int pos = position+1;
             ((BrandViewHolder) holder).tNoTrx.setText("#"+pos);
             ((BrandViewHolder) holder).tSttsTrx.setText(mrt.getTrxStts());
-            if (mrt.getTrxStts().equals("IP")) {
+            if (mrt.getTrxStts().equals("IP") || mrt.getTrxSttsPembayaran().equals("pending")) {
                 ((BrandViewHolder) holder).tSttsTrx.setBackgroundResource(R.drawable.bg_ip);
             } else if (mrt.getTrxStts().equals("OK")) {
                 ((BrandViewHolder) holder).tSttsTrx.setBackgroundResource(R.drawable.bg_ok);

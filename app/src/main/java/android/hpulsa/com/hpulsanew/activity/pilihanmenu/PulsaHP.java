@@ -69,6 +69,7 @@ public class PulsaHP extends AppCompatActivity {
     ImageView imgProvider,imgContact;
     private String opSlug = "";
     boolean isload = true;
+    public static String nomorHp="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +84,7 @@ public class PulsaHP extends AppCompatActivity {
     }
 
     private void declaration() {
+        sv.produk="pulsa";
         llm = new LinearLayoutManager(this);
         rvNominal = (RecyclerView) findViewById(R.id.rvNominal);
         rvNominal.setLayoutManager(llm);
@@ -136,6 +138,7 @@ public class PulsaHP extends AppCompatActivity {
                     opSlug="";
                     isload=true;
                 } else {
+                    nomorHp = edit.toString();
                     provider.setVisibility(View.GONE);
                     layPilihNom.setVisibility(View.VISIBLE);
                     layPilihKontak.setVisibility(View.GONE);
@@ -262,6 +265,7 @@ public class PulsaHP extends AppCompatActivity {
                             modNomPulsa mr = new modNomPulsa();
 
                             mr.setJnsProduk("Pulsa");
+                            mr.setId(data.getInt("vo_id"));
                             mr.setProvider(data.getString("op_nama"));
                             mr.setKode(data.getString("vo_kode"));
                             mr.setNominal(data.getString("vo_nominal"));

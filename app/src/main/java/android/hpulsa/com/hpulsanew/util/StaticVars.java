@@ -34,6 +34,7 @@ public class StaticVars {
     public static String reg_date = "login_reg_date";
     public static String via = "login_via";
     public static String logo = "login_logo";
+    public static String produk = "";
     public static String publickey = "cbb28d1c782f43eba9049395da2eb38d";
     public static String privatekey = "9ba923e5106c703f36b299530210fad7";
     public static int TIMEOUT = 240;

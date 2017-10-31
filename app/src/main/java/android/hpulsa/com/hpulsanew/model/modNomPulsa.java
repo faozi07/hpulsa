@@ -1,6 +1,7 @@
 package android.hpulsa.com.hpulsanew.model;
 
 public class modNomPulsa {
+    private int id;
     private String jnsProduk;
     private String provider;
     private String kode;
@@ -74,4 +75,8 @@ public class modNomPulsa {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public int getId() {return id;}
+
+    public void setId(int id) {this.id = id;}
 }

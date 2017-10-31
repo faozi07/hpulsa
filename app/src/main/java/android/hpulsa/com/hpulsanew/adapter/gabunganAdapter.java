@@ -3,6 +3,7 @@ package android.hpulsa.com.hpulsanew.adapter;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.hpulsa.com.hpulsanew.API.ClientAPI;
 import android.hpulsa.com.hpulsanew.API.hPulsaAPI;
@@ -10,6 +11,7 @@ import android.hpulsa.com.hpulsanew.R;
 import android.hpulsa.com.hpulsanew.activity.pilihanmenu.PulsaHP;
 import android.hpulsa.com.hpulsanew.model.modListBank;
 import android.hpulsa.com.hpulsanew.model.modNomPulsa;
+import android.hpulsa.com.hpulsanew.model.modTransaksi;
 import android.hpulsa.com.hpulsanew.util.StaticVars;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
@@ -20,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -71,6 +74,10 @@ public class gabunganAdapter extends RecyclerView.Adapter {
     SharedPreferences spLogin;
     private hPulsaAPI api;
     Spinner spinBank;
+    String arrBank,trPembayaran,voId;
+    private modListBank mr;
+    private modNomPulsa mnp = new modNomPulsa();
+    AlertDialog theDialog;
 
     public gabunganAdapter(Activity act, ArrayList<modNomPulsa> data){
         activity = act;
@@ -211,7 +218,7 @@ public class gabunganAdapter extends RecyclerView.Adapter {
                         for (int i = 0; i < responseArray.length(); i++) {
                             JSONObject data = responseArray.getJSONObject(i);
 
-                            modListBank mr = new modListBank();
+                            mr = new modListBank();
                             mr.setId(data.getInt("id"));
                             mr.setNamaBank(data.getString("nama"));
                             mr.setKeyBank(data.getString("key"));
@@ -222,7 +229,7 @@ public class gabunganAdapter extends RecyclerView.Adapter {
                         }
                         for (int i = 0; i < responseArray.length(); i++) {
                             JSONObject data = responseArray.getJSONObject(i);
-                            String arrBank = data.getString("nama");
+                            arrBank = data.getString("nama");
 
                             arrayListNamaBank.add(arrBank);
                         }
@@ -251,7 +258,7 @@ public class gabunganAdapter extends RecyclerView.Adapter {
 
         AlertDialog.Builder dialogBayar = new AlertDialog.Builder(activity);
         dialogBayar.setView(v);
-        final AlertDialog theDialog = dialogBayar.create();
+        theDialog = dialogBayar.create();
 
         final TextView tJmlBayar = (TextView) v.findViewById(R.id.tJmlBayar);
         spinBank = (Spinner) v.findViewById(R.id.spinBank);
@@ -259,18 +266,121 @@ public class gabunganAdapter extends RecyclerView.Adapter {
             if (i==posisiKlik) {
                 mrt = items.get(i);
                 harga = Double.parseDouble(mrt.getHrgJual());
+                voId = String.valueOf(mrt.getId());
                 tJmlBayar.setText(kursInd.format(harga));
             }
         }
+
+        spinBank.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                mr = arrayListBank.get(position);
+                trPembayaran = String.valueOf(mr.getId());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {}
+        });
 
         FancyButton btnBayar = (FancyButton) v.findViewById(R.id.btnBayar);
         btnBayar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                theDialog.dismiss();
+                prosesTransaksi();
             }
         });
 
         theDialog.show();
+    }
+
+    private void prosesTransaksi() {
+        pLoading = new ProgressDialog(activity);
+        pLoading.setTitle("Memuat transaksi ...");
+        pLoading.show();
+
+        spLogin = activity.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        Retrofit retrofit = ClientAPI.getMyRetrofit();
+        Call<ResponseBody> api_request = null;
+        api = retrofit.create(hPulsaAPI.class);
+        if (sv.produk.equals("pulsa")) {
+            api_request = api.trxPulsa(sv.publickey, sv.privatekey,spLogin.getString(sv.token,""),PulsaHP.nomorHp,trPembayaran,voId);
+        } else if (sv.produk.equals("internet")) {
+            api_request = api.trxInternet(sv.publickey, sv.privatekey,spLogin.getString(sv.token,""),PulsaHP.nomorHp,trPembayaran,voId);
+        } /*else if (sv.produk.equals("telpsms")) {
+            api_request = api.listBank(sv.publickey, sv.privatekey);
+        } else if (sv.produk.equals("token")) {
+            api_request = api.listBank(sv.publickey, sv.privatekey);
+        } else if (sv.produk.equals("game")) {
+            api_request = api.listBank(sv.publickey, sv.privatekey);
+        } else if (sv.produk.equals("bbm")) {
+            api_request = api.listBank(sv.publickey, sv.privatekey);
+        } else if (sv.produk.equals("gojek")) {
+            api_request = api.listBank(sv.publickey, sv.privatekey);
+        } else if (sv.produk.equals("tagihan")) {
+            api_request = api.listBank(sv.publickey, sv.privatekey);
+        }*/
+        api_request.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                pLoading.dismiss();
+                try {
+                    if (response.code() == 200) {
+
+                        JSONObject data = new JSONObject(response.body().string());
+
+                            modTransaksi mt = new modTransaksi();
+                            mt.setTransaksi(data.getBoolean("transaksi"));
+                            mt.setJenisProduk(data.getString("jenis_produk"));
+                            mt.setNominal(data.getString("nominal"));
+                            mt.setNomorHp(data.getString("nomor_hape"));
+                            mt.setHarga(data.getString("harga"));
+                            mt.setPembayaran(data.getString("pembayaran"));
+                            mt.setTglPembelian(data.getString("tanggal_pembelian"));
+                            mt.setSttsPembayaran(data.getString("status_pembayaran"));
+                            mt.setSttsPengisian(data.getString("status_pengisian"));
+                            if (!data.isNull("bank_detail")) {
+                                JSONArray bankArray = data.getJSONArray("bank_detail");
+                                Log.d("Object ", "");
+                                for (int i = 0; i < bankArray.length(); i++) {
+                                    JSONObject bankDetail = bankArray.getJSONObject(i);
+
+                                    mt.setAccName(bankDetail.getString("acc_name"));
+                                    mt.setAccNumber(bankDetail.getString("acc_number"));
+                                    mt.setBank(bankDetail.getString("bank"));
+                                }
+                            }
+                            mt.setMessage(data.getString("message"));
+                            mt.setBalance(data.getString("balance"));
+                            theDialog.dismiss();
+                        dialogTransaksi("",mt.getMessage());
+                    } else {
+                        dialogTransaksi("Gagal membuat transaksi","Silahkan coba lagi");
+                    }
+                } catch (JSONException | IOException e) {
+                    e.printStackTrace();
+                    dialogTransaksi("Gagal","Terjadi kesalahan");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {pLoading.dismiss();
+                dialogTransaksi("Gagal","Terjadi kesalahan");}
+        });
+    }
+
+    private void dialogTransaksi(String title, String content) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
+        alertDialogBuilder.setTitle(title);
+        alertDialogBuilder
+                .setMessage(content)
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 }
