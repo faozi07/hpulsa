@@ -10,10 +10,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@drawable/background_white"
         android:orientation="vertical"
-        android:layout_margin="20dp">
+        android:layout_above="@+id/btnCetak"
+        android:layout_margin="10dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -26,6 +27,7 @@
                 android:text="Jenis Produk" />
 
             <TextView
+                android:id="@+id/tJnsProduk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -43,6 +45,7 @@
                 android:text="Provider" />
 
             <TextView
+                android:id="@+id/tProvider"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -60,6 +63,7 @@
                 android:text="Nominal" />
 
             <TextView
+                android:id="@+id/tNominal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -77,6 +81,7 @@
                 android:text="Nomor Handphone" />
 
             <TextView
+                android:id="@+id/tNoHp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -94,6 +99,7 @@
                 android:text="Harga" />
 
             <TextView
+                android:id="@+id/tHarga"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -111,6 +117,7 @@
                 android:text="Pembayaran" />
 
             <TextView
+                android:id="@+id/tJnsPmbayaran"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -128,6 +135,7 @@
                 android:text="Tanggal Pembelian" />
 
             <TextView
+                android:id="@+id/tTglPembelian"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -145,6 +153,7 @@
                 android:text="Status Pembayaran" />
 
             <TextView
+                android:id="@+id/tSttsPembayaran"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -159,9 +168,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Status Pembayaran" />
+                android:text="Status Transaksi" />
 
             <TextView
+                android:id="@+id/tSttsTrx"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -177,7 +187,7 @@
         android:gravity="center"
         android:padding="12dp"
         app:fb_borderWidth="1dp"
-        app:fb_defaultColor="@color/colorPrimaryDark"
+        app:fb_defaultColor="@color/colorPrimary"
         app:fb_focusColor="@color/colorAccent"
         app:fb_radius="0dp"
         app:fb_text="CETAK"

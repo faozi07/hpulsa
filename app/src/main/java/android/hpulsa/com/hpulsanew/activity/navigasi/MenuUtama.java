@@ -82,7 +82,6 @@ public class MenuUtama extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         listViewSliding.setItemChecked(0,true);
-        setTitle("Beranda");
         drawerLayout.closeDrawer(listViewSliding);
         itemClickMenu();
     }
@@ -133,29 +132,21 @@ public class MenuUtama extends AppCompatActivity {
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
             switch (position) {
                 case 0:
-                    startActivity(new Intent(MenuUtama.this, PulsaHP.class));
-                    break;
+                    startActivity(new Intent(MenuUtama.this, PulsaHP.class));break;
                 case 1:
-                    startActivity(new Intent(MenuUtama.this, PaketInternet.class));
-                    break;
+                    startActivity(new Intent(MenuUtama.this, PaketInternet.class));break;
                 case 2:
-                    startActivity(new Intent(MenuUtama.this, TokenPln.class));
-                    break;
+                    startActivity(new Intent(MenuUtama.this, TokenPln.class));break;
                 case 3:
-                    startActivity(new Intent(MenuUtama.this, VoucherGame.class));
-                    break;
+                    startActivity(new Intent(MenuUtama.this, VoucherGame.class));break;
                 case 4:
-                    startActivity(new Intent(MenuUtama.this, PaketTelpSMS.class));
-                    break;
+                    startActivity(new Intent(MenuUtama.this, PaketTelpSMS.class));break;
                 case 5:
-                    startActivity(new Intent(MenuUtama.this, PaketBBM.class));
-                    break;
+                    startActivity(new Intent(MenuUtama.this, PaketBBM.class));break;
                 case 6:
-                    startActivity(new Intent(MenuUtama.this, SaldoGojek.class));
-                    break;
+                    startActivity(new Intent(MenuUtama.this, SaldoGojek.class));break;
                 case 7:
-                    startActivity(new Intent(MenuUtama.this, Tagihan.class));
-                    break;
+                    startActivity(new Intent(MenuUtama.this, Tagihan.class));break;
             }
         }
     };
@@ -263,16 +254,6 @@ public class MenuUtama extends AppCompatActivity {
 
     private void addItemSliding() {
         cekSaldo();
-        double saldo = Double.parseDouble(sv.balance);
-        DecimalFormat kursIndonesia = (DecimalFormat) DecimalFormat.getCurrencyInstance();
-        DecimalFormatSymbols formatRp = new DecimalFormatSymbols();
-
-        formatRp.setCurrencySymbol("Rp. ");
-        formatRp.setMonetaryDecimalSeparator(',');
-        formatRp.setGroupingSeparator('.');
-
-        kursIndonesia.setDecimalFormatSymbols(formatRp);
-        listMenu.add(new ItemSlideMenu(R.drawable.ic_saldo,R.drawable.ic_pembatas,"Saldo",kursIndonesia.format(saldo)));
         listMenu.add(new ItemSlideMenu(R.drawable.ic_topup,R.drawable.ic_pembatas,"Topup Saldo",""));
         listMenu.add(new ItemSlideMenu(R.drawable.ic_affiliate,R.drawable.ic_pembatas,"Affiliate",""));
         listMenu.add(new ItemSlideMenu(R.drawable.ic_home,R.drawable.ic_pembatas,"Beranda",""));
@@ -295,27 +276,24 @@ public class MenuUtama extends AppCompatActivity {
                         startActivity(new Intent(MenuUtama.this, TopupSaldo.class));
                         break;
                     case 2:
-                        startActivity(new Intent(MenuUtama.this, TopupSaldo.class));
                         break;
                     case 3:
                         break;
                     case 4:
-                        break;
-                    case 5:
                         startActivity(new Intent(MenuUtama.this, Profil.class));
                         break;
-                    case 6:
+                    case 5:
                         startActivity(new Intent(MenuUtama.this, Verifikasi.class));
                         break;
-                    case 7:
+                    case 6:
                         startActivity(new Intent(MenuUtama.this, RiwayatTransaksi.class));
                         break;
-                    case 8:
+                    case 7:
                         break;
                     /*case 9:
                         startActivity(new Intent(MenuUtama.this, HargaProduct.class));
                         break;*/
-                    case 9:
+                    case 8:
                         startActivity(new Intent(MenuUtama.this, Testimoni.class));
                         break;
                 }

@@ -151,7 +151,8 @@ public class RiwayatTransaksi extends AppCompatActivity {
                             mr.setTrxIDPembayaran(data.getString("tr_id_pembayaran"));
                             mr.setTrxRetry(data.getString("tr_retry"));
                             mr.setTrxCekMutasi(data.getString("tr_cek_mutasi"));
-                            if (data.getString("tr_status").equals("pending")) {
+                            if (data.getString("tr_status").equals("pending")||
+                                    data.getString("tr_status_pembayaran").equals("pending")) {
                                 mr.setTrxStts("IP");
                             } else if (data.getString("tr_status").equals("sukses")) {
                                 mr.setTrxStts("OK");

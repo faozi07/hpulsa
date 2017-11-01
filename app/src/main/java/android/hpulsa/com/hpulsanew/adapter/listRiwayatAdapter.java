@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.hpulsa.com.hpulsanew.R;
+import android.hpulsa.com.hpulsanew.activity.navigasi.DetilRiwayat;
 import android.hpulsa.com.hpulsanew.model.modRiwayat;
 import android.hpulsa.com.hpulsanew.util.StaticVars;
 import android.support.v7.widget.CardView;
@@ -92,15 +93,14 @@ public class listRiwayatAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof BrandViewHolder) {
 
             final SharedPreferences spLahan = activity.getSharedPreferences(sv.token, Context.MODE_PRIVATE);
-            final modRiwayat mr = items.get(position);
 
             mrt = items.get(position);
             int pos = position+1;
-            ((BrandViewHolder) holder).tNoTrx.setText("#"+pos);
+            ((BrandViewHolder) holder).tNoTrx.setText("#"+mrt.getTrxID());
             ((BrandViewHolder) holder).tSttsTrx.setText(mrt.getTrxStts());
             if (mrt.getTrxStts().equals("IP") || mrt.getTrxSttsPembayaran().equals("pending")) {
                 ((BrandViewHolder) holder).tSttsTrx.setBackgroundResource(R.drawable.bg_ip);
@@ -117,6 +117,25 @@ public class listRiwayatAdapter extends RecyclerView.Adapter {
             ((BrandViewHolder) holder).tHarga.setText(mrt.getTrxHarga());
 
             setAnimation(((BrandViewHolder) holder).cardView, position);
+
+            ((BrandViewHolder) holder).cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mrt = items.get(position);
+                    DetilRiwayat dr = new DetilRiwayat();
+                    dr.TrxID = mrt.getTrxID();
+                    dr.JnsProduk = mrt.getOpProduk();
+                    dr.Provider = mrt.getOpProduk();
+                    dr.Nominal = mrt.getVoNominal();
+                    dr.NoHp = mrt.getTrxNoHP();
+                    dr.Harga = mrt.getTrxHarga();
+                    dr.JnsPembayaran = mrt.getTrxPembayaran();
+                    dr.TglPembelian = mrt.getTrxTgl();
+                    dr.SttsPembayaran = mrt.getTrxSttsPembayaran();
+                    dr.SttsTrx = mrt.getTrxStts();
+                    activity.startActivity(new Intent(activity,DetilRiwayat.class));
+                }
+            });
 
         } else {
             ((ProgressViewHolder) holder).progressBar.setIndeterminate(true);
