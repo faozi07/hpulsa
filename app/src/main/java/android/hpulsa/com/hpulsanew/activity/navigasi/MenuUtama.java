@@ -62,7 +62,7 @@ public class MenuUtama extends AppCompatActivity {
     private GridView gridView;
     private gridViewAdapter gridViewAdapter;
     private List<modeKetMenu> modEarningList;
-    public static TextView nama, noTelp;
+    public static TextView nama, noTelp, tSaldo;
     public static CircleImageView fotoProfil;
     StaticVars sv = new StaticVars();
     private Toolbar toolbar;
@@ -76,6 +76,9 @@ public class MenuUtama extends AppCompatActivity {
 
         setComponent();
         addItemSliding();
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setupDrawerToggle();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         listViewSliding.setItemChecked(0,true);
@@ -106,17 +109,23 @@ public class MenuUtama extends AppCompatActivity {
         nama.setText(sv.name);
         noTelp.setText(sv.phone);
         fotoProfil = (CircleImageView) navHeader.findViewById(R.id.imageProfil);
-        /*toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        tSaldo = (TextView) findViewById(R.id.tSaldo);
+        double saldo = Double.parseDouble(sv.balance);
+        DecimalFormat kursIndonesia = (DecimalFormat) DecimalFormat.getCurrencyInstance();
+        DecimalFormatSymbols formatRp = new DecimalFormatSymbols();
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setHomeButtonEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("Beranda");
-        }
-        ActionBarDrawerToggle drawerToggle = setupDrawerToggle();
-        drawerToggle.syncState();
-        drawerLayout.addDrawerListener(drawerToggle);*/
+        formatRp.setCurrencySymbol("Rp. ");
+        formatRp.setMonetaryDecimalSeparator(',');
+        formatRp.setGroupingSeparator('.');
+
+        kursIndonesia.setDecimalFormatSymbols(formatRp);
+        tSaldo.setText(kursIndonesia.format(saldo));
+        tSaldo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MenuUtama.this,TopupSaldo.class));
+            }
+        });
     }
 
     AdapterView.OnItemClickListener onItemClick = new AdapterView.OnItemClickListener() {
@@ -334,7 +343,6 @@ public class MenuUtama extends AppCompatActivity {
     private ActionBarDrawerToggle setupDrawerToggle() {
 
         return new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_closed);
-
     }
 
     @Override
