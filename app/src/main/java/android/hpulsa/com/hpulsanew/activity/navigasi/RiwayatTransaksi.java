@@ -58,6 +58,7 @@ public class RiwayatTransaksi extends AppCompatActivity {
     double harga;
     DecimalFormat kursIndonesia;
     DecimalFormatSymbols formatRp;
+    public static int offset = 0,limit = 10;
 
     ArrayList<modRiwayat> arrayRiwayat = new ArrayList<>();
 
@@ -104,7 +105,7 @@ public class RiwayatTransaksi extends AppCompatActivity {
         Retrofit retrofit = ClientAPI.getMyRetrofit();
         Call<ResponseBody> api_request;
         api = retrofit.create(hPulsaAPI.class);
-        api_request = api.riwayat(sv.publickey, sv.privatekey, spLogin.getString(sv.token, ""));
+        api_request = api.riwayat(sv.publickey, sv.privatekey, spLogin.getString(sv.token, ""),limit,offset);
         api_request.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -168,7 +169,7 @@ public class RiwayatTransaksi extends AppCompatActivity {
                         }
                         listRiwayatAdapter = new listRiwayatAdapter(RiwayatTransaksi.this, arrayRiwayat);
                         listRiwayat.setAdapter(listRiwayatAdapter);
-
+                        offset = offset+10;
                     } else {
 
                     }
@@ -194,6 +195,7 @@ public class RiwayatTransaksi extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
+        offset=0;
         return;
     }
 

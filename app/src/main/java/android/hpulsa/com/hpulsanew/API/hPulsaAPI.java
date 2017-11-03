@@ -83,16 +83,22 @@ public interface hPulsaAPI {
                                        @Header("privatekey") String privatekey,
                                        @Header("tokenuser") String token);
 
-    @GET("akun/riwayat_transaksi") //===================== RIWAYAT TRANSAKSI =============================
+    @POST("akun/riwayat_transaksi") //===================== RIWAYAT TRANSAKSI =============================
+    @FormUrlEncoded
     Call<ResponseBody> riwayat(
             @Header("publickey") String publickey,
             @Header("privatekey") String privatekey,
-            @Header("tokenuser") String token);
+            @Header("tokenuser") String token,
+            @Field("limit") int limit,
+            @Field("offset") int offset);
 
-    @GET("testimoni/get_all") //============================== TESTIMONI =================
+    @POST("testimoni/get_all") //============================== TESTIMONI =================
+    @FormUrlEncoded
     Call<ResponseBody> testimoniAll(
             @Header("publickey") String publickey,
-            @Header("privatekey") String privatekey);
+            @Header("privatekey") String privatekey,
+            @Field("limit") int limit,
+            @Field("offset") int offset);
 
     @POST("testimoni/input_testi")//======================== INPUT TESTIMONI =====================
     @FormUrlEncoded

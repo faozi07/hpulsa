@@ -66,6 +66,7 @@ public class Testimoni extends AppCompatActivity {
     ArrayList<modTestimoniAll> arrTest = new ArrayList<>();
     TextCaptcha textCaptcha;
     int numberOfCaptchaFalse = 1;
+    public static int offset = 0,limit = 10;
     String pesan;
     private boolean isKirimTest = false;
 
@@ -193,7 +194,7 @@ public class Testimoni extends AppCompatActivity {
         Retrofit retrofit = ClientAPI.getMyRetrofit();
         Call<ResponseBody> api_request;
         api = retrofit.create(hPulsaAPI.class);
-        api_request = api.testimoniAll(sv.publickey, sv.privatekey);
+        api_request = api.testimoniAll(sv.publickey, sv.privatekey,limit,offset);
         api_request.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -213,6 +214,7 @@ public class Testimoni extends AppCompatActivity {
                             mr.setPesanTes(data.getString("pesan"));
                             arrTest.add(mr);
                         }
+                        offset = offset+10;
                         testimoniAdapter = new TestimoniAdapter(Testimoni.this, arrTest);
                         rvTestimoni.setAdapter(testimoniAdapter);
 
@@ -300,6 +302,7 @@ public class Testimoni extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
+        offset=0;
         return;
     }
 }
