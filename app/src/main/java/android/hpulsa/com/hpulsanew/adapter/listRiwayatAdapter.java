@@ -116,8 +116,6 @@ public class listRiwayatAdapter extends RecyclerView.Adapter {
             ((BrandViewHolder) holder).tVoucher.setText(mrt.getVoNominal());
             ((BrandViewHolder) holder).tHarga.setText(mrt.getTrxHarga());
 
-            setAnimation(((BrandViewHolder) holder).cardView, position);
-
             ((BrandViewHolder) holder).cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -137,13 +135,11 @@ public class listRiwayatAdapter extends RecyclerView.Adapter {
                 }
             });
 
+            setAnimation(((BrandViewHolder) holder).cardView, position);
+
         } else {
             ((ProgressViewHolder) holder).progressBar.setIndeterminate(true);
         }
-    }
-
-    public void setLoaded() {
-        loading = false;
     }
 
     @Override
@@ -156,7 +152,6 @@ public class listRiwayatAdapter extends RecyclerView.Adapter {
 
         public ProgressViewHolder(View v) {
             super(v);
-
         }
     }
 

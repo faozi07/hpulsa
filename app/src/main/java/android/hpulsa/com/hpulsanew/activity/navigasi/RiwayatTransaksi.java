@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -47,6 +48,7 @@ public class RiwayatTransaksi extends AppCompatActivity {
     private ImageView imgSearch;
     private FloatingActionButton fabKetSttus;
     private SwipeRefreshLayout swipRefresh;
+    private LinearLayout layButtom;
 
     private listRiwayatAdapter listRiwayatAdapter;
     private LinearLayoutManager llm;
@@ -58,9 +60,12 @@ public class RiwayatTransaksi extends AppCompatActivity {
     double harga;
     DecimalFormat kursIndonesia;
     DecimalFormatSymbols formatRp;
-    public static int offset = 0,limit = 10;
+    public static int offset = 0,limit = 10,totalProduk=20;
+    static boolean is_first = true;
 
     ArrayList<modRiwayat> arrayRiwayat = new ArrayList<>();
+
+    public static boolean isLoading = false,isLastPage = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,15 +96,44 @@ public class RiwayatTransaksi extends AppCompatActivity {
             public void onRefresh() {
                 swipRefresh.setRefreshing(false);
                 arrayRiwayat.clear();
+                offset=0;
+                is_first=true;
                 riwayat();
+            }
+        });
+        listRiwayat.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int visibleItemCount = llm.getChildCount();
+                int totalItemCount = llm.getItemCount();
+                int firstVisibleItemPosition = llm.findFirstVisibleItemPosition();
+
+                if (!isLoading && !isLastPage) {
+                    if (dy > 0) {
+                        if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                                && firstVisibleItemPosition >= 0 && totalItemCount >= 10) {
+                            isLastPage = true;
+                            if (offset < totalProduk) {
+                                riwayat();
+                            }
+                        }
+                    }
+                }
             }
         });
     }
 
     private void riwayat() {
+        layButtom = (LinearLayout) findViewById(R.id.lay_progressbar_bottom);
         pLoading = new ProgressDialog(RiwayatTransaksi.this);
-        pLoading.setTitle("Memuat data ...");
-        pLoading.show();
+        if (offset == 0 && is_first) {
+            pLoading.setTitle("Memuat data ...");
+            pLoading.show();
+            layButtom.setVisibility(View.GONE);
+        } else {
+            layButtom.setVisibility(View.VISIBLE);
+        }
 
         spLogin = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         Retrofit retrofit = ClientAPI.getMyRetrofit();
@@ -110,9 +144,9 @@ public class RiwayatTransaksi extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 pLoading.dismiss();
+                layButtom.setVisibility(View.GONE);
                 try {
                     if(response.code() == 200){
-
                         JSONArray responseArray = new JSONArray(response.body().string());
                         Log.d("Object ","");
                         for (int i=0; i<responseArray.length(); i++) {
@@ -169,7 +203,10 @@ public class RiwayatTransaksi extends AppCompatActivity {
                         }
                         listRiwayatAdapter = new listRiwayatAdapter(RiwayatTransaksi.this, arrayRiwayat);
                         listRiwayat.setAdapter(listRiwayatAdapter);
+                        listRiwayatAdapter.notifyDataSetChanged();
                         offset = offset+10;
+                        is_first = false;
+                        isLastPage = false;
                     } else {
 
                     }
@@ -181,7 +218,7 @@ public class RiwayatTransaksi extends AppCompatActivity {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 pLoading.dismiss();
-
+                layButtom.setVisibility(View.GONE);
             }
         });
     }
@@ -196,6 +233,7 @@ public class RiwayatTransaksi extends AppCompatActivity {
     public void onBackPressed() {
         finish();
         offset=0;
+        is_first=true;
         return;
     }
 

@@ -31,6 +31,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -57,6 +58,7 @@ public class Testimoni extends AppCompatActivity {
     private LinearLayoutManager llm;
     private RelativeLayout layoutKirimTes;
     private SwipeRefreshLayout swipRefresh;
+    private LinearLayout layButtom;
 
     private hPulsaAPI api;
     private StaticVars sv = new StaticVars();
@@ -66,9 +68,12 @@ public class Testimoni extends AppCompatActivity {
     ArrayList<modTestimoniAll> arrTest = new ArrayList<>();
     TextCaptcha textCaptcha;
     int numberOfCaptchaFalse = 1;
-    public static int offset = 0,limit = 10;
+    public static int offset = 0,limit = 10,totalProduk=20;
     String pesan;
     private boolean isKirimTest = false;
+
+    static boolean is_first = true;
+    public static boolean isLoading = false,isLastPage = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +101,7 @@ public class Testimoni extends AppCompatActivity {
         llm = new LinearLayoutManager(this);
         rvTestimoni.setLayoutManager(llm);
         rvTestimoni.setHasFixedSize(true);
+        layButtom = (LinearLayout) findViewById(R.id.lay_progressbar_bottom);
     }
 
     private void cekKoneksi() {
@@ -113,6 +119,7 @@ public class Testimoni extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 swipRefresh.setRefreshing(false);
+                isLoading = false;
                 tampilTest();
             }
         });
@@ -181,14 +188,40 @@ public class Testimoni extends AppCompatActivity {
                 theDialog.show();
             }
         });
+        rvTestimoni.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int visibleItemCount = llm.getChildCount();
+                int totalItemCount = llm.getItemCount();
+                int firstVisibleItemPosition = llm.findFirstVisibleItemPosition();
+
+                if (!isLoading && !isLastPage) {
+                    if (dy > 0) {
+                        if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                                && firstVisibleItemPosition >= 0 && totalItemCount >= 10) {
+                            isLastPage = true;
+                            if (offset < totalProduk) {
+                                tampilTest();
+                            }
+                        }
+                    }
+                }
+            }
+        });
     }
 
     // ========================================= Tampil Testimoni =================================
     private void tampilTest() {
-        arrTest.clear();
         pLoading = new ProgressDialog(Testimoni.this);
-        pLoading.setTitle("Memuat data ...");
-        pLoading.show();
+        if (offset == 0 && is_first) {
+            pLoading.setTitle("Memuat data ...");
+            pLoading.show();
+            layButtom.setVisibility(View.GONE);
+        } else {
+            layButtom.setVisibility(View.VISIBLE);
+        }
+        arrTest.clear();
 
         spLogin = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         Retrofit retrofit = ClientAPI.getMyRetrofit();
@@ -217,6 +250,10 @@ public class Testimoni extends AppCompatActivity {
                         offset = offset+10;
                         testimoniAdapter = new TestimoniAdapter(Testimoni.this, arrTest);
                         rvTestimoni.setAdapter(testimoniAdapter);
+                        testimoniAdapter.notifyDataSetChanged();
+                        layButtom.setVisibility(View.GONE);
+                        isLastPage = false;
+                        is_first=false;
 
                     } else {
 
@@ -303,6 +340,7 @@ public class Testimoni extends AppCompatActivity {
     public void onBackPressed() {
         finish();
         offset=0;
+        is_first=true;
         return;
     }
 }
