@@ -99,7 +99,6 @@ public class SplashScreen extends AppCompatActivity {
         api.cekToken(sv.publickey,sv.privatekey,token).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(retrofit2.Call<JsonObject> call, Response<JsonObject> response) {
-                pLoading.dismiss();
 
                 if (response.code() == 200) {
                     String mess = "";

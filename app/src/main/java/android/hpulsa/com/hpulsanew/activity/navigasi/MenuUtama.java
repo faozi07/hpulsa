@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
 import android.hpulsa.com.hpulsanew.API.hPulsaAPI;
 import android.hpulsa.com.hpulsanew.R;
 import android.hpulsa.com.hpulsanew.activity.pilihanmenu.PaketBBM;
@@ -25,6 +26,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -33,6 +35,7 @@ import android.view.View;
 import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -63,6 +66,7 @@ public class MenuUtama extends AppCompatActivity {
     private gridViewAdapter gridViewAdapter;
     private List<modeKetMenu> modEarningList;
     public static TextView nama, noTelp, tSaldo;
+    LinearLayout laySaldo;
     public static CircleImageView fotoProfil;
     StaticVars sv = new StaticVars();
     private Toolbar toolbar;
@@ -119,12 +123,14 @@ public class MenuUtama extends AppCompatActivity {
 
         kursIndonesia.setDecimalFormatSymbols(formatRp);
         tSaldo.setText(kursIndonesia.format(saldo));
-        tSaldo.setOnClickListener(new View.OnClickListener() {
+        laySaldo = (LinearLayout) findViewById(R.id.laySaldo);
+        laySaldo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MenuUtama.this,TopupSaldo.class));
             }
         });
+
     }
 
     AdapterView.OnItemClickListener onItemClick = new AdapterView.OnItemClickListener() {
@@ -150,6 +156,7 @@ public class MenuUtama extends AppCompatActivity {
             }
         }
     };
+
 
 
     private void logout() {
@@ -355,5 +362,14 @@ public class MenuUtama extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         dialogKeluar();
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+        if (hasCapture) {
+
+        } else {
+
+        }
     }
 }

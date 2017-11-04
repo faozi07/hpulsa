@@ -10,6 +10,7 @@ public class modListBank {
     private String keyBank;
     private String namaRek;
     private String noRek;
+    private String status;
 
 
     public int getId() {
@@ -50,5 +51,13 @@ public class modListBank {
 
     public void setNoRek(String noRek) {
         this.noRek = noRek;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

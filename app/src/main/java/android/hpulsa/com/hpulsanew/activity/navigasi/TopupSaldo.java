@@ -11,6 +11,7 @@ import android.hpulsa.com.hpulsanew.adapter.HargaProdukAdapter;
 import android.hpulsa.com.hpulsanew.model.modListBank;
 import android.hpulsa.com.hpulsanew.util.StaticVars;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -69,7 +70,14 @@ public class TopupSaldo extends AppCompatActivity {
         btnDeposit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int nomDeposit = Integer.parseInt(eNomDeposit.getText().toString());
+                if (nomDeposit % 10000 != 0) {
+                    Snackbar.make(findViewById(R.id.layUtama), "Nominal harus kelipatan Rp. 10.000", Snackbar.LENGTH_LONG).show();
+                } else if (nomDeposit>5000000) {
+                    Snackbar.make(findViewById(R.id.layUtama), "Maksimal Nominal Rp. 5.000.000", Snackbar.LENGTH_LONG).show();
+                } else {
 
+                }
             }
         });
     }
@@ -90,26 +98,23 @@ public class TopupSaldo extends AppCompatActivity {
                 pLoading.dismiss();
                 try {
                     if (response.code() == 200) {
-
+                        modListBank mr = new modListBank();
                         JSONArray responseArray = new JSONArray(response.body().string());
                         Log.d("Object ", "");
                         for (int i = 0; i < responseArray.length(); i++) {
                             JSONObject data = responseArray.getJSONObject(i);
 
-                            modListBank mr = new modListBank();
                             mr.setId(data.getInt("id"));
                             mr.setNamaBank(data.getString("nama"));
                             mr.setKeyBank(data.getString("key"));
                             mr.setNamaRek(data.getString("acc_name"));
                             mr.setNoRek(data.getString("acc_num"));
-
+                            mr.setStatus(data.getString("status"));
                             arrayListBank.add(mr);
-                        }
-                        for (int i = 0; i < responseArray.length(); i++) {
-                            JSONObject data = responseArray.getJSONObject(i);
                             String arrBank = data.getString("nama");
-
-                            arrayListNamaBank.add(arrBank);
+                            if(mr.getStatus().toString().equals("on")) {
+                                arrayListNamaBank.add(arrBank);
+                            }
                         }
                         Log.d("arrListBank ",String.valueOf(arrayListNamaBank));
                         arrListBankAdapter = new ArrayAdapter<String>(TopupSaldo.this,

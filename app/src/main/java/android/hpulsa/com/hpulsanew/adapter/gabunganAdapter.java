@@ -116,6 +116,11 @@ public class gabunganAdapter extends RecyclerView.Adapter {
                     R.layout.list_nominal, parent, false);
 
             vh = new gabunganAdapter.BrandViewHolder(v);
+        } else {
+            View v = LayoutInflater.from(parent.getContext()).inflate(
+                    R.layout.progress_load_more, parent, false);
+
+            vh = new ProgressViewHolder(v);
         }
 
         return vh;
@@ -144,10 +149,12 @@ public class gabunganAdapter extends RecyclerView.Adapter {
                 ((gabunganAdapter.BrandViewHolder) holder).imgTersedia.setImageResource(R.drawable.ic_stop);
                 ((gabunganAdapter.BrandViewHolder) holder).cardView.setBackgroundResource(R.color.abu);
                 isTersedia = false;
+                ((BrandViewHolder) holder).cardView.setEnabled(false);
             } else {
                 ((gabunganAdapter.BrandViewHolder) holder).imgTersedia.setImageResource(R.drawable.ic_plus);
                 ((gabunganAdapter.BrandViewHolder) holder).cardView.setBackgroundResource(R.color.putih);
                 isTersedia = true;
+                ((BrandViewHolder) holder).cardView.setEnabled(true);
             }
 
             ((gabunganAdapter.BrandViewHolder) holder).tKet.setText(mrt.getNominal());
@@ -235,14 +242,12 @@ public class gabunganAdapter extends RecyclerView.Adapter {
                             mr.setKeyBank(data.getString("key"));
                             mr.setNamaRek(data.getString("acc_name"));
                             mr.setNoRek(data.getString("acc_num"));
-
+                            mr.setStatus(data.getString("status"));
                             arrayListBank.add(mr);
-                        }
-                        for (int i = 0; i < responseArray.length(); i++) {
-                            JSONObject data = responseArray.getJSONObject(i);
-                            arrBank = data.getString("nama");
-
-                            arrayListNamaBank.add(arrBank);
+                            String arrBank = data.getString("nama");
+                            if(mr.getStatus().toString().equals("on")) {
+                                arrayListNamaBank.add(arrBank);
+                            }
                         }
 
                         popupBayar();
@@ -360,6 +365,7 @@ public class gabunganAdapter extends RecyclerView.Adapter {
                                     mt.setBank(bankDetail.getString("bank"));
                                 }
                             }
+                            activity.finish();
                             mt.setMessage(data.getString("message"));
                             mt.setBalance(data.getString("balance"));
                             theDialog.dismiss();

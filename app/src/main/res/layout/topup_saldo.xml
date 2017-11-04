@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layUtama"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1Abbbbbb"
@@ -28,16 +29,29 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:hint="Nominal deposit"
-                android:maxLines="1"
-                android:inputType="number" />
+                android:inputType="number"
+                android:maxLines="1" />
         </android.support.design.widget.TextInputLayout>
 
-        <Spinner
-            android:id="@+id/spinBank"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="30dp"
-            android:entries="@array/jenis_bank" />
+            android:padding="1dp"
+            android:background="@color/abu">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff">
+
+                <Spinner
+                    android:id="@+id/spinBank"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/jenis_bank" />
+            </LinearLayout>
+        </RelativeLayout>
 
         <TextView
             android:layout_width="match_parent"
@@ -54,13 +68,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:padding="12dp"
         android:gravity="center"
+        android:padding="12dp"
         app:fb_borderWidth="1dp"
         app:fb_defaultColor="@color/colorPrimary"
         app:fb_focusColor="@color/orangeDark"
         app:fb_radius="0dp"
         app:fb_text="DEPOSIT"
-        app:fb_textSize="17dp"
-        app:fb_textColor="#fff"/>
+        app:fb_textColor="#fff"
+        app:fb_textSize="17dp" />
 </RelativeLayout>
