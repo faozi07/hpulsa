@@ -5,21 +5,21 @@ package android.hpulsa.com.hpulsanew.model;
  */
 
 public class modTransaksi {
-    private boolean transaksi;
-    private String jenisProduk;
-    private String nominal;
-    private String nomorHp;
-    private String harga;
-    private String pembayaran;
-    private String tglPembelian;
-    private String sttsPembayaran;
-    private String sttsPengisian;
-    private String bankDetail;
-    private String accName;
-    private String accNumber;
-    private String bank;
-    private String message;
-    private String balance;
+    public static boolean transaksi;
+    public static String jenisProduk;
+    public static String nominal;
+    public static String nomorHp;
+    public static String harga;
+    public static String pembayaran;
+    public static String tglPembelian;
+    public static String sttsPembayaran;
+    public static String sttsPengisian;
+    public static String bankDetail;
+    public static String accName;
+    public static String accNumber;
+    public static String bank;
+    public static String message;
+    public static String balance;
 
 
     public boolean getTransaksi() {

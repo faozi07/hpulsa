@@ -1,21 +1,32 @@
 package android.hpulsa.com.hpulsanew.adapter;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.hpulsa.com.hpulsanew.API.ClientAPI;
 import android.hpulsa.com.hpulsanew.API.hPulsaAPI;
 import android.hpulsa.com.hpulsanew.R;
+import android.hpulsa.com.hpulsanew.activity.pilihanmenu.PopupTransfer;
 import android.hpulsa.com.hpulsanew.activity.pilihanmenu.PulsaHP;
 import android.hpulsa.com.hpulsanew.model.modListBank;
 import android.hpulsa.com.hpulsanew.model.modNomPulsa;
 import android.hpulsa.com.hpulsanew.model.modTransaksi;
 import android.hpulsa.com.hpulsanew.util.StaticVars;
+import android.media.Image;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,15 +39,19 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Date;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 import okhttp3.ResponseBody;
@@ -59,13 +74,14 @@ public class gabunganAdapter extends RecyclerView.Adapter {
 
     private int visibleThreshold = 2;
     private int lastVisibleItem, totalItemCount;
-    private boolean loading,isTersedia = true;;
+    private boolean loading, isTersedia = true;
+    ;
     StaticVars sv = new StaticVars();
 
-    private int lastPosition = -1,posisiKlik;
+    private int lastPosition = -1, posisiKlik;
     double nominal, harga;
-    DecimalFormat kursInd,nonKurs;
-    DecimalFormatSymbols formatRp,formatNonRp;
+    DecimalFormat kursInd, nonKurs;
+    DecimalFormatSymbols formatRp, formatNonRp;
 
     private ArrayAdapter<String> arrListBankAdapter;
     private ArrayList<modListBank> arrayListBank = new ArrayList<modListBank>();
@@ -74,12 +90,12 @@ public class gabunganAdapter extends RecyclerView.Adapter {
     SharedPreferences spLogin;
     private hPulsaAPI api;
     Spinner spinBank;
-    String arrBank,trPembayaran,voId;
+    String arrBank, trPembayaran, voId;
     private modListBank mr;
     private modNomPulsa mnp = new modNomPulsa();
     AlertDialog theDialog;
 
-    public gabunganAdapter(Activity act, ArrayList<modNomPulsa> data){
+    public gabunganAdapter(Activity act, ArrayList<modNomPulsa> data) {
         activity = act;
         this.items = data;
     }
@@ -92,7 +108,7 @@ public class gabunganAdapter extends RecyclerView.Adapter {
 
     public static class BrandViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tNominal,tHarga,tKet;
+        TextView tNominal, tHarga, tKet;
         CardView cardView;
         ImageView imgTersedia;
 
@@ -164,19 +180,19 @@ public class gabunganAdapter extends RecyclerView.Adapter {
             ((gabunganAdapter.BrandViewHolder) holder).cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (isTersedia&&(!sv.produk.equals("token")||!sv.produk.equals("tagihan"))) {
-                        if (sv.nomorHP.length()>9 && sv.nomorHP.length()<14) {
+                    if (isTersedia && (!sv.produk.equals("token") || !sv.produk.equals("tagihan"))) {
+                        if (sv.nomorHP.length() > 9 && sv.nomorHP.length() < 14) {
                             posisiKlik = holder.getPosition();
                             getListBank();
                         } else {
-                            dialogTransaksi("","Periksa kembali Nomor Handphone Anda");
+                            dialogTransaksi("", "Periksa kembali Nomor Handphone Anda");
                         }
                     } else if (isTersedia) {
-                        if (sv.nomorHP.length()>9 && sv.nomorHP.length()<14 && sv.nomorPLN.length()>5) {
+                        if (sv.nomorHP.length() > 9 && sv.nomorHP.length() < 14 && sv.nomorPLN.length() > 5) {
                             posisiKlik = holder.getPosition();
                             getListBank();
                         } else {
-                            dialogTransaksi("","Periksa kembali nomor handphone atau nomor PLN Anda");
+                            dialogTransaksi("", "Periksa kembali nomor handphone atau nomor PLN Anda");
                         }
                     }
                 }
@@ -205,9 +221,9 @@ public class gabunganAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private void setAnimation(View viewToAnimate, int position){
+    private void setAnimation(View viewToAnimate, int position) {
         // If the bound view wasn't previously displayed on screen, it's animated
-        if (position > lastPosition){
+        if (position > lastPosition) {
             Animation animation = AnimationUtils.loadAnimation(activity, R.anim.zoomin);
             viewToAnimate.startAnimation(animation);
             lastPosition = position;
@@ -245,14 +261,14 @@ public class gabunganAdapter extends RecyclerView.Adapter {
                             mr.setStatus(data.getString("status"));
                             arrayListBank.add(mr);
                             String arrBank = data.getString("nama");
-                            if(mr.getStatus().toString().equals("on")) {
+                            if (mr.getStatus().toString().equals("on")) {
                                 arrayListNamaBank.add(arrBank);
                             }
                         }
 
                         popupBayar();
                         arrListBankAdapter = new ArrayAdapter<String>(activity,
-                                android.R.layout.simple_list_item_1,arrayListNamaBank);
+                                android.R.layout.simple_list_item_1, arrayListNamaBank);
                         spinBank.setAdapter(arrListBankAdapter);
 
                     } else {
@@ -264,7 +280,9 @@ public class gabunganAdapter extends RecyclerView.Adapter {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {pLoading.dismiss();}
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                pLoading.dismiss();
+            }
         });
     }
 
@@ -278,8 +296,8 @@ public class gabunganAdapter extends RecyclerView.Adapter {
 
         final TextView tJmlBayar = (TextView) v.findViewById(R.id.tJmlBayar);
         spinBank = (Spinner) v.findViewById(R.id.spinBank);
-        for (int i=0;i<=items.size();i++) {
-            if (i==posisiKlik) {
+        for (int i = 0; i <= items.size(); i++) {
+            if (i == posisiKlik) {
                 mrt = items.get(i);
                 harga = Double.parseDouble(mrt.getHrgJual());
                 voId = String.valueOf(mrt.getId());
@@ -295,7 +313,8 @@ public class gabunganAdapter extends RecyclerView.Adapter {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {}
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
         });
 
         FancyButton btnBayar = (FancyButton) v.findViewById(R.id.btnBayar);
@@ -319,9 +338,9 @@ public class gabunganAdapter extends RecyclerView.Adapter {
         Call<ResponseBody> api_request = null;
         api = retrofit.create(hPulsaAPI.class);
         if (sv.produk.equals("pulsa")) {
-            api_request = api.trxPulsa(sv.publickey, sv.privatekey,spLogin.getString(sv.token,""),PulsaHP.nomorHp,trPembayaran,voId);
+            api_request = api.trxPulsa(sv.publickey, sv.privatekey, spLogin.getString(sv.token, ""), PulsaHP.nomorHp, trPembayaran, voId);
         } else if (sv.produk.equals("internet")) {
-            api_request = api.trxInternet(sv.publickey, sv.privatekey,spLogin.getString(sv.token,""),PulsaHP.nomorHp,trPembayaran,voId);
+            api_request = api.trxInternet(sv.publickey, sv.privatekey, spLogin.getString(sv.token, ""), PulsaHP.nomorHp, trPembayaran, voId);
         } /*else if (sv.produk.equals("telpsms")) {
             api_request = api.listBank(sv.publickey, sv.privatekey);
         } else if (sv.produk.equals("token")) {
@@ -344,44 +363,45 @@ public class gabunganAdapter extends RecyclerView.Adapter {
 
                         JSONObject data = new JSONObject(response.body().string());
 
-                            modTransaksi mt = new modTransaksi();
-                            mt.setTransaksi(data.getBoolean("transaksi"));
-                            mt.setJenisProduk(data.getString("jenis_produk"));
-                            mt.setNominal(data.getString("nominal"));
-                            mt.setNomorHp(data.getString("nomor_hape"));
-                            mt.setHarga(data.getString("harga"));
-                            mt.setPembayaran(data.getString("pembayaran"));
-                            mt.setTglPembelian(data.getString("tanggal_pembelian"));
-                            mt.setSttsPembayaran(data.getString("status_pembayaran"));
-                            mt.setSttsPengisian(data.getString("status_pengisian"));
-                            if (!data.isNull("bank_detail")) {
-                                JSONArray bankArray = data.getJSONArray("bank_detail");
-                                Log.d("Object ", "");
-                                for (int i = 0; i < bankArray.length(); i++) {
-                                    JSONObject bankDetail = bankArray.getJSONObject(i);
+                        modTransaksi mt = new modTransaksi();
+                        mt.transaksi = data.getBoolean("transaksi");
+                        mt.jenisProduk = data.getString("jenis_produk");
+                        mt.nominal = data.getString("nominal");
+                        mt.nomorHp = data.getString("nomor_hape");
+                        mt.harga = data.getString("harga");
+                        mt.pembayaran = data.getString("pembayaran");
+                        mt.tglPembelian = data.getString("tanggal_pembelian");
+                        mt.sttsPembayaran = data.getString("status_pembayaran");
+                        mt.sttsPengisian = data.getString("status_pengisian");
+                        if (!data.isNull("bank_detail")) {
+                            JSONArray bankArray = data.getJSONArray("bank_detail");
+                            Log.d("Object ", "");
+                            for (int i = 0; i < bankArray.length(); i++) {
+                                JSONObject bankDetail = bankArray.getJSONObject(i);
 
-                                    mt.setAccName(bankDetail.getString("acc_name"));
-                                    mt.setAccNumber(bankDetail.getString("acc_number"));
-                                    mt.setBank(bankDetail.getString("bank"));
-                                }
+                                mt.accName = bankDetail.getString("acc_name");
+                                mt.accNumber = bankDetail.getString("acc_number");
+                                mt.bank = bankDetail.getString("bank");
                             }
-                            activity.finish();
-                            mt.setMessage(data.getString("message"));
-                            mt.setBalance(data.getString("balance"));
-                            theDialog.dismiss();
-                        dialogTransaksi("",mt.getMessage());
+                        }
+                        mt.message = data.getString("message");
+                        mt.balance = data.getString("balance");
+                        theDialog.dismiss();
+                        dialogTrxBerhasil("", mt.getMessage());
                     } else {
-                        dialogTransaksi("Gagal membuat transaksi","Silahkan coba lagi");
+                        dialogTransaksi("Gagal membuat transaksi", "Silahkan coba lagi");
                     }
                 } catch (JSONException | IOException e) {
                     e.printStackTrace();
-                    dialogTransaksi("Gagal","Terjadi kesalahan");
+                    dialogTransaksi("Gagal", "Terjadi kesalahan");
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {pLoading.dismiss();
-                dialogTransaksi("Gagal","Terjadi kesalahan");}
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                pLoading.dismiss();
+                dialogTransaksi("Gagal", "Terjadi kesalahan");
+            }
         });
     }
 
@@ -394,6 +414,23 @@ public class gabunganAdapter extends RecyclerView.Adapter {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    private void dialogTrxBerhasil(String title, String content) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
+        alertDialogBuilder.setTitle(title);
+        alertDialogBuilder
+                .setMessage(content)
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        activity.startActivity(new Intent(activity, PopupTransfer.class));
+                        dialog.dismiss();
                     }
                 });
 

@@ -73,6 +73,12 @@ public class PaketTelpSMS extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        nomor.setText("");
+    }
+
     private void declaration() {
         sv.produk="telpsms";
         llm = new LinearLayoutManager(this);

@@ -85,6 +85,7 @@ public class MenuUtama extends AppCompatActivity {
         setupDrawerToggle();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_plus);
         listViewSliding.setItemChecked(0,true);
         drawerLayout.closeDrawer(listViewSliding);
         itemClickMenu();
@@ -263,7 +264,6 @@ public class MenuUtama extends AppCompatActivity {
         cekSaldo();
         listMenu.add(new ItemSlideMenu(R.drawable.ic_topup,R.drawable.ic_pembatas,"Topup Saldo",""));
         listMenu.add(new ItemSlideMenu(R.drawable.ic_affiliate,R.drawable.ic_pembatas,"Affiliate",""));
-        listMenu.add(new ItemSlideMenu(R.drawable.ic_home,R.drawable.ic_pembatas,"Beranda",""));
         listMenu.add(new ItemSlideMenu(R.drawable.ic_username,R.drawable.ic_pembatas,"Profil",""));
         listMenu.add(new ItemSlideMenu(R.drawable.ic_verified,R.drawable.ic_pembatas,"Verifikasi Akun",""));
         listMenu.add(new ItemSlideMenu(R.drawable.ic_riwayat,R.drawable.ic_pembatas,"Riwayat",""));
@@ -285,22 +285,20 @@ public class MenuUtama extends AppCompatActivity {
                     case 2:
                         break;
                     case 3:
-                        break;
-                    case 4:
                         startActivity(new Intent(MenuUtama.this, Profil.class));
                         break;
-                    case 5:
+                    case 4:
                         startActivity(new Intent(MenuUtama.this, Verifikasi.class));
                         break;
-                    case 6:
+                    case 5:
                         startActivity(new Intent(MenuUtama.this, RiwayatTransaksi.class));
                         break;
-                    case 7:
+                    case 6:
                         break;
                     /*case 9:
                         startActivity(new Intent(MenuUtama.this, HargaProduct.class));
                         break;*/
-                    case 8:
+                    case 7:
                         startActivity(new Intent(MenuUtama.this, Testimoni.class));
                         break;
                 }

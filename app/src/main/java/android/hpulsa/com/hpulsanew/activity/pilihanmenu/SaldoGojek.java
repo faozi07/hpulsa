@@ -74,6 +74,12 @@ public class SaldoGojek extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        nomor.setText("");
+    }
+
     private void declaration() {
         sv.produk="gojek";
         llm = new LinearLayoutManager(this);

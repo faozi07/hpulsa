@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.hpulsa.com.hpulsanew.API.ClientAPI;
 import android.hpulsa.com.hpulsanew.API.hPulsaAPI;
@@ -81,6 +82,12 @@ public class PulsaHP extends AppCompatActivity {
 
         getSupportActionBar().setTitle("Pulsa Reguler");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        nomor.setText("");
     }
 
     private void declaration() {

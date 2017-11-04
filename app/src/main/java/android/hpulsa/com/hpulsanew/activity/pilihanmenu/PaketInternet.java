@@ -76,6 +76,12 @@ public class PaketInternet extends AppCompatActivity {
         
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        nomor.setText("");
+    }
+
     private void declaration() {
         sv.produk="internet";
         llm = new LinearLayoutManager(this);

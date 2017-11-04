@@ -33,6 +33,7 @@ public class Profil extends AppCompatActivity {
         setContentView(R.layout.profil);
         getSupportActionBar().setTitle("Profil");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
 
         init();
         setComponent();

@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -77,6 +79,8 @@
         <activity android:name=".activity.navigasi.HargaProduct"
             android:theme="@style/AppTheme.FullScreen" />
         <activity android:name=".activity.pilihanmenu.Tagihan"
+            android:theme="@style/AppTheme.FullScreen" />
+        <activity android:name=".activity.pilihanmenu.PopupTransfer"
             android:theme="@style/AppTheme.FullScreen" />
     </application>
 

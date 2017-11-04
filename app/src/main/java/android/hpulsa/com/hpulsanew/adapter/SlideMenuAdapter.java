@@ -56,7 +56,7 @@ public class SlideMenuAdapter extends BaseAdapter {
         tTitle.setText(item.getTitle());
         tDana.setText(item.getSaldo());
 
-        if (position == 2) {
+        if (position == 1) {
             imgPembatas.setVisibility(View.VISIBLE);
         }
 

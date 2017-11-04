@@ -74,6 +74,12 @@ public class TokenPln extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        nomorHp.setText("");
+    }
+
+    @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
