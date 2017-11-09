@@ -60,7 +60,7 @@ public class RiwayatTransaksi extends AppCompatActivity {
     double harga;
     DecimalFormat kursIndonesia;
     DecimalFormatSymbols formatRp;
-    public static int offset = 0,limit = 10,totalProduk=20;
+    public static int offset = 0,limit = 10,totalRiwayat=0;
     static boolean is_first = true;
 
     ArrayList<modRiwayat> arrayRiwayat = new ArrayList<>();
@@ -75,8 +75,8 @@ public class RiwayatTransaksi extends AppCompatActivity {
         getSupportActionBar().setTitle("Riwayat Transaksi");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        riwayat();
         setComponent();
+        riwayat();
     }
 
     private void setComponent() {
@@ -114,7 +114,7 @@ public class RiwayatTransaksi extends AppCompatActivity {
                         if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
                                 && firstVisibleItemPosition >= 0 && totalItemCount >= 10) {
                             isLastPage = true;
-                            if (offset < totalProduk) {
+                            if (offset < totalRiwayat) {
                                 riwayat();
                             }
                         }
@@ -122,6 +122,8 @@ public class RiwayatTransaksi extends AppCompatActivity {
                 }
             }
         });
+/*        listRiwayatAdapter = new listRiwayatAdapter(RiwayatTransaksi.this, arrayRiwayat);
+        listRiwayat.setAdapter(listRiwayatAdapter);*/
     }
 
     private void riwayat() {
@@ -147,7 +149,8 @@ public class RiwayatTransaksi extends AppCompatActivity {
                 layButtom.setVisibility(View.GONE);
                 try {
                     if(response.code() == 200){
-                        JSONArray responseArray = new JSONArray(response.body().string());
+                        JSONObject jsonObject = new JSONObject(response.body().string());
+                        JSONArray responseArray = jsonObject.getJSONArray("data");
                         Log.d("Object ","");
                         for (int i=0; i<responseArray.length(); i++) {
                             JSONObject data = responseArray.getJSONObject(i);
@@ -201,8 +204,11 @@ public class RiwayatTransaksi extends AppCompatActivity {
                             mr.setTrxTrkrim(data.getString("tr_terkirim"));
                             arrayRiwayat.add(mr);
                         }
-                        listRiwayatAdapter = new listRiwayatAdapter(RiwayatTransaksi.this, arrayRiwayat);
-                        listRiwayat.setAdapter(listRiwayatAdapter);
+                        totalRiwayat = jsonObject.getInt("total_data");
+                        if(offset == 0) {
+                            listRiwayatAdapter = new listRiwayatAdapter(RiwayatTransaksi.this, arrayRiwayat);
+                            listRiwayat.setAdapter(listRiwayatAdapter);
+                        }
                         listRiwayatAdapter.notifyDataSetChanged();
                         offset = offset+10;
                         is_first = false;

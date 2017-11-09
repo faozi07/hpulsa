@@ -3,10 +3,12 @@ package android.hpulsa.com.hpulsanew.activity.navigasi;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.hpulsa.com.hpulsanew.API.ClientAPI;
 import android.hpulsa.com.hpulsanew.API.hPulsaAPI;
 import android.hpulsa.com.hpulsanew.R;
+import android.hpulsa.com.hpulsanew.activity.pilihanmenu.PopupTransfer;
 import android.hpulsa.com.hpulsanew.adapter.HargaProdukAdapter;
 import android.hpulsa.com.hpulsanew.model.modListBank;
 import android.hpulsa.com.hpulsanew.util.StaticVars;
@@ -16,15 +18,19 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 
 import mehdi.sakout.fancybuttons.FancyButton;
@@ -46,6 +52,8 @@ public class TopupSaldo extends AppCompatActivity {
     private StaticVars sv = new StaticVars();
     SharedPreferences spLogin;
     ProgressDialog pLoading;
+    int idBannk=0,pos;
+    modListBank mr = new modListBank();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +84,26 @@ public class TopupSaldo extends AppCompatActivity {
                 } else if (nomDeposit>5000000) {
                     Snackbar.make(findViewById(R.id.layUtama), "Maksimal Nominal Rp. 5.000.000", Snackbar.LENGTH_LONG).show();
                 } else {
-
+                    isiDeposit(eNomDeposit.getText().toString(),idBannk);
                 }
             }
+        });
+
+        spinBank.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int posisi, long l) {
+                if (arrayListBank.size()>0) {
+                    pos = posisi;
+                    mr = arrayListBank.get(posisi);
+                    idBannk = mr.getId();
+                    sv.namaRek = mr.getNamaRek();
+                    sv.noRek = mr.getNoRek();
+                    sv.namaBank = mr.getNamaBank();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {}
         });
     }
 
@@ -98,22 +123,24 @@ public class TopupSaldo extends AppCompatActivity {
                 pLoading.dismiss();
                 try {
                     if (response.code() == 200) {
-                        modListBank mr = new modListBank();
                         JSONArray responseArray = new JSONArray(response.body().string());
                         Log.d("Object ", "");
                         for (int i = 0; i < responseArray.length(); i++) {
                             JSONObject data = responseArray.getJSONObject(i);
-
-                            mr.setId(data.getInt("id"));
-                            mr.setNamaBank(data.getString("nama"));
-                            mr.setKeyBank(data.getString("key"));
-                            mr.setNamaRek(data.getString("acc_name"));
-                            mr.setNoRek(data.getString("acc_num"));
-                            mr.setStatus(data.getString("status"));
-                            arrayListBank.add(mr);
-                            String arrBank = data.getString("nama");
-                            if(mr.getStatus().toString().equals("on")) {
+                            if (data.getString("status").equals("on")) {
+                                mr.setId(data.getInt("id"));
+                                mr.setNamaBank(data.getString("nama"));
+                                mr.setKeyBank(data.getString("key"));
+                                mr.setNamaRek(data.getString("acc_name"));
+                                mr.setNoRek(data.getString("acc_num"));
+                                mr.setStatus(data.getString("status"));
+                                String arrBank = data.getString("nama");
                                 arrayListNamaBank.add(arrBank);
+                                arrayListBank.add(mr);
+                                /*if (mr.getStatus().toString().equals("on")) {
+                                    arrayListNamaBank.add(arrBank);
+                                    arrayListBank.add(mr);
+                                }*/
                             }
                         }
                         Log.d("arrListBank ",String.valueOf(arrayListNamaBank));
@@ -122,15 +149,18 @@ public class TopupSaldo extends AppCompatActivity {
                         spinBank.setAdapter(arrListBankAdapter);
 
                     } else {
-
+                        dialogGagalLoad("Gagal isi deposit","Silahkan coba lagi");
                     }
                 } catch (JSONException | IOException e) {
                     e.printStackTrace();
+                    dialogGagalLoad("Gagal isi deposit","Terjadi kesalahan");
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {pLoading.dismiss();}
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                dialogGagalLoad("Gagal isi deposit","Terjadi kesalahan");
+                pLoading.dismiss();}
         });
     }
 
@@ -160,5 +190,46 @@ public class TopupSaldo extends AppCompatActivity {
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+    private void isiDeposit(String deposit,int trPembayaran) {
+        pLoading = new ProgressDialog(TopupSaldo.this);
+        pLoading.setTitle("Sedang memproses ...");
+        pLoading.show();
+
+        spLogin = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        Retrofit retrofit = ClientAPI.getMyRetrofit();
+        Call<ResponseBody> api_request;
+        api = retrofit.create(hPulsaAPI.class);
+        api_request = api.isiDeposit(sv.publickey, sv.privatekey,spLogin.getString(sv.token,""),deposit,trPembayaran);
+        api_request.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                pLoading.dismiss();
+                try {
+                    if (response.code() == 200) {
+
+                        JSONObject data = new JSONObject(response.body().string());
+                        sv.tglTopup = data.getString("tanggal");
+                        sv.jmlTopup = data.getString("jumlah");
+                        sv.paymentMethod = data.getString("payment_method");
+                        sv.statusTopup = data.getString("status");
+                        Toast.makeText(TopupSaldo.this,"Permintaan deposit berhasil",Toast.LENGTH_LONG).show();
+                        finish();
+                        startActivity(new Intent(TopupSaldo.this, PopupDeposit.class));
+                    } else {
+                        dialogGagalLoad("Gagal isi deposit","Silahkan coba lagi");
+                    }
+                } catch (JSONException | IOException e) {
+                    dialogGagalLoad("Gagal isi deposit","Terjadi kesalahan");
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                dialogGagalLoad("Gagal isi deposit","Terjadi kesalahan");
+                pLoading.dismiss();}
+        });
     }
 }

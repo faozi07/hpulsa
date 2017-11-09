@@ -12,8 +12,13 @@ import android.graphics.Bitmap;
 import android.hpulsa.com.hpulsanew.API.ClientAPI;
 import android.hpulsa.com.hpulsanew.API.hPulsaAPI;
 import android.hpulsa.com.hpulsanew.R;
+import android.hpulsa.com.hpulsanew.activity.pilihanmenu.PaketBBM;
+import android.hpulsa.com.hpulsanew.activity.pilihanmenu.PaketInternet;
 import android.hpulsa.com.hpulsanew.activity.pilihanmenu.PopupTransfer;
 import android.hpulsa.com.hpulsanew.activity.pilihanmenu.PulsaHP;
+import android.hpulsa.com.hpulsanew.activity.pilihanmenu.SaldoGojek;
+import android.hpulsa.com.hpulsanew.activity.pilihanmenu.TokenPln;
+import android.hpulsa.com.hpulsanew.activity.pilihanmenu.VoucherGame;
 import android.hpulsa.com.hpulsanew.model.modListBank;
 import android.hpulsa.com.hpulsanew.model.modNomPulsa;
 import android.hpulsa.com.hpulsanew.model.modTransaksi;
@@ -94,6 +99,7 @@ public class gabunganAdapter extends RecyclerView.Adapter {
     private modListBank mr;
     private modNomPulsa mnp = new modNomPulsa();
     AlertDialog theDialog;
+    public static boolean isTrx = false;
 
     public gabunganAdapter(Activity act, ArrayList<modNomPulsa> data) {
         activity = act;
@@ -253,16 +259,19 @@ public class gabunganAdapter extends RecyclerView.Adapter {
                             JSONObject data = responseArray.getJSONObject(i);
 
                             mr = new modListBank();
-                            mr.setId(data.getInt("id"));
-                            mr.setNamaBank(data.getString("nama"));
-                            mr.setKeyBank(data.getString("key"));
-                            mr.setNamaRek(data.getString("acc_name"));
-                            mr.setNoRek(data.getString("acc_num"));
-                            mr.setStatus(data.getString("status"));
-                            arrayListBank.add(mr);
-                            String arrBank = data.getString("nama");
-                            if (mr.getStatus().toString().equals("on")) {
+                            if (data.getString("status").equals("on")) {
+                                mr.setId(data.getInt("id"));
+                                mr.setNamaBank(data.getString("nama"));
+                                mr.setKeyBank(data.getString("key"));
+                                mr.setNamaRek(data.getString("acc_name"));
+                                mr.setNoRek(data.getString("acc_num"));
+                                mr.setStatus(data.getString("status"));
+                                String arrBank = data.getString("nama");
                                 arrayListNamaBank.add(arrBank);
+                                arrayListBank.add(mr);
+                                /*if (mr.getStatus().toString().equals("on")) {
+                                    arrayListNamaBank.add(arrBank);
+                                }*/
                             }
                         }
 
@@ -340,18 +349,18 @@ public class gabunganAdapter extends RecyclerView.Adapter {
         if (sv.produk.equals("pulsa")) {
             api_request = api.trxPulsa(sv.publickey, sv.privatekey, spLogin.getString(sv.token, ""), PulsaHP.nomorHp, trPembayaran, voId);
         } else if (sv.produk.equals("internet")) {
-            api_request = api.trxInternet(sv.publickey, sv.privatekey, spLogin.getString(sv.token, ""), PulsaHP.nomorHp, trPembayaran, voId);
+            api_request = api.trxInternet(sv.publickey, sv.privatekey, spLogin.getString(sv.token, ""), PaketInternet.nomor.getText().toString(), trPembayaran, voId);
+        } else if (sv.produk.equals("bbm")) {
+            api_request = api.trxBB(sv.publickey, sv.privatekey, spLogin.getString(sv.token, ""), PaketBBM.nomor.getText().toString(), trPembayaran, voId);
+        } else if (sv.produk.equals("token")) {
+            api_request = api.trxTokenPLN(sv.publickey, sv.privatekey, spLogin.getString(sv.token, ""), TokenPln.nomorHp.getText().toString(), trPembayaran, voId);
+        } else if (sv.produk.equals("game")) {
+            api_request = api.trxGame(sv.publickey, sv.privatekey, spLogin.getString(sv.token, ""), VoucherGame.nomor.getText().toString(), trPembayaran, voId);
         } /*else if (sv.produk.equals("telpsms")) {
             api_request = api.listBank(sv.publickey, sv.privatekey);
-        } else if (sv.produk.equals("token")) {
-            api_request = api.listBank(sv.publickey, sv.privatekey);
-        } else if (sv.produk.equals("game")) {
-            api_request = api.listBank(sv.publickey, sv.privatekey);
-        } else if (sv.produk.equals("bbm")) {
-            api_request = api.listBank(sv.publickey, sv.privatekey);
-        } else if (sv.produk.equals("gojek")) {
-            api_request = api.listBank(sv.publickey, sv.privatekey);
-        } else if (sv.produk.equals("tagihan")) {
+        }*/ else if (sv.produk.equals("gojek")) {
+            api_request = api.trxGojek(sv.publickey, sv.privatekey, spLogin.getString(sv.token, ""), SaldoGojek.nomor.getText().toString(), trPembayaran, voId);
+        } /*else if (sv.produk.equals("tagihan")) {
             api_request = api.listBank(sv.publickey, sv.privatekey);
         }*/
         api_request.enqueue(new Callback<ResponseBody>() {
@@ -387,6 +396,7 @@ public class gabunganAdapter extends RecyclerView.Adapter {
                         mt.message = data.getString("message");
                         mt.balance = data.getString("balance");
                         theDialog.dismiss();
+                        isTrx = true;
                         dialogTrxBerhasil("", mt.getMessage());
                     } else {
                         dialogTransaksi("Gagal membuat transaksi", "Silahkan coba lagi");

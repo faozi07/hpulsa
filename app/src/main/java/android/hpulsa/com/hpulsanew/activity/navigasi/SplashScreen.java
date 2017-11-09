@@ -84,7 +84,7 @@ public class SplashScreen extends AppCompatActivity {
             mYear = c.get(Calendar.YEAR);
             mMonth = c.get(Calendar.MONTH) + 1;
             mDay = c.get(Calendar.DAY_OF_MONTH);
-            if (mYear >= 2018 || mMonth >= 11 || mDay >= 18) {
+            if (mYear >= 2018 || mMonth >= 12 || mDay >= 06) {
                 finish();
                 startActivity(new Intent(SplashScreen.this, TrialHabis.class));
             } else {

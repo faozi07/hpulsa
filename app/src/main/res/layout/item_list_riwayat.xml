@@ -97,11 +97,13 @@
                 android:textColor="@color/colorPrimary" />
             <TextView
                 android:id="@+id/tVoucher"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:gravity="right"
                 android:text="TSEL 5.000"
-                android:textSize="12dp" />
+                android:textSize="12dp"
+                android:maxLines="5"
+                android:maxLength="100"
+                android:inputType="textCapSentences|textMultiLine"/>
         </RelativeLayout>
     </LinearLayout>
 

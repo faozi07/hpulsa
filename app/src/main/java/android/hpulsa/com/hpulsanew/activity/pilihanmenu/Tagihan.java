@@ -74,7 +74,10 @@ public class Tagihan extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        nomorHp.setText("");
+        if (gabunganAdapter.isTrx) {
+            nomorHp.setText("");
+            gabunganAdapter.isTrx=false;
+        }
     }
 
     @Override

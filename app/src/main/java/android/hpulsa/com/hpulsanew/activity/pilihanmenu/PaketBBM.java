@@ -76,7 +76,10 @@ public class PaketBBM extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        nomor.setText("");
+        if (gabunganAdapter.isTrx) {
+            nomor.setText("");
+            gabunganAdapter.isTrx=false;
+        }
     }
 
     private void declaration() {

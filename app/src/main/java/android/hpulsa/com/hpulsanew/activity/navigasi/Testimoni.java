@@ -68,7 +68,7 @@ public class Testimoni extends AppCompatActivity {
     ArrayList<modTestimoniAll> arrTest = new ArrayList<>();
     TextCaptcha textCaptcha;
     int numberOfCaptchaFalse = 1;
-    public static int offset = 0,limit = 10,totalProduk=20;
+    public static int offset = 0,limit = 10,totalData=0;
     String pesan;
     private boolean isKirimTest = false;
 
@@ -102,6 +102,8 @@ public class Testimoni extends AppCompatActivity {
         rvTestimoni.setLayoutManager(llm);
         rvTestimoni.setHasFixedSize(true);
         layButtom = (LinearLayout) findViewById(R.id.lay_progressbar_bottom);
+        testimoniAdapter = new TestimoniAdapter(Testimoni.this, arrTest);
+        rvTestimoni.setAdapter(testimoniAdapter);
     }
 
     private void cekKoneksi() {
@@ -120,6 +122,9 @@ public class Testimoni extends AppCompatActivity {
             public void onRefresh() {
                 swipRefresh.setRefreshing(false);
                 isLoading = false;
+                is_first=true;
+                offset=0;
+                arrTest.clear();
                 tampilTest();
             }
         });
@@ -201,7 +206,7 @@ public class Testimoni extends AppCompatActivity {
                         if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
                                 && firstVisibleItemPosition >= 0 && totalItemCount >= 10) {
                             isLastPage = true;
-                            if (offset < totalProduk) {
+                            if (offset < totalData) {
                                 tampilTest();
                             }
                         }
@@ -234,8 +239,8 @@ public class Testimoni extends AppCompatActivity {
                 pLoading.dismiss();
                 try {
                     if(response.code() == 200){
-
-                        JSONArray responseArray = new JSONArray(response.body().string());
+                        JSONObject jsonObject = new JSONObject(response.body().string());
+                        JSONArray responseArray = jsonObject.getJSONArray("data");
                         Log.d("Object ","");
                         for (int i=0; i<responseArray.length(); i++) {
                             JSONObject data = responseArray.getJSONObject(i);
@@ -247,9 +252,8 @@ public class Testimoni extends AppCompatActivity {
                             mr.setPesanTes(data.getString("pesan"));
                             arrTest.add(mr);
                         }
+                        totalData = jsonObject.getInt("total_data");
                         offset = offset+10;
-                        testimoniAdapter = new TestimoniAdapter(Testimoni.this, arrTest);
-                        rvTestimoni.setAdapter(testimoniAdapter);
                         testimoniAdapter.notifyDataSetChanged();
                         layButtom.setVisibility(View.GONE);
                         isLastPage = false;

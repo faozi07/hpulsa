@@ -64,10 +64,14 @@
 
             <TextView
                 android:id="@+id/tNominal"
-                android:layout_width="wrap_content"
+                android:layout_width="180dp"
                 android:layout_height="wrap_content"
+                android:gravity="right"
                 android:layout_alignParentRight="true"
-                android:text="TSEL 5.000 " />
+                android:text="TSEL 5.000 "
+                android:maxLines="5"
+                android:maxLength="100"
+                android:inputType="textCapSentences|textMultiLine"/>
         </RelativeLayout>
 
         <RelativeLayout

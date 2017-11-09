@@ -1,4 +1,4 @@
-package android.hpulsa.com.hpulsanew.activity.pilihanmenu;
+package android.hpulsa.com.hpulsanew.activity.navigasi;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -6,14 +6,15 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.hpulsa.com.hpulsanew.R;
-import android.hpulsa.com.hpulsanew.model.modTransaksi;
+import android.hpulsa.com.hpulsanew.activity.pilihanmenu.PopupTransfer;
+import android.hpulsa.com.hpulsanew.util.StaticVars;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
@@ -29,14 +30,9 @@ import java.util.Date;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 
-/**
- * Created by ozi on 04/11/2017.
- */
+public class PopupDeposit extends AppCompatActivity {
 
-public class PopupTransfer extends AppCompatActivity {
-
-    modTransaksi mt = new modTransaksi();
-    public static TextView tJmlBayar,tNorek,tAtasnama;
+    public static TextView tJmlBayar,tNorek,tAtasnama,tTglDeposit;
     public static ImageView imgBank;
     FancyButton btnSimpanSS,btnBayar;
     File imgFile;
@@ -44,21 +40,24 @@ public class PopupTransfer extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.popup_transfer);
+        setContentView(R.layout.popup_deposit);
 
         declaration();
         action();
 
-        getSupportActionBar().setTitle("Jumlah Transfer");
+        getSupportActionBar().setTitle("Transfer Deposit");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void declaration() {
+        StaticVars sv = new StaticVars();
         tJmlBayar = (TextView) findViewById(R.id.tJmlBayar);
         tNorek = (TextView) findViewById(R.id.tnoRek);
         tAtasnama = (TextView) findViewById(R.id.tAtasNama);
+        tTglDeposit = (TextView) findViewById(R.id.tglDeposit);
+        tTglDeposit.setText(sv.tglTopup);
         imgBank = (ImageView) findViewById(R.id.imgBank);
-        double tagihan = Double.parseDouble(mt.harga);
+        double tagihan = Double.parseDouble(sv.jmlTopup);
         DecimalFormat kursIndonesia = (DecimalFormat) DecimalFormat.getCurrencyInstance();
         DecimalFormatSymbols formatRp = new DecimalFormatSymbols();
 
@@ -68,15 +67,15 @@ public class PopupTransfer extends AppCompatActivity {
 
         kursIndonesia.setDecimalFormatSymbols(formatRp);
         tJmlBayar.setText(kursIndonesia.format(tagihan));
-        tNorek.setText("No. Rekening : "+mt.getAccNumber());
-        tAtasnama.setText("a/n "+mt.accName);
-        if (mt.bank.equals("bank_bca")){
+        tNorek.setText("No. Rekening : "+sv.noRek);
+        tAtasnama.setText("a/n "+sv.namaRek);
+        if (sv.namaBank.equals("bank_bca")){
             imgBank.setImageResource(R.drawable.ic_logo_bca);
-        } else if (mt.bank.equals("bank_bri")) {
+        } else if (sv.namaBank.equals("bank_bri")) {
             imgBank.setImageResource(R.drawable.ic_logo_bri);
-        } else if (mt.bank.equals("bank_bni")) {
+        } else if (sv.namaBank.equals("bank_bni")) {
             imgBank.setImageResource(R.drawable.ic_logo_bni);
-        } else if (mt.bank.equals("bank_mandiri")) {
+        } else if (sv.namaBank.equals("bank_mandiri")) {
             imgBank.setImageResource(R.drawable.ic_logo_mandiri);
         }
 
@@ -123,10 +122,10 @@ public class PopupTransfer extends AppCompatActivity {
                         checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                     dialogSaveSS("Berhasil simpan data pembayaran di galeri","Buka sekarang ?");
                 } else {
-                    ActivityCompat.requestPermissions(PopupTransfer.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                    ActivityCompat.requestPermissions(PopupDeposit.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 }
             } else {
-                Toast.makeText(PopupTransfer.this,"Berhasil simpan data pembayaran di galeri",Toast.LENGTH_LONG);
+                Toast.makeText(PopupDeposit.this,"Berhasil simpan data pembayaran di galeri",Toast.LENGTH_LONG);
                 dialogSaveSS("Berhasil simpan data pembayaran di galeri","Buka sekarang ?");
             }
         } catch (Throwable e) {
@@ -158,7 +157,7 @@ public class PopupTransfer extends AppCompatActivity {
     }
 
     private void dialogSaveSS(String title, String content) {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(PopupTransfer.this);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(PopupDeposit.this);
         alertDialogBuilder.setTitle(title);
         alertDialogBuilder
                 .setMessage(content)

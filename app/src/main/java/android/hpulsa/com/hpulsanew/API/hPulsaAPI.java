@@ -136,7 +136,7 @@ public interface hPulsaAPI {
             @Header("privatekey") String privatekey,
             @Header("tokenuser") String token,
             @Field("nomorhp") String nomorhp,
-            @Field("trpembayaran") String trpembayaran,
+            @Field("trpembayaran") String trpembayaran, //balance atau ID bank
             @Field("void") String vo_id);
 
     @POST("paket_internet/order") //======================== TRANSAKSI INTERNET PAKET DATA ======================
@@ -146,6 +146,55 @@ public interface hPulsaAPI {
             @Header("privatekey") String privatekey,
             @Header("tokenuser") String token,
             @Field("nomorhp") String nomorhp,
-            @Field("trpembayaran") String trpembayaran,
+            @Field("trpembayaran") String trpembayaran, //balance atau ID bank
             @Field("void") String vo_id);
+
+    @POST("blackberry/order") //======================== TRANSAKSI BB ======================
+    @FormUrlEncoded
+    Call<ResponseBody> trxBB(
+            @Header("publickey") String publickey,
+            @Header("privatekey") String privatekey,
+            @Header("tokenuser") String token,
+            @Field("nomorhp") String nomorhp,
+            @Field("trpembayaran") String trpembayaran, //balance atau ID bank
+            @Field("void") String vo_id);
+
+    @POST("gojek/order") //======================== TRANSAKSI GO-JEK ======================
+    @FormUrlEncoded
+    Call<ResponseBody> trxGojek(
+            @Header("publickey") String publickey,
+            @Header("privatekey") String privatekey,
+            @Header("tokenuser") String token,
+            @Field("nomorhp") String nomorhp,
+            @Field("trpembayaran") String trpembayaran, //balance atau ID bank
+            @Field("void") String vo_id);
+
+    @POST("pln/order") //======================== TRANSAKSI TOKEN PLN ======================
+    @FormUrlEncoded
+    Call<ResponseBody> trxTokenPLN(
+            @Header("publickey") String publickey,
+            @Header("privatekey") String privatekey,
+            @Header("tokenuser") String token,
+            @Field("nomorhp") String nomorhp,
+            @Field("trpembayaran") String trpembayaran, //balance atau ID bank
+            @Field("void") String vo_id);
+
+    @POST("game/order") //======================== TRANSAKSI VOUCHER GAME ======================
+    @FormUrlEncoded
+    Call<ResponseBody> trxGame(
+            @Header("publickey") String publickey,
+            @Header("privatekey") String privatekey,
+            @Header("tokenuser") String token,
+            @Field("nomorhp") String nomorhp,
+            @Field("trpembayaran") String trpembayaran, //balance atau ID bank
+            @Field("void") String vo_id);
+
+    @POST("deposit/tambah") //======================== TRANSAKSI TAMBAH DEPOSIT ======================
+    @FormUrlEncoded
+    Call<ResponseBody> isiDeposit(
+            @Header("publickey") String publickey,
+            @Header("privatekey") String privatekey,
+            @Header("tokenuser") String token,
+            @Field("deposit") String deposit,
+            @Field("trpembayaran") int trpembayaran); //ID bank
 }
