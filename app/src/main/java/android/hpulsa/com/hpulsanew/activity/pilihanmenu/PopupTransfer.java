@@ -70,14 +70,35 @@ public class PopupTransfer extends AppCompatActivity {
         tJmlBayar.setText(kursIndonesia.format(tagihan));
         tNorek.setText("No. Rekening : "+mt.getAccNumber());
         tAtasnama.setText("a/n "+mt.accName);
+
         if (mt.bank.equals("bank_bca")){
             imgBank.setImageResource(R.drawable.ic_logo_bca);
         } else if (mt.bank.equals("bank_bri")) {
+            imgBank.setImageResource(R.drawable.ic_logo_bri);
+        } else if (mt.bank.equals("bank_bri2")) {
             imgBank.setImageResource(R.drawable.ic_logo_bri);
         } else if (mt.bank.equals("bank_bni")) {
             imgBank.setImageResource(R.drawable.ic_logo_bni);
         } else if (mt.bank.equals("bank_mandiri")) {
             imgBank.setImageResource(R.drawable.ic_logo_mandiri);
+        } else if (mt.bank.equals("bitcoin")) {
+            imgBank.setImageResource(R.drawable.ic_bitcoin);
+        } else if (mt.bank.equals("fasapay")) {
+            imgBank.setImageResource(R.drawable.ic_fasapay);
+        } else if (mt.bank.equals("ipaymu")) {
+            imgBank.setImageResource(R.drawable.ic_ipaymu);
+        } else if (mt.bank.equals("paypal")) {
+            imgBank.setImageResource(R.drawable.ic_paypal);
+        } else if (mt.bank.equals("perfectmoney")) {
+            imgBank.setImageResource(R.drawable.ic_perfect_money);
+        } else if (mt.bank.equals("webmoney")) {
+            imgBank.setImageResource(R.drawable.ic_webmoney);
+        } else if (mt.bank.equals("bank_bsm")) {
+            imgBank.setImageResource(R.drawable.ic_bsm);
+        } else if (mt.bank.equals("fasapay_id")) {
+            imgBank.setImageResource(R.drawable.ic_fasapay);
+        } else if (mt.bank.equals("duitku")) {
+            imgBank.setImageResource(R.drawable.ic_kartu_kredit);
         }
 
         btnSimpanSS = (FancyButton) findViewById(R.id.btnSimpanSS);

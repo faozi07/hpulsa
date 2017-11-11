@@ -43,7 +43,7 @@ public class StaticVars {
     public static String statusTopup = "";
     public static String noRek = "";
     public static String namaRek = "";
-    public static String namaBank = "";
+    public static String keyBank = "";
     public static String publickey = "cbb28d1c782f43eba9049395da2eb38d";
     public static String privatekey = "9ba923e5106c703f36b299530210fad7";
     public static int TIMEOUT = 240;

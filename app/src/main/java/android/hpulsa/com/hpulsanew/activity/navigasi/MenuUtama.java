@@ -267,7 +267,7 @@ public class MenuUtama extends AppCompatActivity {
         listMenu.add(new ItemSlideMenu(R.drawable.ic_username,R.drawable.ic_pembatas,"Profil",""));
         listMenu.add(new ItemSlideMenu(R.drawable.ic_verified,R.drawable.ic_pembatas,"Verifikasi Akun",""));
         listMenu.add(new ItemSlideMenu(R.drawable.ic_riwayat,R.drawable.ic_pembatas,"Riwayat",""));
-        listMenu.add(new ItemSlideMenu(R.drawable.ic_print,R.drawable.ic_pembatas,"Print Dompet Pulsa",""));
+        listMenu.add(new ItemSlideMenu(R.drawable.ic_notif,R.drawable.ic_pembatas,"Pemberitahuan",""));
         listMenu.add(new ItemSlideMenu(R.drawable.ic_testimoni,R.drawable.ic_pembatas,"Testimonial",""));
 
         adapter = new SlideMenuAdapter(this,listMenu);
@@ -294,6 +294,7 @@ public class MenuUtama extends AppCompatActivity {
                         startActivity(new Intent(MenuUtama.this, RiwayatTransaksi.class));
                         break;
                     case 6:
+                        startActivity(new Intent(MenuUtama.this, Pemberitahuan.class));
                         break;
                     /*case 9:
                         startActivity(new Intent(MenuUtama.this, HargaProduct.class));

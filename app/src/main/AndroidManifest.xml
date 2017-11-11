@@ -100,7 +100,8 @@
         <activity
             android:name=".activity.pilihanmenu.PopupTransfer"
             android:theme="@style/AppTheme.FullScreen" />
-        <activity android:name=".activity.navigasi.PopupDeposit"></activity>
+        <activity android:name=".activity.navigasi.PopupDeposit" />
+        <activity android:name=".activity.navigasi.Pemberitahuan"></activity>
     </application>
 
 </manifest>

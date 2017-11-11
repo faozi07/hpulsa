@@ -44,9 +44,10 @@ public class PopupDeposit extends AppCompatActivity {
 
         declaration();
         action();
-
-        getSupportActionBar().setTitle("Transfer Deposit");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Transfer Deposit");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     private void declaration() {
@@ -69,14 +70,34 @@ public class PopupDeposit extends AppCompatActivity {
         tJmlBayar.setText(kursIndonesia.format(tagihan));
         tNorek.setText("No. Rekening : "+sv.noRek);
         tAtasnama.setText("a/n "+sv.namaRek);
-        if (sv.namaBank.equals("bank_bca")){
+        if (sv.keyBank.equals("bank_bca")){
             imgBank.setImageResource(R.drawable.ic_logo_bca);
-        } else if (sv.namaBank.equals("bank_bri")) {
+        } else if (sv.keyBank.equals("bank_bri")) {
             imgBank.setImageResource(R.drawable.ic_logo_bri);
-        } else if (sv.namaBank.equals("bank_bni")) {
+        } else if (sv.keyBank.equals("bank_bri2")) {
+            imgBank.setImageResource(R.drawable.ic_logo_bri);
+        } else if (sv.keyBank.equals("bank_bni")) {
             imgBank.setImageResource(R.drawable.ic_logo_bni);
-        } else if (sv.namaBank.equals("bank_mandiri")) {
+        } else if (sv.keyBank.equals("bank_mandiri")) {
             imgBank.setImageResource(R.drawable.ic_logo_mandiri);
+        } else if (sv.keyBank.equals("bitcoin")) {
+            imgBank.setImageResource(R.drawable.ic_bitcoin);
+        } else if (sv.keyBank.equals("fasapay")) {
+            imgBank.setImageResource(R.drawable.ic_fasapay);
+        } else if (sv.keyBank.equals("ipaymu")) {
+            imgBank.setImageResource(R.drawable.ic_ipaymu);
+        } else if (sv.keyBank.equals("paypal")) {
+            imgBank.setImageResource(R.drawable.ic_paypal);
+        } else if (sv.keyBank.equals("perfectmoney")) {
+            imgBank.setImageResource(R.drawable.ic_perfect_money);
+        } else if (sv.keyBank.equals("webmoney")) {
+            imgBank.setImageResource(R.drawable.ic_webmoney);
+        } else if (sv.keyBank.equals("bank_bsm")) {
+            imgBank.setImageResource(R.drawable.ic_bsm);
+        } else if (sv.keyBank.equals("fasapay_id")) {
+            imgBank.setImageResource(R.drawable.ic_fasapay);
+        } else if (sv.keyBank.equals("duitku")) {
+            imgBank.setImageResource(R.drawable.ic_kartu_kredit);
         }
 
         btnSimpanSS = (FancyButton) findViewById(R.id.btnSimpanSS);

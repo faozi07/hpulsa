@@ -98,7 +98,7 @@ public class TopupSaldo extends AppCompatActivity {
                     idBannk = mr.getId();
                     sv.namaRek = mr.getNamaRek();
                     sv.noRek = mr.getNoRek();
-                    sv.namaBank = mr.getNamaBank();
+                    sv.keyBank = mr.getKeyBank();
                 }
             }
 
