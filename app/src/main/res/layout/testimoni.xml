@@ -41,9 +41,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="10dp"
-            android:src="@drawable/ic_create"
             app:backgroundTint="@color/colorPrimary"
-            app:srcCompat="@drawable/ic_info" />
+            app:srcCompat="@drawable/ic_tulis" />
     </android.support.design.widget.CoordinatorLayout>
 
     <LinearLayout

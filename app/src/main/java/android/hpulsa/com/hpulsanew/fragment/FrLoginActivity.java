@@ -247,7 +247,7 @@ public class FrLoginActivity extends Fragment {
                                                 editor.apply();
 
                                                 Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-
+                                                getActivity().finish();
                                                 startActivity(new Intent(getActivity(), MenuUtama.class));
                                             }
                                         } else if (response.code() == 400 || response.code() == 401) {

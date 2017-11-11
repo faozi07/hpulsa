@@ -9,16 +9,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/mygridview"
-        android:columnWidth="120dp"
+        android:background="#fff"
+        android:columnWidth="100dp"
         android:layout_gravity="center_horizontal"
         android:gravity="center|bottom"
         android:horizontalSpacing="5dp"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:numColumns="3"
         android:stretchMode="spacingWidth"
-        android:verticalSpacing="5dp"
+        android:verticalSpacing="8dp"
         android:visibility="visible"/>
-
 
 </FrameLayout>

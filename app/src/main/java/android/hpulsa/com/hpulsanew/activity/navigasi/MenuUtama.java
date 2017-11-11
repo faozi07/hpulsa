@@ -1,5 +1,6 @@
 package android.hpulsa.com.hpulsanew.activity.navigasi;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.hpulsa.com.hpulsanew.adapter.gridViewAdapter;
 import android.hpulsa.com.hpulsanew.model.modeKetMenu;
 import android.hpulsa.com.hpulsanew.util.StaticVars;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -28,13 +30,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -60,6 +66,7 @@ public class MenuUtama extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private RelativeLayout mainContent;
     private ActionBarDrawerToggle actionBarDrawerToggle;
+    private ImageView imgMenu;
 
     private ViewStub stubGrid;
     private GridView gridView;
@@ -72,6 +79,7 @@ public class MenuUtama extends AppCompatActivity {
     private Toolbar toolbar;
     private hPulsaAPI api;
     private SharedPreferences spLogin;
+    private TextView tNoHpBeranda;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +92,26 @@ public class MenuUtama extends AppCompatActivity {
         setSupportActionBar(toolbar);
         setupDrawerToggle();
 
+        final LinearLayout layout = (LinearLayout) findViewById(R.id.appBar);
+        final ImageView imgSaldo = (ImageView) findViewById(R.id.imgSaldo);
+        ViewTreeObserver vto = layout.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int width  = layout.getMeasuredWidth();
+                int height = layout.getMeasuredHeight();
+                if (width<=480) {
+                    tNoHpBeranda.setTextSize(15);
+                    tSaldo.setTextSize(12);
+//                    imgSaldo.set
+                } else {
+                    tNoHpBeranda.setTextSize(17);
+                    tSaldo.setTextSize(13);
+                }
+            }
+        });
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_plus);
         listViewSliding.setItemChecked(0,true);
         drawerLayout.closeDrawer(listViewSliding);
         itemClickMenu();
@@ -110,6 +136,15 @@ public class MenuUtama extends AppCompatActivity {
         listViewSliding.addHeaderView(navHeader);
         nama = (TextView) navHeader.findViewById(R.id.namaProfil);
         noTelp = (TextView) navHeader.findViewById(R.id.noTelp);
+        CircleImageView imgProfil = (CircleImageView) navHeader.findViewById(R.id.imageProfil);
+        imgProfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                startActivity(new Intent(MenuUtama.this,Profil.class));
+                drawerLayout.closeDrawer(Gravity.START);
+            }
+        });
         nama.setText(sv.name);
         noTelp.setText(sv.phone);
         fotoProfil = (CircleImageView) navHeader.findViewById(R.id.imageProfil);
@@ -123,7 +158,12 @@ public class MenuUtama extends AppCompatActivity {
         formatRp.setGroupingSeparator('.');
 
         kursIndonesia.setDecimalFormatSymbols(formatRp);
-        tSaldo.setText(kursIndonesia.format(saldo));
+        String saldo1 = kursIndonesia.format(saldo);
+        if (saldo1.contains(",")) {
+            saldo1 = saldo1.substring(0,saldo1.length()-3);
+        }
+
+        tSaldo.setText(saldo1);
         laySaldo = (LinearLayout) findViewById(R.id.laySaldo);
         laySaldo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,7 +171,19 @@ public class MenuUtama extends AppCompatActivity {
                 startActivity(new Intent(MenuUtama.this,TopupSaldo.class));
             }
         });
-
+        imgMenu = (ImageView) findViewById(R.id.imgMenu);
+        imgMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (drawerLayout.isDrawerOpen(Gravity.START)) {
+                    drawerLayout.closeDrawer(Gravity.START);
+                } else {
+                    drawerLayout.openDrawer(Gravity.START);
+                }
+            }
+        });
+        tNoHpBeranda = (TextView) findViewById(R.id.noHpBeranda);
+        tNoHpBeranda.setText(sv.phone);
     }
 
     AdapterView.OnItemClickListener onItemClick = new AdapterView.OnItemClickListener() {
@@ -157,40 +209,6 @@ public class MenuUtama extends AppCompatActivity {
             }
         }
     };
-
-
-
-    private void logout() {
-        SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(StaticVars.token, "");
-        editor.apply();
-        Toast.makeText(MenuUtama.this,"Berhasil logout",Toast.LENGTH_LONG).show();
-    }
-
-    private void dialogLogout() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                this);
-        alertDialogBuilder.setTitle("Logout");
-        alertDialogBuilder
-                .setMessage("Anda yakin ingin logout ?")
-                .setCancelable(false)
-                .setPositiveButton("Ya", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        logout();
-                        finish();
-                        startActivity(new Intent(MenuUtama.this, SignActivity.class));
-                    }
-                })
-                .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-    }
 
     private void dialogKeluar() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
@@ -264,7 +282,7 @@ public class MenuUtama extends AppCompatActivity {
         cekSaldo();
         listMenu.add(new ItemSlideMenu(R.drawable.ic_topup,R.drawable.ic_pembatas,"Topup Saldo",""));
         listMenu.add(new ItemSlideMenu(R.drawable.ic_affiliate,R.drawable.ic_pembatas,"Affiliate",""));
-        listMenu.add(new ItemSlideMenu(R.drawable.ic_username,R.drawable.ic_pembatas,"Profil",""));
+        listMenu.add(new ItemSlideMenu(R.drawable.ic_profile,R.drawable.ic_pembatas,"Profil",""));
         listMenu.add(new ItemSlideMenu(R.drawable.ic_verified,R.drawable.ic_pembatas,"Verifikasi Akun",""));
         listMenu.add(new ItemSlideMenu(R.drawable.ic_riwayat,R.drawable.ic_pembatas,"Riwayat",""));
         listMenu.add(new ItemSlideMenu(R.drawable.ic_notif,R.drawable.ic_pembatas,"Pemberitahuan",""));
@@ -285,6 +303,7 @@ public class MenuUtama extends AppCompatActivity {
                     case 2:
                         break;
                     case 3:
+                        finish();
                         startActivity(new Intent(MenuUtama.this, Profil.class));
                         break;
                     case 4:
@@ -330,29 +349,6 @@ public class MenuUtama extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.menu_toogle, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        int id = item.getItemId();
-
-        if (id == R.id.logout) {
-            dialogLogout();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         actionBarDrawerToggle.syncState();
@@ -360,15 +356,10 @@ public class MenuUtama extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        dialogKeluar();
-    }
-
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-        if (hasCapture) {
-
+        if (drawerLayout.isDrawerOpen(Gravity.START)) {
+            drawerLayout.closeDrawer(Gravity.START);
         } else {
-
+            dialogKeluar();
         }
     }
 }

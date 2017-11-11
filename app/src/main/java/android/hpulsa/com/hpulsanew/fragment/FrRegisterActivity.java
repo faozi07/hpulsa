@@ -312,7 +312,7 @@ public class FrRegisterActivity extends Fragment {
                                                 }
 
                                                 editor.apply();
-
+                                                getActivity().finish();
                                                 if (sharedPreferences.getString(sv.verifPhone,"").equals("0")||
                                                         sharedPreferences.getString(sv.verifEmail,"").equals("0")) {
                                                     startActivity(new Intent(getActivity(), Verifikasi.class));

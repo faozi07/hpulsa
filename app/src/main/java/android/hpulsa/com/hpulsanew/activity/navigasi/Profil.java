@@ -1,9 +1,11 @@
 package android.hpulsa.com.hpulsanew.activity.navigasi;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.hpulsa.com.hpulsanew.util.StaticVars;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.hpulsa.com.hpulsanew.R;
@@ -11,7 +13,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -22,8 +26,9 @@ import java.util.Locale;
 
 public class Profil extends AppCompatActivity {
 
-    private TextView eNama, eUsername, eNoHp, eEmail, eSttsAkun, eTtlTrx, eJnsAkun, eTglMndftr, eSaldo,eAlamat,ejenkel,btnTbhSaldo;
+    private TextView eNama, eUsername, eNoHp, eEmail, eSttsAkun, eTtlTrx, eJnsAkun, eTglMndftr, eSaldo,eAlamat,ejenkel,tLogout;
     private ImageView imgVerified;
+    private LinearLayout laySaldo;
     StaticVars sv = new StaticVars();
     private SharedPreferences spProfil;
 
@@ -50,10 +55,11 @@ public class Profil extends AppCompatActivity {
         eTtlTrx = (TextView) findViewById(R.id.eTtlTrx);
         eJnsAkun = (TextView) findViewById(R.id.eJnsAkun);
         eTglMndftr = (TextView) findViewById(R.id.eTglMendaftar);
-        btnTbhSaldo = (TextView) findViewById(R.id.btnTbhSaldo);
         imgVerified = (ImageView) findViewById(R.id.imgVerif);
         ejenkel = (TextView) findViewById(R.id.eJenkel);
         eAlamat = (TextView) findViewById(R.id.eAlamat);
+        laySaldo = (LinearLayout) findViewById(R.id.laySaldo);
+        tLogout = (TextView) findViewById(R.id.tLogout);
     }
 
     private void setComponent() {
@@ -101,10 +107,16 @@ public class Profil extends AppCompatActivity {
     }
 
     private void action() {
-        btnTbhSaldo.setOnClickListener(new View.OnClickListener() {
+        laySaldo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Profil.this,TopupSaldo.class));
+            }
+        });
+        tLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogLogout();
             }
         });
     }
@@ -118,6 +130,39 @@ public class Profil extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
+        startActivity(new Intent(Profil.this,MenuUtama.class));
         return;
+    }
+
+    private void dialogLogout() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                this);
+        alertDialogBuilder.setTitle("Logout");
+        alertDialogBuilder
+                .setMessage("Anda yakin ingin logout ?")
+                .setCancelable(false)
+                .setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        logout();
+                        finish();
+                        startActivity(new Intent(Profil.this, SignActivity.class));
+                    }
+                })
+                .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    private void logout() {
+        SharedPreferences sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(StaticVars.token, "");
+        editor.apply();
+        Toast.makeText(Profil.this,"Berhasil logout",Toast.LENGTH_LONG).show();
     }
 }

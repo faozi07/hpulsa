@@ -69,5 +69,5 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="10dp"
         app:backgroundTint="@color/colorPrimary"
-        app:srcCompat="@drawable/ic_info" />
+        app:srcCompat="@drawable/ic_information" />
 </android.support.design.widget.CoordinatorLayout>
