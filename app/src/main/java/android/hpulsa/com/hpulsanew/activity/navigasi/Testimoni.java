@@ -142,25 +142,10 @@ public class Testimoni extends AppCompatActivity {
                 final EditText eUsername = (EditText) dialog_layout.findViewById(R.id.eUsername);
                 final EditText eNoHp = (EditText) dialog_layout.findViewById(R.id.eNoHp);
                 final EditText ePesan = (EditText) dialog_layout.findViewById(R.id.ePesan);
-                final EditText eCaptcha = (EditText) dialog_layout.findViewById(R.id.teksCaptcha);
                 layoutKirimTes = (RelativeLayout) findViewById(R.id.layoutKirimTes);
 
                 eUsername.setText(spLogin.getString(sv.username,""));
                 eNoHp.setText(spLogin.getString(sv.phone,""));
-
-                final ImageView captcha = (ImageView) dialog_layout.findViewById(R.id.Captcha);
-                final ImageView imgRefCaptcha = (ImageView) dialog_layout.findViewById(R.id.imgRefrCaptcha);
-
-                textCaptcha = new TextCaptcha(600, 150, 5, TextCaptcha.TextOptions.NUMBERS_ONLY);
-                captcha.setImageBitmap(textCaptcha.getImage());
-                imgRefCaptcha.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        numberOfCaptchaFalse++;
-                        textCaptcha = new TextCaptcha(600, 150, 5, TextCaptcha.TextOptions.NUMBERS_ONLY);
-                        captcha.setImageBitmap(textCaptcha.getImage());
-                    }
-                });
 
                 FancyButton btnKirim = (FancyButton) dialog_layout.findViewById(R.id.btn_kirim);
                 btnKirim.setOnClickListener(new View.OnClickListener() {
@@ -169,12 +154,8 @@ public class Testimoni extends AppCompatActivity {
                         String username = eUsername.getText().toString();
                         String noHp = eNoHp.getText().toString();
                         pesan = ePesan.getText().toString();
-                        String teksCaptcha = eCaptcha.getText().toString();
-                        if (username.equals("") || noHp.equals("") || pesan.equals("") || teksCaptcha.equals("")) {
+                        if (username.equals("") || noHp.equals("") || pesan.equals("")) {
                             dialogGagalKirim("Isi dengan lengkap", "Inputan tidak boleh kosong");
-                        } else if (!textCaptcha.checkAnswer(teksCaptcha.trim())) {
-                            dialogGagalKirim("Captcha tidak cocok", "Periksa kembali inputan captcha anda");
-                            eCaptcha.setText("");
                         } else {
                             cekKoneksi();
                             theDialog.dismiss();

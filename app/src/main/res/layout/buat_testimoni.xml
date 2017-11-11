@@ -62,46 +62,11 @@
                         android:maxLines="50"/>
                 </android.support.design.widget.TextInputLayout>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:id="@+id/Captcha"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <ImageView
-                        android:id="@+id/imgRefrCaptcha"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentRight="true"
-                        android:layout_gravity="right"
-                        android:background="@drawable/bg_primary"
-                        android:padding="5dp"
-                        android:src="@drawable/ic_refresh_captcha" />
-                </RelativeLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                    <EditText
-                        android:id="@+id/teksCaptcha"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:hint="Kode Keamanan"
-                        android:inputType="number"
-                        android:lines="1"
-                        android:maxLines="1" />
-                </android.support.design.widget.TextInputLayout>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="50dp">
 
                     <mehdi.sakout.fancybuttons.FancyButton
                         android:id="@+id/btn_batal"

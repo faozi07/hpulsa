@@ -20,6 +20,11 @@ public class Pemberitahuan extends AppCompatActivity {
 
         declaration();
         action();
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Pemberitahuan");
+        }
     }
 
     private void declaration() {

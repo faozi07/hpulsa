@@ -89,9 +89,6 @@
             android:theme="@style/AppTheme.FullScreen" />
         <activity android:name=".activity.TrialHabis" />
         <activity
-            android:name=".activity.navigasi.BuatTestimoni"
-            android:theme="@style/AppTheme.FullScreen" />
-        <activity
             android:name=".activity.navigasi.HargaProduct"
             android:theme="@style/AppTheme.FullScreen" />
         <activity
@@ -100,8 +97,10 @@
         <activity
             android:name=".activity.pilihanmenu.PopupTransfer"
             android:theme="@style/AppTheme.FullScreen" />
-        <activity android:name=".activity.navigasi.PopupDeposit" />
-        <activity android:name=".activity.navigasi.Pemberitahuan"></activity>
+        <activity android:name=".activity.navigasi.PopupDeposit"
+            android:theme="@style/AppTheme.FullScreen" />
+        <activity android:name=".activity.navigasi.Pemberitahuan"
+            android:theme="@style/AppTheme.FullScreen"></activity>
     </application>
 
 </manifest>

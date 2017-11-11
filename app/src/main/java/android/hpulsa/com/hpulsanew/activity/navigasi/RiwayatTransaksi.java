@@ -1,5 +1,6 @@
 package android.hpulsa.com.hpulsanew.activity.navigasi;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -17,12 +18,14 @@ import android.hpulsa.com.hpulsanew.R;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -35,6 +38,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
 
+import mehdi.sakout.fancybuttons.FancyButton;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -85,6 +89,27 @@ public class RiwayatTransaksi extends AppCompatActivity {
         listRiwayat = (RecyclerView) findViewById(R.id.list_riwayat);
         imgSearch = (ImageView) findViewById(R.id.imgSearh);
         fabKetSttus = (FloatingActionButton) findViewById(R.id.fabKetStatus);
+        fabKetSttus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LayoutInflater inflater = LayoutInflater.from(RiwayatTransaksi.this);
+                View dialog_layout = inflater.inflate(R.layout.ket_status, null);
+
+                AlertDialog.Builder dialogBuatTes = new AlertDialog.Builder(RiwayatTransaksi.this);
+                dialogBuatTes.setView(dialog_layout);
+                final AlertDialog theDialog = dialogBuatTes.create();
+
+                FancyButton btnOk = (FancyButton) dialog_layout.findViewById(R.id.btn_ok);
+                btnOk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        theDialog.dismiss();
+                    }
+                });
+
+                theDialog.show();
+            }
+        });
 
         llm = new LinearLayoutManager(this);
         listRiwayat.setLayoutManager(llm);
