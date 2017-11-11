@@ -60,7 +60,6 @@ public class TokenPln extends AppCompatActivity {
 
     final int RQS_PICKCONTACT = 1;
     ImageView imgContact;
-    private String opProduk = "";
     boolean isload = true;
     
     @Override
@@ -91,7 +90,6 @@ public class TokenPln extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
-        opProduk="";
         sv.nomorHP="";
         sv.nomorPLN="";
         return;
@@ -145,7 +143,6 @@ public class TokenPln extends AppCompatActivity {
                     provider.setVisibility(View.GONE);
                     layPilihNom.setVisibility(View.GONE);
                     layPilihKontak.setVisibility(View.VISIBLE);
-                    opProduk = "";
                     isload = true;
                     sv.nomorPLN="";
                 } else {
@@ -153,9 +150,8 @@ public class TokenPln extends AppCompatActivity {
                     provider.setVisibility(View.GONE);
                     layPilihNom.setVisibility(View.VISIBLE);
                     layPilihKontak.setVisibility(View.GONE);
-                    opProduk = "token_pln";
-                    if (!opProduk.equals("") && isload) {
-                        getHarga(opProduk);
+                    if (isload) {
+                        getHarga();
                         isload = false;
                     }
 
@@ -176,7 +172,6 @@ public class TokenPln extends AppCompatActivity {
                     provider.setVisibility(View.GONE);
                     layPilihNom.setVisibility(View.GONE);
                     layPilihKontak.setVisibility(View.VISIBLE);
-                    opProduk = "";
                     isload = true;
                     sv.nomorHP="";
                 } else {
@@ -184,9 +179,8 @@ public class TokenPln extends AppCompatActivity {
                     provider.setVisibility(View.GONE);
                     layPilihNom.setVisibility(View.VISIBLE);
                     layPilihKontak.setVisibility(View.GONE);
-                    opProduk = "token_pln";
-                    if (!opProduk.equals("") && isload) {
-                        getHarga(opProduk);
+                    if (isload) {
+                        getHarga();
                         isload = false;
                     }
 
@@ -246,13 +240,13 @@ public class TokenPln extends AppCompatActivity {
 
     }
 
-    private void getHarga(String opProduk) {
+    private void getHarga() {
         arrNominal.clear();
         spLogin = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         Retrofit retrofit = ClientAPI.getMyRetrofit();
         Call<ResponseBody> api_request;
         api = retrofit.create(hPulsaAPI.class);
-        api_request = api.daftarHrgAllPulsa(sv.publickey, sv.privatekey, opProduk);
+        api_request = api.daftarHrgTokenPln(sv.publickey, sv.privatekey, "pln","token_pln");
         api_request.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -265,7 +259,6 @@ public class TokenPln extends AppCompatActivity {
 
                             modNomPulsa mr = new modNomPulsa();
 
-                            mr.setJnsProduk("Pulsa");
                             mr.setId(data.getInt("vo_id"));
                             mr.setProvider(data.getString("op_nama"));
                             mr.setKode(data.getString("vo_kode"));

@@ -92,6 +92,15 @@ public interface hPulsaAPI {
             @Field("limit") int limit,
             @Field("offset") int offset);
 
+    @POST("deposit/riwayat") //===================== RIWAYAT DEPOSIT =============================
+    @FormUrlEncoded
+    Call<ResponseBody> riwayatDeposit(
+            @Header("publickey") String publickey,
+            @Header("privatekey") String privatekey,
+            @Header("tokenuser") String token,
+            @Field("offset") int offset,
+            @Field("limit") int limit);
+
     @POST("testimoni/get_all") //============================== TESTIMONI =================
     @FormUrlEncoded
     Call<ResponseBody> testimoniAll(
@@ -116,13 +125,37 @@ public interface hPulsaAPI {
             @Field("opproduct") String opproduct);
 
 
-    @POST("pulsa/daftar_product") //======================== DAFTAR PRODUK BY OP ======================
+    @POST("pulsa/daftar_product") //======================== DAFTAR HARGA PULSA ======================
     @FormUrlEncoded
     Call<ResponseBody> daftarHrgByOp(
             @Header("publickey") String publickey,
             @Header("privatekey") String privatekey,
             @Field("opproduct") String opproduct,
             @Field("opslug") String opslug);
+
+    @POST("pln/daftar_product") //======================== DAFTAR HARGA TOKEN PLN ======================
+    @FormUrlEncoded
+    Call<ResponseBody> daftarHrgTokenPln(
+            @Header("publickey") String publickey,
+            @Header("privatekey") String privatekey,
+            @Field("opslug") String opslug,
+            @Field("opproduct") String opproduct);
+
+    @POST("pln/daftar_product") //======================== DAFTAR HARGA GO-PAY ======================
+    @FormUrlEncoded
+    Call<ResponseBody> daftarHrgGoPay(
+            @Header("publickey") String publickey,
+            @Header("privatekey") String privatekey,
+            @Field("opslug") String opslug,
+            @Field("opproduct") String opproduct);
+
+    @POST("game/daftar_product") //======================== DAFTAR HARGA V.GAME ======================
+    @FormUrlEncoded
+    Call<ResponseBody> daftarHrgVoGame(
+            @Header("publickey") String publickey,
+            @Header("privatekey") String privatekey,
+            @Field("opslug") String opslug,
+            @Field("opproduct") String opproduct);
 
     @GET("payment/listing") //============================== LIST BANK =================
     Call<ResponseBody> listBank(

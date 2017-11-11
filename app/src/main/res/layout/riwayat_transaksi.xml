@@ -1,128 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1Abbbbbb"
-    android:focusableInTouchMode="true"
-    tools:context="android.hpulsa.com.hpulsanew.activity.navigasi.RiwayatTransaksi">
+    android:orientation="vertical">
 
-    <android.support.design.widget.CoordinatorLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <LinearLayout
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/background_white"
-            android:orientation="vertical">
+            android:layout_alignParentTop="true">
 
-            <LinearLayout
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/ToolbarMargin"
+                app:theme="@style/ToolbarMargin">
 
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="9">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                    <EditText
-                        android:id="@+id/editNoHp"
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/ic_contact"
-                        android:drawablePadding="5dp"
-                        android:hint="Cari nomor handphone"
-                        android:inputType="number" />
-                </android.support.design.widget.TextInputLayout>
+                        android:gravity="center"
+                        android:text="RIWAYAT"
+                        android:textAlignment="center"
+                        android:textColor="#fff"
+                        android:textSize="18dp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+            </android.support.v7.widget.Toolbar>
 
-                <ImageView
-                    android:id="@+id/imgSearh"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_search" />
-            </LinearLayout>
+        </android.support.design.widget.AppBarLayout>
 
-            <TextView
-                android:id="@+id/provider"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Nomor Handphone \nTidak Ditemukan"
-                android:textAlignment="center"
-                android:textSize="18dp"
-                android:textStyle="bold"
-                android:visibility="gone" />
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/appBar"
+            android:layout_centerHorizontal="true"
+            android:background="@color/colorPrimary"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="#fff"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="#fff"
+            app:tabTextColor="#80000000" />
 
-            <LinearLayout
-                android:id="@+id/layNominal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="Pilih Nominal Token"
-                    android:textSize="18dp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <android.support.v4.widget.SwipeRefreshLayout
-                android:id="@+id/swipRefresh"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/list_riwayat"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#fff"
-                    android:clickable="true"
-                    android:divider="#bbbb"
-                    android:dividerHeight="1dp" />
-            </android.support.v4.widget.SwipeRefreshLayout>
-        </LinearLayout>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fabKetStatus"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="10dp"
-            app:backgroundTint="@color/colorPrimary"
-            app:srcCompat="@drawable/ic_info" />
-    </android.support.design.widget.CoordinatorLayout>
+            android:layout_below="@+id/tabLayout"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/lay_progressbar_bottom"
-        android:layout_width="match_parent"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabKetStatus"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_alignParentBottom="true"
-        android:animateLayoutChanges="true"
-        android:background="@null"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:visibility="gone">
-
-        <ProgressBar
-            android:id="@+id/theProgress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:background="@null" />
-
-    </LinearLayout>
-</RelativeLayout>
+        android:layout_gravity="bottom|end"
+        android:layout_margin="10dp"
+        app:backgroundTint="@color/colorPrimary"
+        app:srcCompat="@drawable/ic_info" />
+</android.support.design.widget.CoordinatorLayout>
