@@ -41,6 +41,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -117,6 +118,7 @@ public class gabunganAdapter extends RecyclerView.Adapter {
         TextView tNominal, tHarga, tKet;
         CardView cardView;
         ImageView imgTersedia;
+        LinearLayout layout;
 
         public BrandViewHolder(View v) {
             super(v);
@@ -126,6 +128,7 @@ public class gabunganAdapter extends RecyclerView.Adapter {
             tKet = (TextView) v.findViewById(R.id.tKet);
             imgTersedia = (ImageView) v.findViewById(R.id.imgTersedia);
             cardView = (CardView) v.findViewById(R.id.cardView);
+            layout = (LinearLayout) v.findViewById(R.id.layout);
         }
     }
 
@@ -168,13 +171,13 @@ public class gabunganAdapter extends RecyclerView.Adapter {
             ((gabunganAdapter.BrandViewHolder) holder).tHarga.setText(kursInd.format(harga));
 
             if (mrt.getStok().equals("0")) {
-                ((gabunganAdapter.BrandViewHolder) holder).imgTersedia.setImageResource(R.drawable.ic_stop);
-                ((gabunganAdapter.BrandViewHolder) holder).cardView.setBackgroundResource(R.color.abu);
+                ((BrandViewHolder) holder).imgTersedia.setImageResource(R.drawable.ic_stop);
+                ((BrandViewHolder) holder).layout.setBackgroundResource(R.color.abu);
                 isTersedia = false;
                 ((BrandViewHolder) holder).cardView.setEnabled(false);
             } else {
-                ((gabunganAdapter.BrandViewHolder) holder).imgTersedia.setImageResource(R.drawable.ic_plus);
-                ((gabunganAdapter.BrandViewHolder) holder).cardView.setBackgroundResource(R.color.putih);
+                ((BrandViewHolder) holder).imgTersedia.setImageResource(R.drawable.ic_plus);
+                ((BrandViewHolder) holder).cardView.setBackgroundResource(R.color.putih);
                 isTersedia = true;
                 ((BrandViewHolder) holder).cardView.setEnabled(true);
             }

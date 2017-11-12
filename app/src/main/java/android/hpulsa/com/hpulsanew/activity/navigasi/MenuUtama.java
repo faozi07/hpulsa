@@ -171,17 +171,7 @@ public class MenuUtama extends AppCompatActivity {
                 startActivity(new Intent(MenuUtama.this,TopupSaldo.class));
             }
         });
-        imgMenu = (ImageView) findViewById(R.id.imgMenu);
-        imgMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (drawerLayout.isDrawerOpen(Gravity.START)) {
-                    drawerLayout.closeDrawer(Gravity.START);
-                } else {
-                    drawerLayout.openDrawer(Gravity.START);
-                }
-            }
-        });
+
         tNoHpBeranda = (TextView) findViewById(R.id.noHpBeranda);
         tNoHpBeranda.setText(sv.phone);
     }
