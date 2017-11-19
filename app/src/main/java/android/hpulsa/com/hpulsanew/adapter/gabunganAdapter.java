@@ -14,6 +14,7 @@ import android.hpulsa.com.hpulsanew.API.hPulsaAPI;
 import android.hpulsa.com.hpulsanew.R;
 import android.hpulsa.com.hpulsanew.activity.pilihanmenu.PaketBBM;
 import android.hpulsa.com.hpulsanew.activity.pilihanmenu.PaketInternet;
+import android.hpulsa.com.hpulsanew.activity.pilihanmenu.PaketTelpSMS;
 import android.hpulsa.com.hpulsanew.activity.pilihanmenu.PopupTransfer;
 import android.hpulsa.com.hpulsanew.activity.pilihanmenu.PulsaHP;
 import android.hpulsa.com.hpulsanew.activity.pilihanmenu.SaldoGojek;
@@ -356,12 +357,12 @@ public class gabunganAdapter extends RecyclerView.Adapter {
         } else if (sv.produk.equals("bbm")) {
             api_request = api.trxBB(sv.publickey, sv.privatekey, spLogin.getString(sv.token, ""), PaketBBM.nomor.getText().toString(), trPembayaran, voId);
         } else if (sv.produk.equals("token")) {
-            api_request = api.trxTokenPLN(sv.publickey, sv.privatekey, spLogin.getString(sv.token, ""), TokenPln.nomorHp.getText().toString(), trPembayaran, voId);
+            api_request = api.trxTokenPLN(sv.publickey, sv.privatekey, spLogin.getString(sv.token, ""), TokenPln.nomorHp.getText().toString(), trPembayaran, voId,TokenPln.noPln.getText().toString());
         } else if (sv.produk.equals("game")) {
             api_request = api.trxGame(sv.publickey, sv.privatekey, spLogin.getString(sv.token, ""), VoucherGame.nomor.getText().toString(), trPembayaran, voId);
-        } /*else if (sv.produk.equals("telpsms")) {
-            api_request = api.listBank(sv.publickey, sv.privatekey);
-        }*/ else if (sv.produk.equals("gojek")) {
+        } else if (sv.produk.equals("telpsms")) {
+            api_request = api.trxTelpSms(sv.publickey, sv.privatekey, spLogin.getString(sv.token, ""), PaketTelpSMS.nomor.getText().toString(), trPembayaran, voId);
+        } else if (sv.produk.equals("gojek")) {
             api_request = api.trxGojek(sv.publickey, sv.privatekey, spLogin.getString(sv.token, ""), SaldoGojek.nomor.getText().toString(), trPembayaran, voId);
         } /*else if (sv.produk.equals("tagihan")) {
             api_request = api.listBank(sv.publickey, sv.privatekey);

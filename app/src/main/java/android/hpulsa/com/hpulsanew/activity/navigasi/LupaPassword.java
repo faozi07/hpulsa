@@ -1,19 +1,29 @@
 package android.hpulsa.com.hpulsanew.activity.navigasi;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.hpulsa.com.hpulsanew.API.ClientAPI;
 import android.hpulsa.com.hpulsanew.API.hPulsaAPI;
 import android.hpulsa.com.hpulsanew.R;
+import android.hpulsa.com.hpulsanew.activity.pilihanmenu.PaketTelpSMS;
+import android.hpulsa.com.hpulsanew.adapter.LupaPassPagerAdapter;
+import android.hpulsa.com.hpulsanew.adapter.gabunganAdapter;
 import android.hpulsa.com.hpulsanew.captcha.TextCaptcha;
+import android.hpulsa.com.hpulsanew.model.modNomPulsa;
 import android.hpulsa.com.hpulsanew.util.StaticVars;
+import android.hpulsa.com.hpulsanew.util.ViewLupaPassPager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebView;
@@ -23,86 +33,79 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
 import mehdi.sakout.fancybuttons.FancyButton;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class LupaPassword extends AppCompatActivity {
 
-    FancyButton btnKirim;
-    EditText eUsername, eEmail, eCaptcha;
-    ImageView captcha,imgRefCaptcha;
-    TextCaptcha textCaptcha;
-    LinearLayout llayout;
+    static ViewLupaPassPager viewLupaPassPager;
+    LupaPassPagerAdapter lupaPassPagerAdapter;
 
-    StaticVars sv = new StaticVars();
-    hPulsaAPI api;
+    static RoundCornerProgressBar progressView;
+    public static int currentPage = 0;
 
-    String username, email, message, tCaptcha;
-    ProgressDialog pLoading;
-    int numberOfCaptchaFalse = 1;
+    public static String tokenreset = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lupa_pass);
 
-        getSupportActionBar().setTitle("Lupa Kata Sandi");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        setComponent();
-        init();
-    }
-
-    private void setComponent() {
-        llayout = (LinearLayout) findViewById(R.id.llayout);
-        btnKirim = (FancyButton) findViewById(R.id.btnKirim);
-        eUsername = (EditText) findViewById(R.id.eUsername);
-        eEmail = (EditText) findViewById(R.id.eEmail);
-        captcha = (ImageView) findViewById(R.id.Captcha);
-        imgRefCaptcha = (ImageView) findViewById(R.id.imgRefrCaptcha);
-        eCaptcha = (EditText) findViewById(R.id.teksCaptcha);
-        textCaptcha = new TextCaptcha(600, 150, 4, TextCaptcha.TextOptions.NUMBERS_ONLY);
-    }
-
-    private void init() {
-        api = hPulsaAPI.service.create(hPulsaAPI.class);
-        pLoading = new ProgressDialog(this);
-        pLoading.setMessage("Mengirim kode verifikasi . . .");
-        pLoading.setCancelable(true);
-        captcha.setImageBitmap(textCaptcha.getImage());
-        imgRefCaptcha.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                numberOfCaptchaFalse++;
-                textCaptcha = new TextCaptcha(600, 150, 5, TextCaptcha.TextOptions.NUMBERS_ONLY);
-                captcha.setImageBitmap(textCaptcha.getImage());
-            }
-        });
-        btnKirim.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                username = eUsername.getText().toString();
-                email = eEmail.getText().toString();
-                tCaptcha = eCaptcha.getText().toString();
-                if (username.equals("") || email.equals("") || tCaptcha.equals("")) {
-                    dialFail("Isi dengan lengkap", "Inputan tidak boleh kosong");
-                } else if (!textCaptcha.checkAnswer(tCaptcha.trim())) {
-                    dialFail("Captcha tidak cocok", "Periksa kembali inputan captcha Anda");
-                    eCaptcha.setText("");
-                } else {
-                    cekKoneksi();
-                }
-            }
-        });
-    }
-
-    private void cekKoneksi() {
-        ConnectivityManager conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
-        if (netInfo == null) {
-            Snackbar.make(llayout, "Tidak ada koneksi internet", Snackbar.LENGTH_LONG).show();
-        } else {
-
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Lupa Kata Sandi");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        setupComponent();
+        nextPage(0);
+    }
+
+    private void setupComponent(){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        lupaPassPagerAdapter = new LupaPassPagerAdapter(fragmentManager);
+
+        viewLupaPassPager = (ViewLupaPassPager) findViewById(R.id.viewpager_lupapass);
+        viewLupaPassPager.setAdapter(lupaPassPagerAdapter);
+
+        progressView = (RoundCornerProgressBar) findViewById(R.id.lupapass_progress_bar);
+    }
+
+
+    public static void nextPage(int goTo){
+        viewLupaPassPager.setScrollDurationFactor(4);
+        viewLupaPassPager.setCurrentItem(goTo, true);
+
+        setProgress();
+        currentPage = currentPage+1;
+    }
+
+    public static void previosPage(int goTo){
+        viewLupaPassPager.setScrollDurationFactor(4);
+        viewLupaPassPager.setCurrentItem(goTo-1, true);
+
+        setProgressDown();
+        currentPage = currentPage-1;
+    }
+
+    public static void setProgress(){
+        int percentage = ((currentPage+1)*100)/3;
+        progressView.setProgress(percentage);
+    }
+
+    public static void setProgressDown(){
+        int percentage = ((currentPage-1)*100)/3;
+        progressView.setProgress(percentage);
     }
 
     @Override
@@ -113,17 +116,24 @@ public class LupaPassword extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
-        return;
+        dialogBack();
     }
 
-    private void dialFail(String title, String content) {
+    private void dialogBack() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LupaPassword.this);
-        alertDialogBuilder.setTitle(title);
+        alertDialogBuilder.setTitle("Perhatian");
         alertDialogBuilder
-                .setMessage(content)
+                .setMessage("Apa Anda yakin ingin keluar dari proses ini ?")
                 .setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        previosPage(currentPage-1);
+                        if (currentPage<=0) {
+                            finish();
+                        }
+                    }
+                })
+                .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                     }

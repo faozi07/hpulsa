@@ -70,7 +70,6 @@
         android:layout_alignParentBottom="true"
         android:gravity="center"
         android:padding="12dp"
-        app:fb_borderWidth="1dp"
         app:fb_defaultColor="@color/colorPrimary"
         app:fb_focusColor="@color/orangeDark"
         app:fb_radius="0dp"

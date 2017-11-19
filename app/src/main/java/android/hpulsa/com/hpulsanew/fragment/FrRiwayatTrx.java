@@ -69,7 +69,7 @@ public class FrRiwayatTrx extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fr_riwayat_trx, container, false);
         setComponent(v);
-        riwayat(v);
+        riwayat();
         return v;
     }
 
@@ -78,6 +78,15 @@ public class FrRiwayatTrx extends Fragment {
         eNoHp = (EditText) view.findViewById(R.id.editNoHp);
         listRiwayat = (RecyclerView) view.findViewById(R.id.list_riwayat);
         imgSearch = (ImageView) view.findViewById(R.id.imgSearh);
+        imgSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                arrayRiwayat.clear();
+                offset=0;
+                is_first=true;
+                riwayat();
+            }
+        });
 
         llm = new LinearLayoutManager(getActivity());
         listRiwayat.setLayoutManager(llm);
@@ -91,7 +100,7 @@ public class FrRiwayatTrx extends Fragment {
                 arrayRiwayat.clear();
                 offset=0;
                 is_first=true;
-                riwayat(view);
+                riwayat();
             }
         });
         listRiwayat.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -108,19 +117,20 @@ public class FrRiwayatTrx extends Fragment {
                                 && firstVisibleItemPosition >= 0 && totalItemCount >= 10) {
                             isLastPage = true;
                             if (offset < totalRiwayat) {
-                                riwayat(view);
+                                riwayat();
                             }
                         }
                     }
                 }
             }
         });
+
+        layButtom = (LinearLayout) view.findViewById(R.id.lay_progressbar_bottom);
 /*        listRiwayatAdapter = new listRiwayatAdapter(RiwayatTransaksi.this, arrayRiwayat);
         listRiwayat.setAdapter(listRiwayatAdapter);*/
     }
 
-    private void riwayat(View v) {
-        layButtom = (LinearLayout) v.findViewById(R.id.lay_progressbar_bottom);
+    private void riwayat() {
         pLoading = new ProgressDialog(getActivity());
         if (offset == 0 && is_first) {
             pLoading.setTitle("Memuat data ...");
@@ -134,7 +144,11 @@ public class FrRiwayatTrx extends Fragment {
         Retrofit retrofit = ClientAPI.getMyRetrofit();
         Call<ResponseBody> api_request;
         api = retrofit.create(hPulsaAPI.class);
-        api_request = api.riwayat(sv.publickey, sv.privatekey, spLogin.getString(sv.token, ""),limit,offset);
+        if (eNoHp.getText().toString().equals("")) {
+            api_request = api.riwayat(sv.publickey, sv.privatekey, spLogin.getString(sv.token, ""), limit, offset);
+        } else {
+            api_request = api.riwayatByPhone(sv.publickey, sv.privatekey, spLogin.getString(sv.token, ""), limit, offset,eNoHp.getText().toString());
+        }
         api_request.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

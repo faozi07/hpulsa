@@ -137,6 +137,7 @@ public class PaketTelpSMS extends AppCompatActivity {
                     opSlug="";
                     isLoad=true;
                     sv.nomorHP="";
+                    rvNominal.setAdapter(null);
                 } else {
                     sv.nomorHP=edit.toString();
                     provider.setVisibility(View.GONE);
@@ -251,7 +252,7 @@ public class PaketTelpSMS extends AppCompatActivity {
         Retrofit retrofit = ClientAPI.getMyRetrofit();
         Call<ResponseBody> api_request;
         api = retrofit.create(hPulsaAPI.class);
-        api_request = api.daftarHrgByOp(sv.publickey, sv.privatekey, "paket_telp_sms", opSlug);
+        api_request = api.daftarHrgTelpSms(sv.publickey, sv.privatekey, opSlug, "paket_telp_sms");
         api_request.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

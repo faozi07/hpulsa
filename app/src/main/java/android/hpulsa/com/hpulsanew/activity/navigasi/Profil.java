@@ -89,7 +89,7 @@ public class Profil extends AppCompatActivity {
         }
         eTtlTrx.setText(spProfil.getString(sv.total_order, "")+" Transaksi sukses");
         eJnsAkun.setText(spProfil.getString(sv.reseller, ""));
-
+/*
         Integer tglReg = Integer.valueOf(spProfil.getString(sv.reg_date, ""));
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         try {
@@ -97,7 +97,7 @@ public class Profil extends AppCompatActivity {
             eTglMndftr.setText(tglRegis.toString());
         } catch (Exception e) {
             eTglMndftr.setText("-");
-        }
+        }*/
 
         if (spProfil.getString(sv.gender,"").equals("male")) {
             ejenkel.setText("Laki-laki");

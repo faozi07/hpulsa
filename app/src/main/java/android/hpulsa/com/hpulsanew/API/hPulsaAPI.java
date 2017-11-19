@@ -92,6 +92,16 @@ public interface hPulsaAPI {
             @Field("limit") int limit,
             @Field("offset") int offset);
 
+    @POST("akun/riwayat_transaksi") //===================== RIWAYAT TRANSAKSI BY PHONE =============================
+    @FormUrlEncoded
+    Call<ResponseBody> riwayatByPhone(
+            @Header("publickey") String publickey,
+            @Header("privatekey") String privatekey,
+            @Header("tokenuser") String token,
+            @Field("limit") int limit,
+            @Field("offset") int offset,
+            @Field("hp") String noHp);
+
     @POST("deposit/riwayat") //===================== RIWAYAT DEPOSIT =============================
     @FormUrlEncoded
     Call<ResponseBody> riwayatDeposit(
@@ -157,6 +167,23 @@ public interface hPulsaAPI {
             @Field("opslug") String opslug,
             @Field("opproduct") String opproduct);
 
+    @POST("blackberry/daftar_product") //======================== DAFTAR HARGA PAKET BBM ======================
+    @FormUrlEncoded
+    Call<ResponseBody> daftarHrgBbm(
+            @Header("publickey") String publickey,
+            @Header("privatekey") String privatekey,
+            @Field("opslug") String opslug,
+            @Field("opproduct") String opproduct);
+
+
+    @POST("telpon_sms/daftar_product") //======================== DAFTAR HARGA PAKET TELPON DAN SMS ======================
+    @FormUrlEncoded
+    Call<ResponseBody> daftarHrgTelpSms(
+            @Header("publickey") String publickey,
+            @Header("privatekey") String privatekey,
+            @Field("opslug") String opslug,
+            @Field("opproduct") String opproduct);
+
     @GET("payment/listing") //============================== LIST BANK =================
     Call<ResponseBody> listBank(
             @Header("publickey") String publickey,
@@ -210,11 +237,22 @@ public interface hPulsaAPI {
             @Header("tokenuser") String token,
             @Field("nomorhp") String nomorhp,
             @Field("trpembayaran") String trpembayaran, //balance atau ID bank
-            @Field("void") String vo_id);
+            @Field("void") String vo_id,
+            @Field("idpelanggan") String idPelanggan);
 
     @POST("game/order") //======================== TRANSAKSI VOUCHER GAME ======================
     @FormUrlEncoded
     Call<ResponseBody> trxGame(
+            @Header("publickey") String publickey,
+            @Header("privatekey") String privatekey,
+            @Header("tokenuser") String token,
+            @Field("nomorhp") String nomorhp,
+            @Field("trpembayaran") String trpembayaran, //balance atau ID bank
+            @Field("void") String vo_id);
+
+    @POST("telpon_sms/order") //======================== TRANSAKSI TELPON DAN SMS ======================
+    @FormUrlEncoded
+    Call<ResponseBody> trxTelpSms(
             @Header("publickey") String publickey,
             @Header("privatekey") String privatekey,
             @Header("tokenuser") String token,
@@ -230,4 +268,26 @@ public interface hPulsaAPI {
             @Header("tokenuser") String token,
             @Field("deposit") String deposit,
             @Field("trpembayaran") int trpembayaran); //ID bank
+
+    @POST("auth/forgot_password") //======================== LUPA PASSWORD 1 ======================
+    @FormUrlEncoded
+    Call<ResponseBody> kirimKodeReset(
+            @Field("username") String username,
+            @Field("email") String email);
+
+    @POST("auth/get_token_reset") //======================== LUPA PASSWORD 2 ======================
+    @FormUrlEncoded
+    Call<ResponseBody> verifKodeReset(
+            @Field("resetcode") String reset_code);
+
+    @POST("auth/reset_pass") //======================== LUPA PASSWORD 3 ======================
+    @FormUrlEncoded
+    Call<ResponseBody> newPass(
+            @Header("publickey") String publickey,
+            @Header("privatekey") String privatekey,
+            @Header("resettoken") String resettoken,
+            @Field("password1") String password1,
+            @Field("password2") String password2);
+
+
 }

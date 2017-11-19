@@ -40,89 +40,92 @@
         </activity>
         <activity
             android:name=".activity.navigasi.LupaPassword"
-            android:theme="@style/AppTheme.FullScreen"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.FullScreen" />
         <activity
             android:name=".activity.navigasi.TopupSaldo"
-            android:theme="@style/AppTheme.FullScreen"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.FullScreen" />
         <activity
             android:name=".activity.navigasi.SignActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.pilihanmenu.PulsaHP"
-            android:theme="@style/AppTheme.FullScreen"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.FullScreen" />
         <activity
             android:name=".activity.pilihanmenu.PaketInternet"
-            android:theme="@style/AppTheme.FullScreen"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.FullScreen" />
         <activity
             android:name=".activity.pilihanmenu.TokenPln"
-            android:theme="@style/AppTheme.FullScreen"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.FullScreen" />
         <activity
             android:name=".activity.pilihanmenu.VoucherGame"
-            android:theme="@style/AppTheme.FullScreen"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.FullScreen" />
         <activity
             android:name=".activity.pilihanmenu.PaketTelpSMS"
-            android:theme="@style/AppTheme.FullScreen"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.FullScreen" />
         <activity
             android:name=".activity.pilihanmenu.PaketBBM"
-            android:theme="@style/AppTheme.FullScreen"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.FullScreen" />
         <activity
             android:name=".activity.pilihanmenu.SaldoGojek"
-            android:theme="@style/AppTheme.FullScreen"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.FullScreen" />
         <activity
             android:name=".activity.navigasi.RiwayatTransaksi"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.navigasi.DetilRiwayat"
-            android:theme="@style/AppTheme.FullScreen"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.FullScreen" />
         <activity
             android:name=".activity.navigasi.Testimoni"
-            android:theme="@style/AppTheme.FullScreen"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.FullScreen" />
         <activity
             android:name=".activity.NavigationDrawer"
             android:label="@string/title_activity_navigation_drawer"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.navigasi.Profil"
-            android:theme="@style/AppTheme.FullScreen"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.FullScreen" />
         <activity
             android:name=".activity.navigasi.Verifikasi"
-            android:theme="@style/AppTheme.FullScreen"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.FullScreen" />
         <activity android:name=".activity.TrialHabis" />
         <activity
             android:name=".activity.navigasi.HargaProduct"
-            android:theme="@style/AppTheme.FullScreen"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.FullScreen" />
         <activity
             android:name=".activity.pilihanmenu.Tagihan"
-            android:theme="@style/AppTheme.FullScreen"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.FullScreen" />
         <activity
             android:name=".activity.pilihanmenu.PopupTransfer"
-            android:theme="@style/AppTheme.FullScreen"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.FullScreen" />
         <activity
             android:name=".activity.navigasi.PopupDeposit"
-            android:theme="@style/AppTheme.FullScreen"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.FullScreen" />
         <activity
             android:name=".activity.navigasi.Pemberitahuan"
-            android:theme="@style/AppTheme.FullScreen"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.FullScreen" />
+        <activity android:name=".fragment.FrLupaPass_1" />
+        <activity android:name=".fragment.FrLupaPass_2" />
+        <activity android:name=".fragment.FrLupaPass_3"></activity>
     </application>
 
 </manifest>

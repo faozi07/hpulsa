@@ -60,7 +60,6 @@ public class PaketBBM extends AppCompatActivity {
 
     final int RQS_PICKCONTACT = 1;
     ImageView imgProvider,imgContact;
-    private String opProduk = "";
     boolean isLoad=true;
 
     @Override
@@ -134,7 +133,6 @@ public class PaketBBM extends AppCompatActivity {
                     provider.setVisibility(View.GONE);
                     layPilihNom.setVisibility(View.GONE);
                     layPilihKontak.setVisibility(View.VISIBLE);
-                    opProduk="";
                     isLoad=true;
                     sv.nomorHP="";
                 } else {
@@ -143,43 +141,34 @@ public class PaketBBM extends AppCompatActivity {
                     layPilihNom.setVisibility(View.VISIBLE);
                     layPilihKontak.setVisibility(View.GONE);
                     number = nomor.getText().toString().substring(0, 4);
-                    opProduk = "paket_blackberry";
                     if (number.equals("0857") || number.equals("0856") || number.equals("0858") || number.equals("0815")
                             || number.equals("0816")) {
                         imgProvider.setVisibility(View.VISIBLE);
-                        imgProvider.setImageResource(R.drawable.logo_indosat);
                     } else if (number.equals("0859") || number.equals("0878") || number.equals("0819") || number.equals("0877")) {
                         imgProvider.setVisibility(View.VISIBLE);
-                        imgProvider.setImageResource(R.drawable.logo_xl);
                     } else if (number.equals("0812") || number.equals("0852") || number.equals("0853") || number.equals("0821")
                             || number.equals("0813") || number.equals("0822") || number.equals("0823")) {
                         imgProvider.setVisibility(View.VISIBLE);
-                        imgProvider.setImageResource(R.drawable.logo_telkomsel);
                     } else if (number.equals("0896") || number.equals("0895") || number.equals("0899") || number.equals("0897")) {
                         imgProvider.setVisibility(View.VISIBLE);
-                        imgProvider.setImageResource(R.drawable.logo_three);
                     } else if (number.equals("0838") || number.equals("0831") || number.equals("0832")) {
                         imgProvider.setVisibility(View.VISIBLE);
-                        imgProvider.setImageResource(R.drawable.logo_axis);
                     } else if (number.equals("0888") || number.equals("0889")) {
                         imgProvider.setVisibility(View.VISIBLE);
-                        imgProvider.setImageResource(R.drawable.logo_smartfren);
                     } else if (number.equals("9990") || number.equals("9991") || number.equals("9992") || number.equals("9993")
                             || number.equals("9994") || number.equals("9995") || number.equals("9996") || number.equals("9997")
                             || number.equals("9998") || number.equals("9999")) {
                         imgProvider.setVisibility(View.VISIBLE);
-                        imgProvider.setImageResource(R.drawable.logo_bolt);
                     } else {
                         provider.setVisibility(View.VISIBLE);
                         layPilihNom.setVisibility(View.GONE);
                         layPilihKontak.setVisibility(View.GONE);
                         imgProvider.setVisibility(View.GONE);
-                        opProduk = "";
                         nomor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_contact,0,0,0);
                     }
 
-                    if (!opProduk.equals("") && isLoad) {
-                        getHarga(opProduk);
+                    if (isLoad) {
+                        getHarga();
                         isLoad=false;
                     }
 
@@ -239,13 +228,13 @@ public class PaketBBM extends AppCompatActivity {
 
     }
 
-    private void getHarga(String opProduk) {
+    private void getHarga() {
         arrNominal.clear();
         spLogin = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         Retrofit retrofit = ClientAPI.getMyRetrofit();
         Call<ResponseBody> api_request;
         api = retrofit.create(hPulsaAPI.class);
-        api_request = api.daftarHrgAllPulsa(sv.publickey, sv.privatekey, opProduk);
+        api_request = api.daftarHrgBbm(sv.publickey, sv.privatekey, "paket-blackberry","paket_blackberry");
         api_request.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -313,7 +302,6 @@ public class PaketBBM extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
-        opProduk="";
         sv.nomorHP="";
         sv.nomorPLN="";
         return;
