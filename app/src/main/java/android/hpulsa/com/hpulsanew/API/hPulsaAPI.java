@@ -272,12 +272,16 @@ public interface hPulsaAPI {
     @POST("auth/forgot_password") //======================== LUPA PASSWORD 1 ======================
     @FormUrlEncoded
     Call<ResponseBody> kirimKodeReset(
+            @Header("publickey") String publickey,
+            @Header("privatekey") String privatekey,
             @Field("username") String username,
             @Field("email") String email);
 
     @POST("auth/get_token_reset") //======================== LUPA PASSWORD 2 ======================
     @FormUrlEncoded
     Call<ResponseBody> verifKodeReset(
+            @Header("publickey") String publickey,
+            @Header("privatekey") String privatekey,
             @Field("resetcode") String reset_code);
 
     @POST("auth/reset_pass") //======================== LUPA PASSWORD 3 ======================

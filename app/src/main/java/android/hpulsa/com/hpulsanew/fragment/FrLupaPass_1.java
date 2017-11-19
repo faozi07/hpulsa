@@ -86,7 +86,7 @@ public class FrLupaPass_1 extends Fragment {
         if (netInfo == null) {
             Snackbar.make(llayout, "Tidak ada koneksi internet", Snackbar.LENGTH_LONG).show();
         } else {
-
+            kirimKode();
         }
     }
     private void kirimKode() {
@@ -97,7 +97,7 @@ public class FrLupaPass_1 extends Fragment {
         Retrofit retrofit = ClientAPI.getMyRetrofit();
         Call<ResponseBody> api_request;
         api = retrofit.create(hPulsaAPI.class);
-        api_request = api.kirimKodeReset(eUsername.getText().toString(),eEmail.getText().toString());
+        api_request = api.kirimKodeReset(sv.publickey,sv.privatekey,eUsername.getText().toString(),eEmail.getText().toString());
         api_request.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

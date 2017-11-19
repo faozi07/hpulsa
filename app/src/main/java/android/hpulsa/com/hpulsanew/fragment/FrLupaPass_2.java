@@ -98,7 +98,7 @@ public class FrLupaPass_2 extends Fragment {
         Retrofit retrofit = ClientAPI.getMyRetrofit();
         Call<ResponseBody> api_request;
         api = retrofit.create(hPulsaAPI.class);
-        api_request = api.verifKodeReset(kodeVerif);
+        api_request = api.verifKodeReset(sv.publickey,sv.privatekey,kodeVerif);
         api_request.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
