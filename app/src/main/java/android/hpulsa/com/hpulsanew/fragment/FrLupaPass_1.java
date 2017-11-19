@@ -101,6 +101,7 @@ public class FrLupaPass_1 extends Fragment {
         api_request.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                pLoading.dismiss();
                 try {
                     if (response.code() == 200) {
 
@@ -126,6 +127,7 @@ public class FrLupaPass_1 extends Fragment {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                pLoading.dismiss();
                 dialFail("Gagal memuat data","Terjadi kesalahan");
             }
         });

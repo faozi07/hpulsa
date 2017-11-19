@@ -83,7 +83,7 @@ public class LupaPassword extends AppCompatActivity {
 
 
     public static void nextPage(int goTo){
-        viewLupaPassPager.setScrollDurationFactor(4);
+        viewLupaPassPager.setScrollDurationFactor(3);
         viewLupaPassPager.setCurrentItem(goTo, true);
 
         setProgress();
@@ -91,7 +91,7 @@ public class LupaPassword extends AppCompatActivity {
     }
 
     public static void previosPage(int goTo){
-        viewLupaPassPager.setScrollDurationFactor(4);
+        viewLupaPassPager.setScrollDurationFactor(3);
         viewLupaPassPager.setCurrentItem(goTo-1, true);
 
         setProgressDown();

@@ -26,6 +26,8 @@ public class LupaPassPagerAdapter  extends FragmentPagerAdapter {
                 return new FrLupaPass_2();
             case 2:
                 return new FrLupaPass_3();
+            case 3:
+                return new FrLupaPass_3();
             default:
                 return null;
         }
