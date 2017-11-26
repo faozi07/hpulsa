@@ -13,11 +13,13 @@
             android:layout_height="wrap_content"
             android:gravity="right"
             android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
             android:layout_alignParentRight="true"
             android:inputType="textCapSentences|textMultiLine"
             android:maxLength="100"
             android:maxLines="5"
-            android:text="aa" />
+            android:text="aa"
+            android:textSize="11dp"/>
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,7 +45,9 @@
                 android:inputType="textCapSentences|textMultiLine"
                 android:maxLength="100"
                 android:maxLines="5"
-                android:text="aa" />
+                android:text="aa"
+                android:textSize="13dp"
+                android:textStyle="bold"/>
         </LinearLayout>
 
         <TextView
