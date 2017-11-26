@@ -47,7 +47,8 @@
                 android:maxLines="5"
                 android:text="aa"
                 android:textSize="13dp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"/>
         </LinearLayout>
 
         <TextView

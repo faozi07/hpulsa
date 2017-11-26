@@ -121,6 +121,8 @@ public class Pemberitahuan extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
+        offset=0;
+        is_first=true;
         return;
     }
 
