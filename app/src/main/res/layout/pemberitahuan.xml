@@ -33,7 +33,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerVertical="true"
         android:animateLayoutChanges="true"
-        android:background="@null"
+        android:background="@color/putih"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
         android:visibility="gone">
