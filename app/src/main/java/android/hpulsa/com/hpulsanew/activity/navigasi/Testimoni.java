@@ -66,8 +66,6 @@ public class Testimoni extends AppCompatActivity {
     ProgressDialog pLoading;
 
     ArrayList<modTestimoniAll> arrTest = new ArrayList<>();
-    TextCaptcha textCaptcha;
-    int numberOfCaptchaFalse = 1;
     public static int offset = 0,limit = 10,totalData=0;
     String pesan;
     private boolean isKirimTest = false;
@@ -188,7 +186,7 @@ public class Testimoni extends AppCompatActivity {
                                 && firstVisibleItemPosition >= 0 && totalItemCount >= 10) {
                             isLastPage = true;
                             if (offset < totalData) {
-                                tampilTest();
+                                cekKoneksi();
                             }
                         }
                     }

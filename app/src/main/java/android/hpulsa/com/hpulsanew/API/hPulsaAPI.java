@@ -127,6 +127,15 @@ public interface hPulsaAPI {
             @Header("tokenuser") String token,
             @Field("pesan") String pesan);
 
+    @POST("notifikasi/get_by_users") //===================== PEMBERITAHUAN =============================
+    @FormUrlEncoded
+    Call<ResponseBody> pemberitahuan(
+            @Header("publickey") String publickey,
+            @Header("privatekey") String privatekey,
+            @Header("tokenuser") String token,
+            @Field("offset") int offset,
+            @Field("limit") int limit);
+
     @POST("pulsa/daftar_product") //========================= DAFTAR PRODUK ALL PULSA =====================
     @FormUrlEncoded
     Call<ResponseBody> daftarHrgAllPulsa(
@@ -292,6 +301,5 @@ public interface hPulsaAPI {
             @Header("resettoken") String resettoken,
             @Field("password1") String password1,
             @Field("password2") String password2);
-
 
 }

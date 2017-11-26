@@ -8,6 +8,7 @@ public class modNotif {
     private String id;
     private String judul;
     private String konten;
+    private String tanggal;
 
     public String getId() {
         return id;
@@ -31,5 +32,14 @@ public class modNotif {
 
     public void setKonten(String konten) {
         this.konten = konten;
+    }
+
+
+    public String getTanggal() {
+        return tanggal;
+    }
+
+    public void setTanggal(String tanggal) {
+        this.tanggal = tanggal;
     }
 }

@@ -52,7 +52,7 @@ public class NotifAdapter extends RecyclerView.Adapter {
 
     public static class BrandViewHolder extends RecyclerView.ViewHolder {
 
-        TextView judul,konten;
+        TextView judul,konten,tanggal;
         CardView cardView;
 
         public BrandViewHolder(View v) {
@@ -60,6 +60,7 @@ public class NotifAdapter extends RecyclerView.Adapter {
 
             judul = (TextView) v.findViewById(R.id.tJudul);
             konten = (TextView) v.findViewById(R.id.tKonten);
+            tanggal = (TextView) v.findViewById(R.id.tTglNotif);
             cardView = (CardView) v.findViewById(R.id.cardView);
         }
     }
@@ -88,6 +89,7 @@ public class NotifAdapter extends RecyclerView.Adapter {
 
             ((BrandViewHolder) holder).judul.setText(mrt.getJudul());
             ((BrandViewHolder) holder).konten.setText(mrt.getKonten());
+            ((BrandViewHolder) holder).tanggal.setText(mrt.getTanggal());
 
             setAnimation(((BrandViewHolder) holder).cardView, position);
 
